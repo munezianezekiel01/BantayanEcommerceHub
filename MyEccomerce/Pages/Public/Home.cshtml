@@ -1,0 +1,303 @@
+﻿@model IEnumerable<MyEccomerce.Models.Product>
+
+@{
+    ViewData["Title"] = "B-Hub | Professional Shop";
+    
+    
+
+    var slides = new[] {
+        
+        new { Badge = "Flash Deal", Title = "Good Quality nga Dangit, Diri Maka barto ka Order na!", Desc = "Premium items nga dili sakit sa bulsa.", Img = "/Products/Images/danggit-main.jpg" },
+        new { Badge = "New Arrival", Title = "Bag-ong Abot!", Desc = "Best and Good Quality nga Mga Bulad", Img = "/Products/Images/dried_gonggong.jpg" },
+        new { Badge = "New Arrival", Title = "Presko!, Maka barato", Desc = "Best and Good Quality nga Mga Bulad", Img = "/Products/Images/" },
+        new {Badge = "Flash Deal", Title = "Seasonal Items!", Desc = "Buko for Summer", Img = ""}
+    };
+
+}
+@inject MyEccomerce.Data.ApplicationDbContext _context 
+@{
+    var categories = _context.Categories.Take(11).ToList();
+}
+
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/4.1.1/animate.min.css" />
+
+<style>
+    :root {
+        --bg-main: #ffffff;
+        --bg-secondary: #f8fafc;
+        --text-dark: #0f172a;
+        --text-muted: #64748b;
+        --accent: #2563eb;
+        --border: #e2e8f0;
+    }
+
+    body {
+        margin-top: 100px;
+        background-color: var(--bg-main);
+        font-family: 'Inter', -apple-system, sans-serif;
+        color: var(--text-dark);
+        margin: 0;
+        overflow-x: hidden;
+    }
+
+    /* --- HERO SLIDER --- */
+    .hero-carousel {
+        background: linear-gradient(180deg, #f1f5f9 0%, #ffffff 100%);
+        border-bottom: 1px solid var(--border);
+    }
+
+    .carousel-item {
+        padding: 30px 0 40px 0;
+    }
+
+    .hero-img {
+        width: 100%;
+        height: 200px;
+        object-fit: cover;
+        border-radius: 15px;
+        box-shadow: 0 10px 20px rgba(0,0,0,0.08);
+    }
+
+    /* --- CATEGORY SCROLLER (MOBILE OPTIMIZED) --- */
+    .category-wrapper {
+        /* KINI ANG PINAKAPORMANTE NGA LINE */
+        display: block !important;
+        position: sticky;
+        top: 60px; /* I-adjust ni para dili matabunan sa imong Main Navbar */
+        z-index: 1020; /* Kinahanglan mas taas kaysa sa uban elements */
+        background: #ffffff; /* Solid white para dili transparent sa mobile */
+        backdrop-filter: blur(10px);
+        padding: 12px 0;
+        border-bottom: 1px solid var(--border);
+    }
+
+    .category-container {
+        display: flex;
+        gap: 8px;
+        overflow-x: auto;
+        white-space: nowrap;
+        scrollbar-width: none; /* Firefox */
+        -ms-overflow-style: none; /* IE/Edge */
+        padding: 0 15px;
+    }
+
+        .category-container::-webkit-scrollbar {
+            display: none;
+        }
+    /* Chrome/Safari */
+
+    .category-pill {
+        padding: 8px 18px;
+        background-color: #f1f5f9;
+        border-radius: 50px;
+        color: var(--text-dark);
+        font-size: 0.85rem;
+        font-weight: 600;
+        text-decoration: none;
+        border: 1px solid var(--border);
+        transition: all 0.2s ease;
+    }
+
+        .category-pill.active, .category-pill:active {
+            background-color: var(--accent);
+            color: white;
+            border-color: var(--accent);
+        }
+
+    /* --- PRODUCT GRID --- */
+    .card-clean {
+        background: #fff;
+        border: 1px solid var(--border);
+        border-radius: 12px;
+        height: 100%;
+        display: flex;
+        flex-direction: column;
+        transition: transform 0.1s ease;
+        text-decoration: none !important;
+        color: inherit;
+    }
+
+        .card-clean:active {
+            transform: scale(0.96);
+        }
+
+    .img-container {
+        width: 100%;
+        aspect-ratio: 1 / 1;
+        overflow: hidden;
+        border-radius: 12px 12px 0 0;
+        background: #f8fafc;
+    }
+
+        .img-container img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
+
+    .card-body-clean {
+        padding: 10px;
+        flex-grow: 1;
+    }
+
+    .p-category {
+        font-size: 0.65rem;
+        font-weight: 700;
+        color: var(--accent);
+        text-transform: uppercase;
+        display: block;
+    }
+
+    .p-name {
+        font-size: 0.85rem;
+        font-weight: 600;
+        line-height: 1.25;
+        margin: 4px 0 8px 0;
+        display: -webkit-box;
+        -webkit-line-clamp: 2;
+        -webkit-box-orient: vertical;
+        overflow: hidden;
+        height: 2.5em;
+    }
+
+    .p-price {
+        font-size: 1rem;
+        font-weight: 800;
+        color: var(--text-dark);
+    }
+
+    /* --- DESKTOP TWEAKS --- */
+    media (min-width: 992px) {
+        .carousel-item {
+            padding: 60px 0;
+        }
+
+        .hero-img {
+            height: 350px;
+        }
+
+        .p-name {
+            font-size: 0.95rem;
+        }
+    }
+
+    /* Sa Home.cshtml */
+    .hero-carousel {
+        position: relative;
+        z-index: 1; /* Ubos lang ni siya */
+    }
+
+    /* Sigurohon nga ang product grid dili sad mopa-ibabaw */
+    .container.mt-4 {
+        position: relative;
+        z-index: 1;
+    }
+</style>
+
+<div id="heroSlider" class="carousel slide hero-carousel" data-bs-ride="carousel">
+
+    <div class="category-nav bg-white border-top overflow-auto py-2">
+        <div class="container d-flex gap-3">
+            <a href="/" class="small text-dark text-decoration-none fw-medium text-nowrap">Tanan</a>
+            @foreach (var category in categories)
+            {
+                @* <i class="bi @ViewBag.CategoryIcon fs-2"></i> *@
+                <a href="/Home/Category/@category.CategoryId" class="small text-dark text-decoration-none fw-medium text-nowrap">@category.Name</a>
+
+
+            }
+        </div>
+    </div>
+    <div class="carousel-inner">
+        @for (int i = 0; i < slides.Length; i++)
+        {
+            <div class="carousel-item @(i == 0 ? "active" : "")">
+                <div class="container px-4">
+                    <div class="row align-items-center g-3">
+                        <div class="col-12 col-lg-5 order-1 order-lg-2 text-center">
+                            <img src="@slides[i].Img" class="hero-img animate__animated animate__zoomIn">
+                        </div>
+                        <div class="col-12 col-lg-7 order-2 order-lg-1 text-center text-lg-start">
+                            <span class="badge bg-primary-subtle text-primary border rounded-pill px-3 py-1 mb-2">@slides[i].Badge</span>
+                            <h2 class="fw-bold animate__animated animate__fadeInUp">@slides[i].Title</h2>
+                            <p class="text-muted small mb-3 animate__animated animate__fadeInUp">@slides[i].Desc</p>
+                            <button class="btn btn-primary rounded-pill px-4 fw-bold shadow-sm">Shop Now</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        }
+    </div>
+</div>
+
+
+
+<div class="container mt-4 mb-5">
+    <div class="px-2 mb-3 d-flex justify-content-between align-items-end">
+        <div>
+            @if (ViewBag.SearchTerm != null && !string.IsNullOrEmpty(ViewBag.SearchTerm.ToString()))
+            {
+                <h5 class="fw-bold mb-0 text-primary">Resulta para sa "@ViewBag.SearchTerm"</h5>
+                <p class="text-muted small">Nakit-an namo ang @(Model?.Count() ?? 0) ka items sa B-Hub</p>
+            }
+            else
+            {
+                <h5 class="fw-bold mb-0">@(ViewBag.CategoryName ?? "Daily Curated Items")</h5>
+                <p class="text-muted small">Quality assured by B-Hub</p>
+            }
+        </div>
+
+        @if (ViewBag.SearchTerm != null && !string.IsNullOrEmpty(ViewBag.SearchTerm.ToString()))
+        {
+            <a href="/" class="btn btn-sm btn-light rounded-pill border px-3 mb-2" style="font-size: 0.75rem;">
+                I-clear
+            </a>
+        }
+    </div>
+
+    <div class="row g-2 g-lg-4 px-2">
+        @if (Model != null && Model.Any())
+        {
+            @foreach (var p in Model)
+            {
+                // Safety check para sa price (Gi-ayo na!)
+                var firstVariant = p.ProductVariants?.OrderBy(v => v.Price).FirstOrDefault();
+                var finalPrice = firstVariant != null ? firstVariant.Price : p.Price;
+                var priceDisplay = finalPrice.ToString("N0");
+
+                <div class="col-6 col-md-4 col-lg-3">
+                    <a href="/Product/Details/@p.ProductId" class="card-clean animate__animated animate__fadeIn">
+                        <div class="img-container">
+                            <img src="@(string.IsNullOrEmpty(p.ImageUrl) ? "/images/no-image.png" : p.ImageUrl)"
+                                 alt="@p.Name"
+                                 loading="lazy">
+                        </div>
+
+                        <div class="card-body-clean">
+                            <span class="p-category">@(p.Category?.Name ?? "General")</span>
+                            <div class="p-name">@p.Name</div>
+
+                            <div class="p-price">
+                                @if (p.ProductVariants != null && p.ProductVariants.Count > 1)
+                                {
+                                    <span class="d-block text-muted" style="font-size: 0.6rem; font-weight: 400; line-height: 1;">Starts at</span>
+                                }
+                                ₱@priceDisplay
+                            </div>
+                        </div>
+                    </a>
+                </div>
+            }
+        }
+        else
+        {
+            <div class="col-12 text-center py-5">
+                <div class="py-4">
+                    <h6 class="fw-bold mt-3">Pasayloa, walay nakit-an sa B-Hub</h6>
+                    <p class="text-muted small px-4">Sulayi pag-type ang laing keyword.</p>
+                    <a href="/" class="btn btn-primary rounded-pill px-4 mt-2 shadow-sm">Tan-awa tanan products</a>
+                </div>
+            </div>
+        }
+    </div>
+</div>

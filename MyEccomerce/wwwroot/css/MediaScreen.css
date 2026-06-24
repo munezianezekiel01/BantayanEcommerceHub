@@ -1,0 +1,353 @@
+﻿/* =======================================================
+   USER LAYOUT OPTIMIZATION
+   ======================================================= */
+
+:root {
+    --nav-height: 70px; /* Default height */
+}
+
+@media (max-width: 768px) {
+    :root {
+        --nav-height: 60px;
+    }
+
+    .category-item-text {
+        font-size: 0.85rem;
+    }
+
+    /* Search Form Overlay Logic */
+    .search-form-container {
+        display: none;
+        position: absolute;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        background: white;
+        z-index: 1060;
+        padding: 5px 10px;
+        align-items: center;
+    }
+
+        .search-form-container.active {
+            display: flex !important;
+        }
+}
+
+/* FIX: Gidugangan og 'and' ang query */
+@media screen and (max-width: 370px) {
+    .search-btn {
+        background: #ff5945 !important;
+        width: 35px !important;
+        padding: 0 !important;
+    }
+}
+
+@media (max-width: 576px) {
+    .navbar {
+        padding-left: 8px !important;
+        padding-right: 8px !important;
+    }
+
+    .navbar-brand {
+        font-size: 1.1rem !important;
+        margin-right: 4px !important;
+    }
+
+    .p-2 {
+        padding: 6px !important;
+    }
+    /* Gi-adjust gikan 2.1rem (dako ra kaayo) to 1.3rem */
+    .bi-handbag, .bi-bell, .bi-house-door {
+        font-size: 1.3rem !important;
+    }
+
+    .dropdown-menu-end {
+        position: absolute;
+        right: 0;
+        left: auto;
+        width: 260px;
+    }
+}
+
+/* BRAND LOGO LOGIC */
+.brand-logo {
+    display: none;
+    height: 35px;
+    width: auto;
+}
+
+@media (max-width: 600px) {
+    .brand-text {
+        display: none !important;
+    }
+
+    .brand-logo {
+        display: block !important;
+    }
+
+    #cartTrigger {
+        margin-left: 3px !important;
+        display: inline-flex;
+        align-items: center;
+    }
+}
+
+/* CATEGORY NAVIGATION */
+@media (max-width: 600px) {
+    .category-nav {
+        display: flex;
+        overflow-x: auto;
+        scroll-behavior: smooth;
+        -ms-overflow-style: none;
+        scrollbar-width: none;
+    }
+
+        .category-nav::-webkit-scrollbar {
+            display: none;
+        }
+
+    .nav-arrow {
+        position: absolute;
+        top: 50%;
+        transform: translateY(-50%);
+        z-index: 10;
+        background: white;
+        border: none;
+        box-shadow: 0 0 10px rgba(0,0,0,0.1);
+        border-radius: 50%;
+        width: 30px;
+        height: 30px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+    }
+
+    .left-arrow {
+        left: 5px;
+    }
+
+    .right-arrow {
+        right: 5px;
+    }
+}
+
+@media (min-width: 601px) {
+    .nav-arrow {
+        display: none !important;
+    }
+}
+
+/* NOTIFICATION DROPDOWN */
+.custom-notif-dropdown {
+    border: none !important;
+    border-radius: 12px !important;
+    min-width: 280px;
+    max-width: 350px;
+    box-shadow: 0 10px 25px rgba(0,0,0,0.1) !important;
+}
+
+@media (max-width: 350px) {
+    .dropdown-menu.custom-notif-dropdown {
+        width: calc(100vw - 20px) !important;
+        margin: 0 10px !important;
+        left: 0 !important;
+        right: 0 !important;
+    }
+}
+
+/* SEARCH SUGGESTIONS MOBILE FIX */
+@media (max-width: 390px) {
+    .search-wrapper {
+        position: static !important;
+    }
+
+    #searchSuggestions {
+        position: absolute !important;
+        left: 10px !important;
+        right: 10px !important;
+        width: calc(100vw - 20px) !important;
+        top: 55px !important;
+        z-index: 9999;
+    }
+}
+
+/* MY ORDERS PAGE OPTIMIZATION */
+@media (max-width: 600px) {
+    .container-fluid {
+        padding-left: 10px !important;
+        padding-right: 10px !important;
+    }
+
+    .card-header {
+        padding: 12px !important;
+        flex-direction: column;
+        align-items: flex-start !important;
+        gap: 8px;
+    }
+
+    .list-group-item {
+        flex-direction: column;
+        padding: 12px !important;
+    }
+
+    .order-item-img {
+        width: 60px;
+        height: 60px;
+        object-fit: cover;
+    }
+
+    .list-group-item .text-end {
+        width: 100%;
+        text-align: left !important;
+        margin-top: 10px;
+        padding-top: 10px;
+        border-top: 1px dashed #ddd;
+    }
+
+    .card-footer .d-flex.justify-content-between {
+        flex-direction: column;
+        gap: 12px;
+    }
+
+    .card-footer .text-end {
+        text-align: left !important;
+        padding-top: 12px;
+        border-top: 1px solid #eee;
+    }
+
+    .card-footer .btn {
+        width: 100%;
+        margin-bottom: 8px;
+        padding: 10px;
+    }
+
+    .tab-label {
+        font-size: 0.7rem !important;
+    }
+}
+
+/*PARA KINI SA SEARCH KUNG NAKA MOBILE VIEW*/
+
+/* MOBILE OVERLAY LOGIC */
+
+
+
+
+@media (max-width: 767.98px) {
+    /* Himoon natong Full Screen ang Wrapper */
+    /* --- MOBILE FULL SCREEN OVERLAY --- */
+    @media (max-width: 767.98px) {
+        .search-wrapper {
+            display: none;
+            position: fixed !important;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100vh;
+            background: white;
+            z-index: 9999;
+            padding: 10px 15px;
+            flex-direction: column;
+        }
+
+            .search-wrapper.active {
+                display: flex !important;
+            }
+
+        .search-container {
+            border: none !important;
+            border-bottom: 1px solid #eee !important;
+            border-radius: 0 !important;
+            background: transparent !important;
+        }
+
+        #searchSuggestions {
+            position: static !important;
+            display: block !important;
+            box-shadow: none !important;
+        }
+
+        .action-icon-btn {
+            width: 40px;
+            height: 40px;
+            margin-left: 5px;
+        }
+
+            .action-icon-btn i {
+                font-size: 1.25rem;
+            }
+
+        .navbar-brand {
+            font-size: 1.3rem;
+        }
+    }
+
+    /* Suggesstions design para sa mobile */
+    #searchSuggestions {
+        position: static !important; /* Dili na dropdown, part na sa flow */
+        width: 100% !important;
+        box-shadow: none !important;
+        border: none !important;
+        display: block !important; /* Pakita permi kung ang wrapper active */
+        margin-top: 10px;
+    }
+
+    /* Tagoan ang "Pangita" text button sa mobile overlay para limpyo */
+    .search-container button[type="submit"] span {
+        display: none !important;
+    }
+
+
+    .search-wrapper.active {
+        display: flex !important;
+    }
+
+    /* Tagoan ang Cart/Notif/Profile inig abli sa search overlay */
+    header.search-open #headerActions,
+    header.search-open .navbar-brand,
+    header.search-open #mobileSearchTrigger {
+        display: none !important;
+    }
+}
+
+
+
+
+/* Handlers para sa gagmay kaayo nga screens (Mobile Optimization) */
+
+/*PARA KINI SA NOTIFICATION PAGE*/
+@media (max-width: 425px) {
+    .notif-header-row {
+        flex-direction: column !important;
+        align-items: flex-start !important;
+        gap: 2px;
+    }
+
+    .notif-time {
+        align-self: flex-start;
+        margin-top: 2px;
+    }
+
+    .notif-meta-row {
+        flex-wrap: wrap;
+        gap: 4px !important;
+    }
+
+    .dot-separator {
+        display: none; /* Tangtangon ang duldol separator kung mag-vertical alignment */
+    }
+}
+
+
+/*ProductList.cshtml*/
+
+@media (min-width: 992px) {
+    .image-sticky-panel {
+        position: -webkit-sticky;
+        position: sticky;
+        top: 0;
+        height: fit-content;
+        max-height: 360px;
+    }
+}

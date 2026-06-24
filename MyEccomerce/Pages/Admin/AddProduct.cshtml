@@ -1,0 +1,77 @@
+﻿@model MyEccomerce.Models.Product
+@inject MyEccomerce.Data.ApplicationDbContext _context
+@{
+    Layout = "_AdminLayout";
+    var categories = _context.Categories.ToList();
+}
+
+<div class="container mt-4">
+    <h2>Add New Product</h2>
+    <hr />
+
+    <form asp-action="Create" method="post" enctype="multipart/form-data">
+        <div class="row">
+            <div class="col-md-6 mb-3">
+                <label class="form-label">Product Image</label>
+                <input type="file" name="ImageFile" class="form-control" accept="image/*" />
+                <small class="text-muted">Tip: Use 500x500px images for better results.</small>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-md-6 mb-3">
+                <label class="form-label">Product Name</label>
+                <input asp-for="Name" class="form-control" required />
+            </div>
+
+            <div class="col-md-6 mb-3">
+                <label class="form-label">Category</label>
+                <select asp-for="CategoryId" class="form-control" required>
+                    <option value="">-- Select Category --</option>
+                    @foreach (var cat in categories)
+                    {
+                        <option value="@cat.CategoryId">@cat.Name</option>
+                    }
+                </select>
+            </div>
+
+            <div class="col-md-4 mb-3">
+                <label class="form-label">Price</label>
+                <input asp-for="Price" type="number" step="0.01" class="form-control" required />
+            </div>
+            <div class="col-md-4 mb-3">
+                <label class="form-label">Stock</label>
+                <input asp-for="Stock" type="number" class="form-control" required />
+            </div>
+            <div class="col-md-4 mb-3">
+                <label class="form-label">Unit Name (e.g. Kilo, Pc)</label>
+                <input asp-for="UnitName" class="form-control" placeholder="Optional" />
+            </div>
+
+            <div class="col-12 mb-3">
+                <label class="form-label">Description</label>
+                <textarea asp-for="Description" class="form-control" rows="3"></textarea>
+            </div>
+
+            <div class="col-md-4 mb-3">
+                <label class="form-label">Bulk Price</label>
+                <input asp-for="BulkPrice" type="number" step="0.01" class="form-control" />
+            </div>
+            <div class="col-md-4 mb-3">
+                <label class="form-label">Bulk Threshold (Qty)</label>
+                <input asp-for="BulkThreshold" type="number" class="form-control" />
+            </div>
+
+            <div class="col-md-4 mb-3 mt-4">
+                <div class="form-check">
+                    <input asp-for="IsFlashDeal" class="form-check-input" type="checkbox">
+                    <label class="form-check-label">Is Flash Deal?</label>
+                </div>
+            </div>
+        </div>
+
+        <div class="mt-3">
+            <button type="submit" class="btn btn-success">Save Product</button>
+            <a href="/Admin/Products" class="btn btn-secondary">Cancel</a>
+        </div>
+    </form>
+</div>

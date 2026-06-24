@@ -1,0 +1,480 @@
+﻿@model MyEccomerce.Models.Product
+
+@{
+    ViewData["Title"] = Model.Name + " - Details";
+    Layout = "_Layout";
+
+    bool isWeightBased = Model.Category?.Name == "Bulad" || Model.Category?.Name == "Dried Fish";
+    string unitLabel = isWeightBased ? "kg" : "available";
+    string qtyLabel = isWeightBased ? "Weight (Kilo)" : "Quantity";
+}
+
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.1/font/bootstrap-icons.css">
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+
+<style>
+    :root {
+        --bhub-primary: #0d6efd; /* Blue */
+        --bhub-yellow: #ffc107; /* Yellow */
+        --bhub-dark: #212529;
+        --bhub-bg: #f8fafc;
+    }
+
+    body {
+        font-family: 'Inter', sans-serif;
+        background-color: var(--bhub-bg);
+    }
+
+    /* Main Container */
+    .product-details-card {
+        background: white;
+        border-radius: 16px;
+        padding: 30px;
+        margin-top: 10px;
+        box-shadow: 0 10px 30px rgba(0,0,0,0.05);
+        border: 1px solid rgba(0,0,0,0.05);
+    }
+
+    /* Image Gallery */
+    .img-main-wrapper {
+        border: 1px solid #f1f5f9;
+        border-radius: 12px;
+        background: #fff;
+        margin-bottom: 12px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        height: 400px;
+        overflow: hidden;
+    }
+
+    #mainProductImage {
+        max-height: 100%;
+        max-width: 100%;
+        object-fit: contain;
+        transition: transform 0.3s ease;
+    }
+
+    .thumb-container {
+        display: flex;
+        gap: 12px;
+        overflow-x: auto;
+        padding: 5px 2px 15px 2px;
+    }
+
+    .thumb-item {
+        width: 70px;
+        height: 70px;
+        object-fit: cover;
+        border: 2px solid #f1f5f9;
+        border-radius: 8px;
+        cursor: pointer;
+        transition: 0.2s;
+    }
+
+        .thumb-item.active-thumb {
+            border-color: var(--bhub-primary);
+            box-shadow: 0 0 0 2px rgba(13, 110, 253, 0.1);
+        }
+
+    /* Pricing */
+    .price-display {
+        font-size: 2.5rem;
+        font-weight: 800;
+        color: var(--bhub-primary);
+        background: #f0f7ff;
+        padding: 15px 25px;
+        border-radius: 12px;
+        margin: 20px 0;
+        display: inline-block;
+    }
+
+    /* Variation Buttons */
+    .variant-btn {
+        background: #fff;
+        border: 1.5px solid #dee2e6;
+        padding: 8px 18px;
+        border-radius: 8px;
+        margin-right: 8px;
+        margin-bottom: 8px;
+        font-weight: 500;
+        font-size: 0.9rem;
+        transition: all 0.2s;
+    }
+
+        .variant-btn:hover {
+            border-color: var(--bhub-primary);
+            color: var(--bhub-primary);
+        }
+
+        .variant-btn.active {
+            border-color: var(--bhub-primary);
+            color: var(--bhub-primary);
+            background: #f0f7ff;
+            box-shadow: 0 0 0 1px var(--bhub-primary);
+        }
+
+    /* Action Buttons */
+    .btn-cart {
+        background-color: #ffffff;
+        border: 2px solid var(--bhub-primary);
+        color: var(--bhub-primary);
+        padding: 14px 28px;
+        font-weight: 700;
+        border-radius: 10px;
+        transition: all 0.3s ease;
+    }
+
+        .btn-cart:hover {
+            background-color: var(--bhub-primary);
+            color: white;
+            box-shadow: 0 4px 15px rgba(13, 110, 253, 0.2);
+        }
+
+    .btn-buy {
+        background-color: var(--bhub-yellow);
+        color: var(--bhub-dark);
+        padding: 14px 50px;
+        border: none;
+        font-weight: 700;
+        border-radius: 10px;
+        transition: all 0.3s ease;
+        box-shadow: 0 4px 12px rgba(255, 193, 7, 0.2);
+    }
+
+        .btn-buy:hover {
+            background-color: #ffca2c;
+            transform: translateY(-2px);
+            box-shadow: 0 6px 18px rgba(255, 193, 7, 0.3);
+        }
+
+    /* Utilities */
+    .back-nav {
+        display: inline-flex;
+        align-items: center;
+        gap: 6px;
+        text-decoration: none !important;
+        color: var(--bhub-primary);
+        font-weight: 600;
+        margin-bottom: 10px;
+        padding: 8px 0;
+        font-size: 40px;
+    }
+
+    .qty-wrapper {
+        display: flex;
+        align-items: center;
+        border: 1.5px solid #dee2e6;
+        width: fit-content;
+        border-radius: 8px;
+        overflow: hidden;
+    }
+
+    .qty-btn {
+        background: #f8f9fa;
+        border: none;
+        padding: 8px 15px;
+        font-weight: bold;
+    }
+
+    #qtyBox {
+        border: none;
+        width: 50px;
+        text-align: center;
+        font-weight: 700;
+    }
+
+    .info-card {
+        background-color: #f1f5f9;
+        border-left: 4px solid var(--bhub-primary);
+    }
+
+    .stock-badge {
+        padding: 4px 12px;
+        border-radius: 20px;
+        font-size: 0.75rem;
+        font-weight: 700;
+    }
+
+    .in-stock {
+        background: #dcfce7;
+        color: #15803d;
+    }
+</style>
+
+@* <a href="/" class="back-nav" style="color: #000; ">
+    <i class="bi bi-arrow-left"></i> 
+</a> *@
+
+<a href="javascript:void(0);" onclick="goBackToList()" class="back-nav" style="color: #000;">
+    <i class="bi bi-arrow-left"></i>
+</a>
+
+<script>
+    function goBackToList() {
+        if (typeof window.restoreProductList === "function") {
+            window.restoreProductList(); // Tawgon ang function gikan sa main list page
+        } else {
+            window.location.href = "/"; // Fallback kung gi-direct og load ang URL
+        }
+    }
+</script>
+
+<div class="container">
+   
+    <div class="product-details-card">
+        <div class="row">
+            <div class="col-md-5">
+                <div class="img-main-wrapper">
+                    <img id="mainProductImage" src="@Model.ImageUrl" alt="@Model.Name">
+                </div>
+                <div class="thumb-container">
+                    <img src="@Model.ImageUrl" class="thumb-item active-thumb shadow-sm"
+                         onclick="syncSelection('@Model.ImageUrl', this, '0')" loading="lazy">
+                    @if (Model.ProductVariants != null)
+                    {
+                        @foreach (var v in Model.ProductVariants.Where(x => !string.IsNullOrEmpty(x.ImageUrl)))
+                        {
+                            <img src="@v.ImageUrl" class="thumb-item shadow-sm"
+                                 onclick="syncSelection('@v.ImageUrl', this, '@v.VariantId')" loading="lazy">
+                        }
+                    }
+                </div>
+            </div>
+
+            <div class="col-md-7 ps-md-5">
+                <h2 class="fw-bold mb-1">@Model.Name</h2>
+
+                <div class="d-flex align-items-center gap-3 mb-2">
+                    <div class="text-warning small">
+                        <i class="bi bi-star-fill"></i><i class="bi bi-star-fill"></i><i class="bi bi-star-fill"></i><i class="bi bi-star-fill"></i><i class="bi bi-star-half"></i>
+                        <span class="text-muted ms-1">(4.8)</span>
+                    </div>
+                    <div class="vr"></div>
+                    <span class="text-muted small">Sold: <strong>@Model.SoldCount</strong></span>
+                    <span id="stockStatus" class="stock-badge in-stock">
+                        <i class="bi bi-check-circle-fill"></i> <span id="displayStock">@Model.Stock</span> @unitLabel
+                    </span>
+                </div>
+
+                <div class="price-display" id="displayPrice">
+                    ₱@Model.Price.ToString("N2")
+                </div>
+
+                @if (Model.ProductVariants != null && Model.ProductVariants.Any())
+                {
+                    <div class="mb-4">
+                        <label class="d-block text-secondary small fw-bold mb-2">Select Variation:</label>
+                        <div class="d-flex flex-wrap">
+                            @foreach (var variant in Model.ProductVariants)
+                            {
+                                <button type="button" class="variant-btn"
+                                        id="btn-v-@variant.VariantId"
+                                        data-variantid="@variant.VariantId"
+                                        data-price="@variant.Price"
+                                        data-stock="@variant.Stock"
+                                        data-img="@variant.ImageUrl"
+                                        onclick="selectVariant(this)">
+                                    @variant.VariationName
+                                </button>
+                            }
+                        </div>
+                    </div>
+                }
+
+                <div class="mb-4">
+                    <label class="d-block text-secondary small fw-bold mb-2">@qtyLabel:</label>
+                    <div class="qty-wrapper">
+                        <button class="qty-btn" onclick="updateQty(-1)">&minus;</button>
+                        <input type="text" id="qtyBox" value="1" readonly>
+                        <button class="qty-btn" onclick="updateQty(1)">&plus;</button>
+                    </div>
+                </div>
+
+                <div class="d-grid d-md-flex gap-3 mt-4">
+                    <button class="btn btn-cart px-4" onclick="handleAddToCart()">
+                        <i class="bi bi-cart-plus fs-5 me-2"></i> Add to Cart
+                    </button>
+                    <button class="btn btn-buy px-5" onclick="buyNow()">Buy Now</button>
+                </div>
+
+                <div class="mt-4 p-3 info-card rounded-3 small">
+                    <div class="d-flex gap-3 mb-2">
+                        <i class="bi bi-house-door text-danger fs-5"></i>
+                        <div>
+                            <strong>Delivery Info:</strong><br>
+                            <span class="text-muted">
+                                • Orders ₱500 - ₱999: <strong>₱50 Delivery Charge</strong><br>
+                                • Orders ₱1,000 up: <strong>Libre ang Hatod (FREE)</strong><br>
+                                <small class="text-secondary">*Applicable within Bantayan, Santa Fe, & Madridejos</small>
+                            </span>
+                        </div>
+                    </div>
+                </div>
+
+                <input type="hidden" id="selectedVariantId" value="" />
+                <input type="hidden" id="basePrice" value="@Model.Price" />
+            </div>
+        </div>
+    </div>
+</div>
+
+<script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+
+<script>
+    // 1. Sync Selection (Clicking Thumbnails)
+    function syncSelection(imgUrl, thumb, variantId) {
+        document.getElementById('mainProductImage').src = imgUrl;
+
+        // Highlight Thumbnail
+        document.querySelectorAll('.thumb-item').forEach(t => t.classList.remove('active-thumb'));
+        thumb.classList.add('active-thumb');
+
+        // I-click ang button nga kapares sa thumbnail
+        if(variantId !== '0') {
+            const btn = document.getElementById('btn-v-' + variantId);
+            if(btn) selectVariant(btn, false);
+        }
+    }
+
+    // 2. Select Variant (Clicking Variation Buttons)
+    function selectVariant(element, updateImg = true) {
+        const vId = element.getAttribute('data-variantid');
+        const price = parseFloat(element.getAttribute('data-price'));
+        const stock = element.getAttribute('data-stock');
+        const img = element.getAttribute('data-img');
+
+        // UI: Highlight napili
+        document.querySelectorAll('.variant-btn').forEach(b => b.classList.remove('active'));
+        element.classList.add('active');
+
+        // Logic: Save values
+        document.getElementById('selectedVariantId').value = vId;
+        document.getElementById('basePrice').value = price;
+
+        // Update Stock Display
+        document.getElementById('displayStock').innerText = stock;
+
+        // Stock Badge Logic
+        const badge = document.getElementById('stockStatus');
+        if(parseInt(stock) <= 5) {
+            badge.className = "stock-badge low-stock";
+        } else {
+            badge.className = "stock-badge in-stock";
+        }
+
+        // Sync Image kon naay picture ang variant
+        if (updateImg && img && img !== "") {
+            document.getElementById('mainProductImage').src = img;
+            document.querySelectorAll('.thumb-item').forEach(t => {
+                t.classList.toggle('active-thumb', t.src.includes(img));
+            });
+        }
+
+        calculateLivePrice();
+    }
+
+    // 3. Update Quantity
+    function updateQty(amt) {
+        const box = document.getElementById('qtyBox');
+        let current = parseInt(box.value) || 1;
+        let next = current + amt;
+
+        if (next >= 1) {
+            box.value = next;
+            calculateLivePrice();
+        }
+    }
+
+    // 4. Calculate Total Price
+    function calculateLivePrice() {
+        const base = parseFloat(document.getElementById('basePrice').value) || 0;
+        const qty = parseInt(document.getElementById('qtyBox').value) || 1;
+        const total = base * qty;
+
+        const formatter = new Intl.NumberFormat('en-US', {
+            minimumFractionDigits: 2,
+            maximumFractionDigits: 2
+        });
+
+        document.getElementById('displayPrice').innerText = "₱" + formatter.format(total);
+    }
+
+    // 5. AJAX Add to Cart
+       // 5. AJAX Add to Cart (Gidugangan og isBuyNow parameter)
+    async function handleAddToCart(isBuyNow = false) {
+        let variantId = document.getElementById('selectedVariantId').value;
+        let qty = parseInt(document.getElementById('qtyBox').value);
+        let productId = "@Model.ProductId";
+
+        const hasVariants = document.querySelectorAll('.variant-btn').length > 0;
+        if (hasVariants && !variantId) {
+            Swal.fire({
+                icon: 'warning',
+                title: 'Pili una, boss!',
+                text: 'Palihug pagpili og variation (sama sa 250g o 500g) sa dili pa mopalit.'
+            });
+            return false;
+        }
+
+        try {
+            const response = await fetch('/Cart/AddToCart', {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
+                body: new URLSearchParams({
+                    'productId': productId,
+                    'variantId': variantId || 0,
+                    'quantity': qty
+                })
+            });
+
+            const result = await response.json();
+
+            if (result.success) {
+                // KANI NGA BAHIN: Mo-gawas lang ang popup kung DILI Buy Now ang gi-click
+                if (!isBuyNow) {
+                    Swal.fire({
+                        toast: true,
+                        position: 'top-end',
+                        icon: 'success',
+                        title: 'Na-add na sa cart!',
+                        showConfirmButton: false,
+                        timer: 1500
+                    });
+
+                    
+                }
+
+                const badge = document.getElementById('cartBadgeCount');
+                if (badge && result.cartCount !== undefined) {
+                    badge.innerText = result.cartCount;
+                    badge.style.display = 'inline-block';
+                }
+                return true;
+            } else {
+                Swal.fire({ icon: 'error', title: 'Ops!', text: result.message });
+                return false;
+            }
+        } catch (error) {
+            console.error("Error:", error);
+            return false;
+        }
+    }
+
+    // 6. Buy Now
+    function buyNow() {
+        handleAddToCart().then(success => {
+            if(success) window.location.href = '/Cart/Checkout';
+        });
+    }
+
+    // 7. Auto-load settings
+    document.addEventListener("DOMContentLoaded", () => {
+        const firstVariant = document.querySelector('.variant-btn');
+        if (firstVariant) {
+            firstVariant.click();
+        } else {
+            calculateLivePrice();
+        }
+    });
+</script>

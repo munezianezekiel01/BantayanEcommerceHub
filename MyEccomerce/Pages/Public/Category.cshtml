@@ -1,0 +1,70 @@
+﻿@model IEnumerable<MyEccomerce.Models.Product>
+
+@{
+    Layout = "_Layout";
+    ViewData["Title"] = ViewBag.CategoryName;
+}
+
+<div class="container mt-4 animate__animated animate__fadeIn">
+    <nav aria-label="breadcrumb" class="mb-4">
+        <ol class="breadcrumb bg-transparent p-0">
+            <li class="breadcrumb-item"><a href="/Home/Home" class="text-decoration-none text-muted">Home</a></li>
+            <li class="breadcrumb-item active text-primary fw-bold" aria-current="page">@ViewBag.CategoryName</li>
+        </ol>
+    </nav>
+
+    <div class="d-flex align-items-center gap-3 mb-5 border-bottom pb-4">
+        <div class="bg-primary text-white rounded-4 d-flex align-items-center justify-content-center" style="width: 60px; height: 60px;">
+            <i class="bi @ViewBag.CategoryIcon fs-2"></i>
+        </div>
+        <div>
+            <h2 class="fw-bold mb-0">@ViewBag.CategoryName</h2>
+            <p class="text-muted mb-0">Nakit-an namo ang @Model.Count() ka products para nimo, boss.</p>
+        </div>
+    </div>
+
+    <div class="row g-3 g-md-4">
+        @if (!Model.Any())
+        {
+            <div class="col-12 text-center py-5">
+                <div class="mb-3">
+                    <i class="bi bi-box2 text-muted" style="font-size: 5rem;"></i>
+                </div>
+                <h4 class="fw-bold text-dark">Hala, pasensya na!</h4>
+                <p class="text-muted">Wala pay sulod kini nga category sa pagkakaron.</p>
+                <a href="/Home/Home" class="btn btn-primary px-4 rounded-pill mt-2">Balik sa Home</a>
+            </div>
+        }
+        else
+        {
+            @foreach (var p in Model)
+            {
+                <div class="col-6 col-md-4 col-lg-3">
+                    <div class="card-clean h-100 shadow-sm border-0 rounded-4 overflow-hidden" style="transition: transform 0.3s ease;">
+                        <a href="/Product/Details/@p.ProductId" class="img-container d-block overflow-hidden" style="height: 200px; background: #f8f9fa;">
+                            <img src="@p.ImageUrl" class="w-100 h-100" style="object-fit: contain;">
+                        </a>
+                        <div class="card-body-clean p-3">
+                            <span class="text-primary fw-bold extra-small text-uppercase" style="font-size: 0.65rem;">@ViewBag.CategoryName</span>
+                            <div class="p-name fw-bold text-dark text-truncate mb-1" style="font-size: 0.95rem;">@p.Name</div>
+                            <div class="p-price text-primary fw-bold mb-3" style="font-size: 1.1rem;">₱@p.Price.ToString("N2")</div>
+                            @* <button onclick="addToCart(@p.ProductId)" class="btn btn-outline-primary w-100 rounded-3 py-2 btn-sm fw-bold">
+                                <i class="bi bi-cart-plus me-1"></i> Add to Cart
+                            </button> *@
+                        </div>
+                    </div>
+                </div>
+            }
+        }
+    </div>
+</div>
+
+<style>
+    .card-clean:hover {
+        transform: translateY(-5px);
+    }
+
+    .extra-small {
+        letter-spacing: 1px;
+    }
+</style>

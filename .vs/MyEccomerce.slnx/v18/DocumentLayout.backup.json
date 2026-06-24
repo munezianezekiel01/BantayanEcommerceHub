@@ -1,0 +1,547 @@
+{
+  "Version": 1,
+  "WorkspaceRootPath": "C:\\Users\\munez\\source\\repos\\MyEccomerce\\",
+  "Documents": [
+    {
+      "AbsoluteMoniker": "D:0:0:{9B1743BD-7698-0B54-778F-A66D53743F75}|MyEccomerce\\MyEccomerce.csproj|c:\\users\\munez\\source\\repos\\myeccomerce\\myeccomerce\\pages\\shared\\_layout.cshtml||{40D31677-CBC0-4297-A9EF-89D907823A98}",
+      "RelativeMoniker": "D:0:0:{9B1743BD-7698-0B54-778F-A66D53743F75}|MyEccomerce\\MyEccomerce.csproj|solutionrelative:myeccomerce\\pages\\shared\\_layout.cshtml||{40D31677-CBC0-4297-A9EF-89D907823A98}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{9B1743BD-7698-0B54-778F-A66D53743F75}|MyEccomerce\\MyEccomerce.csproj|c:\\users\\munez\\source\\repos\\myeccomerce\\myeccomerce\\pages\\public\\userprofile.cshtml||{40D31677-CBC0-4297-A9EF-89D907823A98}",
+      "RelativeMoniker": "D:0:0:{9B1743BD-7698-0B54-778F-A66D53743F75}|MyEccomerce\\MyEccomerce.csproj|solutionrelative:myeccomerce\\pages\\public\\userprofile.cshtml||{40D31677-CBC0-4297-A9EF-89D907823A98}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{9B1743BD-7698-0B54-778F-A66D53743F75}|MyEccomerce\\MyEccomerce.csproj|c:\\users\\munez\\source\\repos\\myeccomerce\\myeccomerce\\pages\\public\\signin.cshtml||{40D31677-CBC0-4297-A9EF-89D907823A98}",
+      "RelativeMoniker": "D:0:0:{9B1743BD-7698-0B54-778F-A66D53743F75}|MyEccomerce\\MyEccomerce.csproj|solutionrelative:myeccomerce\\pages\\public\\signin.cshtml||{40D31677-CBC0-4297-A9EF-89D907823A98}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{9B1743BD-7698-0B54-778F-A66D53743F75}|MyEccomerce\\MyEccomerce.csproj|c:\\users\\munez\\source\\repos\\myeccomerce\\myeccomerce\\controllers\\accountcontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{9B1743BD-7698-0B54-778F-A66D53743F75}|MyEccomerce\\MyEccomerce.csproj|solutionrelative:myeccomerce\\controllers\\accountcontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{9B1743BD-7698-0B54-778F-A66D53743F75}|MyEccomerce\\MyEccomerce.csproj|c:\\users\\munez\\source\\repos\\myeccomerce\\myeccomerce\\pages\\public\\signup.cshtml||{40D31677-CBC0-4297-A9EF-89D907823A98}",
+      "RelativeMoniker": "D:0:0:{9B1743BD-7698-0B54-778F-A66D53743F75}|MyEccomerce\\MyEccomerce.csproj|solutionrelative:myeccomerce\\pages\\public\\signup.cshtml||{40D31677-CBC0-4297-A9EF-89D907823A98}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{9B1743BD-7698-0B54-778F-A66D53743F75}|MyEccomerce\\MyEccomerce.csproj|c:\\users\\munez\\source\\repos\\myeccomerce\\myeccomerce\\models\\user.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{9B1743BD-7698-0B54-778F-A66D53743F75}|MyEccomerce\\MyEccomerce.csproj|solutionrelative:myeccomerce\\models\\user.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{9B1743BD-7698-0B54-778F-A66D53743F75}|MyEccomerce\\MyEccomerce.csproj|c:\\users\\munez\\source\\repos\\myeccomerce\\myeccomerce\\controllers\\api\\adminorderscontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{9B1743BD-7698-0B54-778F-A66D53743F75}|MyEccomerce\\MyEccomerce.csproj|solutionrelative:myeccomerce\\controllers\\api\\adminorderscontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{9B1743BD-7698-0B54-778F-A66D53743F75}|MyEccomerce\\MyEccomerce.csproj|c:\\users\\munez\\source\\repos\\myeccomerce\\myeccomerce\\pages\\admin\\orders.cshtml||{40D31677-CBC0-4297-A9EF-89D907823A98}",
+      "RelativeMoniker": "D:0:0:{9B1743BD-7698-0B54-778F-A66D53743F75}|MyEccomerce\\MyEccomerce.csproj|solutionrelative:myeccomerce\\pages\\admin\\orders.cshtml||{40D31677-CBC0-4297-A9EF-89D907823A98}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{9B1743BD-7698-0B54-778F-A66D53743F75}|MyEccomerce\\MyEccomerce.csproj|c:\\users\\munez\\source\\repos\\myeccomerce\\myeccomerce\\models\\updatestatusdto.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{9B1743BD-7698-0B54-778F-A66D53743F75}|MyEccomerce\\MyEccomerce.csproj|solutionrelative:myeccomerce\\models\\updatestatusdto.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{9B1743BD-7698-0B54-778F-A66D53743F75}|MyEccomerce\\MyEccomerce.csproj|c:\\users\\munez\\source\\repos\\myeccomerce\\myeccomerce\\controllers\\api\\acountapicontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{9B1743BD-7698-0B54-778F-A66D53743F75}|MyEccomerce\\MyEccomerce.csproj|solutionrelative:myeccomerce\\controllers\\api\\acountapicontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{9B1743BD-7698-0B54-778F-A66D53743F75}|MyEccomerce\\MyEccomerce.csproj|c:\\users\\munez\\source\\repos\\myeccomerce\\myeccomerce\\controllers\\orderscontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{9B1743BD-7698-0B54-778F-A66D53743F75}|MyEccomerce\\MyEccomerce.csproj|solutionrelative:myeccomerce\\controllers\\orderscontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{9B1743BD-7698-0B54-778F-A66D53743F75}|MyEccomerce\\MyEccomerce.csproj|c:\\users\\munez\\source\\repos\\myeccomerce\\myeccomerce\\models\\productvariant.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{9B1743BD-7698-0B54-778F-A66D53743F75}|MyEccomerce\\MyEccomerce.csproj|solutionrelative:myeccomerce\\models\\productvariant.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{9B1743BD-7698-0B54-778F-A66D53743F75}|MyEccomerce\\MyEccomerce.csproj|c:\\users\\munez\\source\\repos\\myeccomerce\\myeccomerce\\program.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{9B1743BD-7698-0B54-778F-A66D53743F75}|MyEccomerce\\MyEccomerce.csproj|solutionrelative:myeccomerce\\program.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{9B1743BD-7698-0B54-778F-A66D53743F75}|MyEccomerce\\MyEccomerce.csproj|c:\\users\\munez\\source\\repos\\myeccomerce\\myeccomerce\\wwwroot\\js\\notificationlogic.js||{14D17961-FE51-464D-9111-C4AF11D7D99A}",
+      "RelativeMoniker": "D:0:0:{9B1743BD-7698-0B54-778F-A66D53743F75}|MyEccomerce\\MyEccomerce.csproj|solutionrelative:myeccomerce\\wwwroot\\js\\notificationlogic.js||{14D17961-FE51-464D-9111-C4AF11D7D99A}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{9B1743BD-7698-0B54-778F-A66D53743F75}|MyEccomerce\\MyEccomerce.csproj|c:\\users\\munez\\source\\repos\\myeccomerce\\myeccomerce\\services\\notificationcleanupservice.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{9B1743BD-7698-0B54-778F-A66D53743F75}|MyEccomerce\\MyEccomerce.csproj|solutionrelative:myeccomerce\\services\\notificationcleanupservice.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{9B1743BD-7698-0B54-778F-A66D53743F75}|MyEccomerce\\MyEccomerce.csproj|c:\\users\\munez\\source\\repos\\myeccomerce\\myeccomerce\\models\\order.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{9B1743BD-7698-0B54-778F-A66D53743F75}|MyEccomerce\\MyEccomerce.csproj|solutionrelative:myeccomerce\\models\\order.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{9B1743BD-7698-0B54-778F-A66D53743F75}|MyEccomerce\\MyEccomerce.csproj|c:\\users\\munez\\source\\repos\\myeccomerce\\myeccomerce\\hubs\\orderhub.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{9B1743BD-7698-0B54-778F-A66D53743F75}|MyEccomerce\\MyEccomerce.csproj|solutionrelative:myeccomerce\\hubs\\orderhub.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{9B1743BD-7698-0B54-778F-A66D53743F75}|MyEccomerce\\MyEccomerce.csproj|c:\\users\\munez\\source\\repos\\myeccomerce\\myeccomerce\\pages\\public\\myorders.cshtml||{40D31677-CBC0-4297-A9EF-89D907823A98}",
+      "RelativeMoniker": "D:0:0:{9B1743BD-7698-0B54-778F-A66D53743F75}|MyEccomerce\\MyEccomerce.csproj|solutionrelative:myeccomerce\\pages\\public\\myorders.cshtml||{40D31677-CBC0-4297-A9EF-89D907823A98}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{9B1743BD-7698-0B54-778F-A66D53743F75}|MyEccomerce\\MyEccomerce.csproj|c:\\users\\munez\\source\\repos\\myeccomerce\\myeccomerce\\pages\\shared\\_adminlayout.cshtml||{40D31677-CBC0-4297-A9EF-89D907823A98}",
+      "RelativeMoniker": "D:0:0:{9B1743BD-7698-0B54-778F-A66D53743F75}|MyEccomerce\\MyEccomerce.csproj|solutionrelative:myeccomerce\\pages\\shared\\_adminlayout.cshtml||{40D31677-CBC0-4297-A9EF-89D907823A98}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{9B1743BD-7698-0B54-778F-A66D53743F75}|MyEccomerce\\MyEccomerce.csproj|c:\\users\\munez\\source\\repos\\myeccomerce\\myeccomerce\\wwwroot\\css\\myorders.css||{A5401142-F49D-43DB-90B1-F57BA349E55C}",
+      "RelativeMoniker": "D:0:0:{9B1743BD-7698-0B54-778F-A66D53743F75}|MyEccomerce\\MyEccomerce.csproj|solutionrelative:myeccomerce\\wwwroot\\css\\myorders.css||{A5401142-F49D-43DB-90B1-F57BA349E55C}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{9B1743BD-7698-0B54-778F-A66D53743F75}|MyEccomerce\\MyEccomerce.csproj|c:\\users\\munez\\source\\repos\\myeccomerce\\myeccomerce\\pages\\admin\\orderdetails.cshtml||{40D31677-CBC0-4297-A9EF-89D907823A98}",
+      "RelativeMoniker": "D:0:0:{9B1743BD-7698-0B54-778F-A66D53743F75}|MyEccomerce\\MyEccomerce.csproj|solutionrelative:myeccomerce\\pages\\admin\\orderdetails.cshtml||{40D31677-CBC0-4297-A9EF-89D907823A98}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{9B1743BD-7698-0B54-778F-A66D53743F75}|MyEccomerce\\MyEccomerce.csproj|c:\\users\\munez\\source\\repos\\myeccomerce\\myeccomerce\\pages\\public\\details.cshtml||{40D31677-CBC0-4297-A9EF-89D907823A98}",
+      "RelativeMoniker": "D:0:0:{9B1743BD-7698-0B54-778F-A66D53743F75}|MyEccomerce\\MyEccomerce.csproj|solutionrelative:myeccomerce\\pages\\public\\details.cshtml||{40D31677-CBC0-4297-A9EF-89D907823A98}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{9B1743BD-7698-0B54-778F-A66D53743F75}|MyEccomerce\\MyEccomerce.csproj|c:\\users\\munez\\source\\repos\\myeccomerce\\myeccomerce\\controllers\\homecontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{9B1743BD-7698-0B54-778F-A66D53743F75}|MyEccomerce\\MyEccomerce.csproj|solutionrelative:myeccomerce\\controllers\\homecontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{9B1743BD-7698-0B54-778F-A66D53743F75}|MyEccomerce\\MyEccomerce.csproj|c:\\users\\munez\\source\\repos\\myeccomerce\\myeccomerce\\models\\orderitem.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{9B1743BD-7698-0B54-778F-A66D53743F75}|MyEccomerce\\MyEccomerce.csproj|solutionrelative:myeccomerce\\models\\orderitem.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{9B1743BD-7698-0B54-778F-A66D53743F75}|MyEccomerce\\MyEccomerce.csproj|c:\\users\\munez\\source\\repos\\myeccomerce\\myeccomerce\\controllers\\notificationcontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{9B1743BD-7698-0B54-778F-A66D53743F75}|MyEccomerce\\MyEccomerce.csproj|solutionrelative:myeccomerce\\controllers\\notificationcontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{9B1743BD-7698-0B54-778F-A66D53743F75}|MyEccomerce\\MyEccomerce.csproj|c:\\users\\munez\\source\\repos\\myeccomerce\\myeccomerce\\controllers\\productscontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{9B1743BD-7698-0B54-778F-A66D53743F75}|MyEccomerce\\MyEccomerce.csproj|solutionrelative:myeccomerce\\controllers\\productscontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{9B1743BD-7698-0B54-778F-A66D53743F75}|MyEccomerce\\MyEccomerce.csproj|c:\\users\\munez\\source\\repos\\myeccomerce\\myeccomerce\\pages\\public\\home.cshtml||{40D31677-CBC0-4297-A9EF-89D907823A98}",
+      "RelativeMoniker": "D:0:0:{9B1743BD-7698-0B54-778F-A66D53743F75}|MyEccomerce\\MyEccomerce.csproj|solutionrelative:myeccomerce\\pages\\public\\home.cshtml||{40D31677-CBC0-4297-A9EF-89D907823A98}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{9B1743BD-7698-0B54-778F-A66D53743F75}|MyEccomerce\\MyEccomerce.csproj|c:\\users\\munez\\source\\repos\\myeccomerce\\myeccomerce\\models\\product.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{9B1743BD-7698-0B54-778F-A66D53743F75}|MyEccomerce\\MyEccomerce.csproj|solutionrelative:myeccomerce\\models\\product.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{9B1743BD-7698-0B54-778F-A66D53743F75}|MyEccomerce\\MyEccomerce.csproj|c:\\users\\munez\\source\\repos\\myeccomerce\\myeccomerce\\wwwroot\\css\\mediascreen.css||{A5401142-F49D-43DB-90B1-F57BA349E55C}",
+      "RelativeMoniker": "D:0:0:{9B1743BD-7698-0B54-778F-A66D53743F75}|MyEccomerce\\MyEccomerce.csproj|solutionrelative:myeccomerce\\wwwroot\\css\\mediascreen.css||{A5401142-F49D-43DB-90B1-F57BA349E55C}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{9B1743BD-7698-0B54-778F-A66D53743F75}|MyEccomerce\\MyEccomerce.csproj|c:\\users\\munez\\source\\repos\\myeccomerce\\myeccomerce\\pages\\admin\\addvariation.cshtml||{40D31677-CBC0-4297-A9EF-89D907823A98}",
+      "RelativeMoniker": "D:0:0:{9B1743BD-7698-0B54-778F-A66D53743F75}|MyEccomerce\\MyEccomerce.csproj|solutionrelative:myeccomerce\\pages\\admin\\addvariation.cshtml||{40D31677-CBC0-4297-A9EF-89D907823A98}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{9B1743BD-7698-0B54-778F-A66D53743F75}|MyEccomerce\\MyEccomerce.csproj|c:\\users\\munez\\source\\repos\\myeccomerce\\myeccomerce\\pages\\admin\\productlist.cshtml||{40D31677-CBC0-4297-A9EF-89D907823A98}",
+      "RelativeMoniker": "D:0:0:{9B1743BD-7698-0B54-778F-A66D53743F75}|MyEccomerce\\MyEccomerce.csproj|solutionrelative:myeccomerce\\pages\\admin\\productlist.cshtml||{40D31677-CBC0-4297-A9EF-89D907823A98}"
+    }
+  ],
+  "DocumentGroupContainers": [
+    {
+      "Orientation": 0,
+      "VerticalTabListWidth": 256,
+      "DocumentGroups": [
+        {
+          "DockedWidth": 200,
+          "SelectedChildIndex": 0,
+          "Children": [
+            {
+              "$type": "Document",
+              "DocumentIndex": 0,
+              "Title": "_Layout.cshtml",
+              "DocumentMoniker": "C:\\Users\\munez\\source\\repos\\MyEccomerce\\MyEccomerce\\Pages\\Shared\\_Layout.cshtml",
+              "RelativeDocumentMoniker": "MyEccomerce\\Pages\\Shared\\_Layout.cshtml",
+              "ToolTip": "C:\\Users\\munez\\source\\repos\\MyEccomerce\\MyEccomerce\\Pages\\Shared\\_Layout.cshtml",
+              "RelativeToolTip": "MyEccomerce\\Pages\\Shared\\_Layout.cshtml",
+              "ViewState": "AgIAAIcAAABgZmZmZmYkwJIAAAA/AAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000759|",
+              "WhenOpened": "2026-06-15T09:11:08.263Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 1,
+              "Title": "UserProfile.cshtml",
+              "DocumentMoniker": "C:\\Users\\munez\\source\\repos\\MyEccomerce\\MyEccomerce\\Pages\\Public\\UserProfile.cshtml",
+              "RelativeDocumentMoniker": "MyEccomerce\\Pages\\Public\\UserProfile.cshtml",
+              "ToolTip": "C:\\Users\\munez\\source\\repos\\MyEccomerce\\MyEccomerce\\Pages\\Public\\UserProfile.cshtml",
+              "RelativeToolTip": "MyEccomerce\\Pages\\Public\\UserProfile.cshtml",
+              "ViewState": "AgIAADkAAACAY2ZmZmYkwEEAAAA6AAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000759|",
+              "WhenOpened": "2026-06-15T09:10:11.968Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 2,
+              "Title": "Signin.cshtml",
+              "DocumentMoniker": "C:\\Users\\munez\\source\\repos\\MyEccomerce\\MyEccomerce\\Pages\\Public\\Signin.cshtml",
+              "RelativeDocumentMoniker": "MyEccomerce\\Pages\\Public\\Signin.cshtml",
+              "ToolTip": "C:\\Users\\munez\\source\\repos\\MyEccomerce\\MyEccomerce\\Pages\\Public\\Signin.cshtml",
+              "RelativeToolTip": "MyEccomerce\\Pages\\Public\\Signin.cshtml",
+              "ViewState": "AgIAAIQAAAAAZmZmZmYkwBMAAAAJAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000759|",
+              "WhenOpened": "2026-06-15T08:47:32.897Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 5,
+              "Title": "User.cs",
+              "DocumentMoniker": "C:\\Users\\munez\\source\\repos\\MyEccomerce\\MyEccomerce\\Models\\User.cs",
+              "RelativeDocumentMoniker": "MyEccomerce\\Models\\User.cs",
+              "ToolTip": "C:\\Users\\munez\\source\\repos\\MyEccomerce\\MyEccomerce\\Models\\User.cs",
+              "RelativeToolTip": "MyEccomerce\\Models\\User.cs",
+              "ViewState": "AgIAABwAAAAAAAAAAAAswCsAAAABAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2026-06-15T08:23:13.687Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 4,
+              "Title": "Signup.cshtml",
+              "DocumentMoniker": "C:\\Users\\munez\\source\\repos\\MyEccomerce\\MyEccomerce\\Pages\\Public\\Signup.cshtml",
+              "RelativeDocumentMoniker": "MyEccomerce\\Pages\\Public\\Signup.cshtml",
+              "ToolTip": "C:\\Users\\munez\\source\\repos\\MyEccomerce\\MyEccomerce\\Pages\\Public\\Signup.cshtml",
+              "RelativeToolTip": "MyEccomerce\\Pages\\Public\\Signup.cshtml",
+              "ViewState": "AgIAAIIAAAAAAAAAAAAQwJEAAAAPAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000759|",
+              "WhenOpened": "2026-06-15T01:21:39.004Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 3,
+              "Title": "AccountController.cs",
+              "DocumentMoniker": "C:\\Users\\munez\\source\\repos\\MyEccomerce\\MyEccomerce\\Controllers\\AccountController.cs",
+              "RelativeDocumentMoniker": "MyEccomerce\\Controllers\\AccountController.cs",
+              "ToolTip": "C:\\Users\\munez\\source\\repos\\MyEccomerce\\MyEccomerce\\Controllers\\AccountController.cs",
+              "RelativeToolTip": "MyEccomerce\\Controllers\\AccountController.cs",
+              "ViewState": "AgIAANQAAAAAMDMzMzMbwLQAAAAnAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2026-06-15T01:20:25.622Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 7,
+              "Title": "Orders.cshtml",
+              "DocumentMoniker": "C:\\Users\\munez\\source\\repos\\MyEccomerce\\MyEccomerce\\Pages\\Admin\\Orders.cshtml",
+              "RelativeDocumentMoniker": "MyEccomerce\\Pages\\Admin\\Orders.cshtml",
+              "ToolTip": "C:\\Users\\munez\\source\\repos\\MyEccomerce\\MyEccomerce\\Pages\\Admin\\Orders.cshtml",
+              "RelativeToolTip": "MyEccomerce\\Pages\\Admin\\Orders.cshtml",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAABAAAAAAAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000759|",
+              "WhenOpened": "2026-06-14T10:33:54.502Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 8,
+              "Title": "UpdateStatusDto.cs",
+              "DocumentMoniker": "C:\\Users\\munez\\source\\repos\\MyEccomerce\\MyEccomerce\\Models\\UpdateStatusDto.cs",
+              "RelativeDocumentMoniker": "MyEccomerce\\Models\\UpdateStatusDto.cs",
+              "ToolTip": "C:\\Users\\munez\\source\\repos\\MyEccomerce\\MyEccomerce\\Models\\UpdateStatusDto.cs",
+              "RelativeToolTip": "MyEccomerce\\Models\\UpdateStatusDto.cs",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAkAAAATAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2026-06-14T09:33:54.591Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 6,
+              "Title": "AdminOrdersController.cs",
+              "DocumentMoniker": "C:\\Users\\munez\\source\\repos\\MyEccomerce\\MyEccomerce\\Controllers\\Api\\AdminOrdersController.cs",
+              "RelativeDocumentMoniker": "MyEccomerce\\Controllers\\Api\\AdminOrdersController.cs",
+              "ToolTip": "C:\\Users\\munez\\source\\repos\\MyEccomerce\\MyEccomerce\\Controllers\\Api\\AdminOrdersController.cs",
+              "RelativeToolTip": "MyEccomerce\\Controllers\\Api\\AdminOrdersController.cs",
+              "ViewState": "AgIAAHsAAAAANDMzMzMLwJwAAABUAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2026-06-13T01:23:53.757Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 11,
+              "Title": "ProductVariant.cs",
+              "DocumentMoniker": "C:\\Users\\munez\\source\\repos\\MyEccomerce\\MyEccomerce\\Models\\ProductVariant.cs",
+              "RelativeDocumentMoniker": "MyEccomerce\\Models\\ProductVariant.cs",
+              "ToolTip": "C:\\Users\\munez\\source\\repos\\MyEccomerce\\MyEccomerce\\Models\\ProductVariant.cs",
+              "RelativeToolTip": "MyEccomerce\\Models\\ProductVariant.cs",
+              "ViewState": "AgIAAAYAAACAmZmZmZkdwAoAAAAqAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2026-06-13T02:47:37.125Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 12,
+              "Title": "Program.cs",
+              "DocumentMoniker": "C:\\Users\\munez\\source\\repos\\MyEccomerce\\MyEccomerce\\Program.cs",
+              "RelativeDocumentMoniker": "MyEccomerce\\Program.cs",
+              "ToolTip": "C:\\Users\\munez\\source\\repos\\MyEccomerce\\MyEccomerce\\Program.cs",
+              "RelativeToolTip": "MyEccomerce\\Program.cs",
+              "ViewState": "AgIAAJgAAAAANDMzMzMjwKIAAAAKAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2026-06-13T02:24:12.03Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 13,
+              "Title": "NotificationLogic.js",
+              "DocumentMoniker": "C:\\Users\\munez\\source\\repos\\MyEccomerce\\MyEccomerce\\wwwroot\\js\\NotificationLogic.js",
+              "RelativeDocumentMoniker": "MyEccomerce\\wwwroot\\js\\NotificationLogic.js",
+              "ToolTip": "C:\\Users\\munez\\source\\repos\\MyEccomerce\\MyEccomerce\\wwwroot\\js\\NotificationLogic.js",
+              "RelativeToolTip": "MyEccomerce\\wwwroot\\js\\NotificationLogic.js",
+              "ViewState": "AgIAAIgAAAAAAAAAAAAAAJIAAAAuAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.001646|",
+              "WhenOpened": "2026-06-13T02:12:48.235Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 9,
+              "Title": "AcountApiController.cs",
+              "DocumentMoniker": "C:\\Users\\munez\\source\\repos\\MyEccomerce\\MyEccomerce\\Controllers\\Api\\AcountApiController.cs",
+              "RelativeDocumentMoniker": "MyEccomerce\\Controllers\\Api\\AcountApiController.cs",
+              "ToolTip": "C:\\Users\\munez\\source\\repos\\MyEccomerce\\MyEccomerce\\Controllers\\Api\\AcountApiController.cs",
+              "RelativeToolTip": "MyEccomerce\\Controllers\\Api\\AcountApiController.cs",
+              "ViewState": "AgIAACAAAABAMzMzMzMhwCkAAABNAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2026-06-13T00:50:22.137Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 16,
+              "Title": "OrderHub.cs",
+              "DocumentMoniker": "C:\\Users\\munez\\source\\repos\\MyEccomerce\\MyEccomerce\\Hubs\\OrderHub.cs",
+              "RelativeDocumentMoniker": "MyEccomerce\\Hubs\\OrderHub.cs",
+              "ToolTip": "C:\\Users\\munez\\source\\repos\\MyEccomerce\\MyEccomerce\\Hubs\\OrderHub.cs",
+              "RelativeToolTip": "MyEccomerce\\Hubs\\OrderHub.cs",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAA4AAAA2AAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2026-06-05T01:41:38.818Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 10,
+              "Title": "OrdersController.cs",
+              "DocumentMoniker": "C:\\Users\\munez\\source\\repos\\MyEccomerce\\MyEccomerce\\Controllers\\OrdersController.cs",
+              "RelativeDocumentMoniker": "MyEccomerce\\Controllers\\OrdersController.cs",
+              "ToolTip": "C:\\Users\\munez\\source\\repos\\MyEccomerce\\MyEccomerce\\Controllers\\OrdersController.cs",
+              "RelativeToolTip": "MyEccomerce\\Controllers\\OrdersController.cs",
+              "ViewState": "AgIAADcBAAAANDMzMzMTwDIBAAAAAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2026-06-06T03:26:46.065Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 14,
+              "Title": "NotificationCleanUpService.cs",
+              "DocumentMoniker": "C:\\Users\\munez\\source\\repos\\MyEccomerce\\MyEccomerce\\Services\\NotificationCleanUpService.cs",
+              "RelativeDocumentMoniker": "MyEccomerce\\Services\\NotificationCleanUpService.cs",
+              "ToolTip": "C:\\Users\\munez\\source\\repos\\MyEccomerce\\MyEccomerce\\Services\\NotificationCleanUpService.cs",
+              "RelativeToolTip": "MyEccomerce\\Services\\NotificationCleanUpService.cs",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAoAAAAJAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2026-06-06T04:41:32.24Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 15,
+              "Title": "Order.cs",
+              "DocumentMoniker": "C:\\Users\\munez\\source\\repos\\MyEccomerce\\MyEccomerce\\Models\\Order.cs",
+              "RelativeDocumentMoniker": "MyEccomerce\\Models\\Order.cs",
+              "ToolTip": "C:\\Users\\munez\\source\\repos\\MyEccomerce\\MyEccomerce\\Models\\Order.cs",
+              "RelativeToolTip": "MyEccomerce\\Models\\Order.cs",
+              "ViewState": "AgIAABIAAAAAAAAAAAAkwCoAAAABAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2026-06-05T02:20:19.832Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 20,
+              "Title": "OrderDetails.cshtml",
+              "DocumentMoniker": "C:\\Users\\munez\\source\\repos\\MyEccomerce\\MyEccomerce\\Pages\\Admin\\OrderDetails.cshtml",
+              "RelativeDocumentMoniker": "MyEccomerce\\Pages\\Admin\\OrderDetails.cshtml",
+              "ToolTip": "C:\\Users\\munez\\source\\repos\\MyEccomerce\\MyEccomerce\\Pages\\Admin\\OrderDetails.cshtml",
+              "RelativeToolTip": "MyEccomerce\\Pages\\Admin\\OrderDetails.cshtml",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAUAAAAcAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000759|",
+              "WhenOpened": "2026-06-06T05:13:55.764Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 17,
+              "Title": "MyOrders.cshtml",
+              "DocumentMoniker": "C:\\Users\\munez\\source\\repos\\MyEccomerce\\MyEccomerce\\Pages\\Public\\MyOrders.cshtml",
+              "RelativeDocumentMoniker": "MyEccomerce\\Pages\\Public\\MyOrders.cshtml",
+              "ToolTip": "C:\\Users\\munez\\source\\repos\\MyEccomerce\\MyEccomerce\\Pages\\Public\\MyOrders.cshtml",
+              "RelativeToolTip": "MyEccomerce\\Pages\\Public\\MyOrders.cshtml",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAABcAAAAKAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000759|",
+              "WhenOpened": "2026-06-05T01:55:20.456Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 19,
+              "Title": "MyOrders.css",
+              "DocumentMoniker": "C:\\Users\\munez\\source\\repos\\MyEccomerce\\MyEccomerce\\wwwroot\\css\\MyOrders.css",
+              "RelativeDocumentMoniker": "MyEccomerce\\wwwroot\\css\\MyOrders.css",
+              "ToolTip": "C:\\Users\\munez\\source\\repos\\MyEccomerce\\MyEccomerce\\wwwroot\\css\\MyOrders.css",
+              "RelativeToolTip": "MyEccomerce\\wwwroot\\css\\MyOrders.css",
+              "ViewState": "AgIAAE0AAAAAMjMzMzMbwFYAAAAMAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.003000|",
+              "WhenOpened": "2026-06-06T04:08:02.728Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 18,
+              "Title": "_AdminLayout.cshtml",
+              "DocumentMoniker": "C:\\Users\\munez\\source\\repos\\MyEccomerce\\MyEccomerce\\Pages\\Shared\\_AdminLayout.cshtml",
+              "RelativeDocumentMoniker": "MyEccomerce\\Pages\\Shared\\_AdminLayout.cshtml",
+              "ToolTip": "C:\\Users\\munez\\source\\repos\\MyEccomerce\\MyEccomerce\\Pages\\Shared\\_AdminLayout.cshtml",
+              "RelativeToolTip": "MyEccomerce\\Pages\\Shared\\_AdminLayout.cshtml",
+              "ViewState": "AgIAAAsAAAAANDMzMzMbwBwAAAAfAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000759|",
+              "WhenOpened": "2026-06-05T01:42:30.62Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 21,
+              "Title": "Details.cshtml",
+              "DocumentMoniker": "C:\\Users\\munez\\source\\repos\\MyEccomerce\\MyEccomerce\\Pages\\Public\\Details.cshtml",
+              "RelativeDocumentMoniker": "MyEccomerce\\Pages\\Public\\Details.cshtml",
+              "ToolTip": "C:\\Users\\munez\\source\\repos\\MyEccomerce\\MyEccomerce\\Pages\\Public\\Details.cshtml",
+              "RelativeToolTip": "MyEccomerce\\Pages\\Public\\Details.cshtml",
+              "ViewState": "AgIAAEkBAAAgZGZmZmYkwFMBAAA1AAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000759|",
+              "WhenOpened": "2026-06-05T00:24:31.953Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 22,
+              "Title": "HomeController.cs",
+              "DocumentMoniker": "C:\\Users\\munez\\source\\repos\\MyEccomerce\\MyEccomerce\\Controllers\\HomeController.cs",
+              "RelativeDocumentMoniker": "MyEccomerce\\Controllers\\HomeController.cs",
+              "ToolTip": "C:\\Users\\munez\\source\\repos\\MyEccomerce\\MyEccomerce\\Controllers\\HomeController.cs",
+              "RelativeToolTip": "MyEccomerce\\Controllers\\HomeController.cs",
+              "ViewState": "AgIAAEYAAAAAAAAAAAAowEsAAABYAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2026-06-05T01:01:53.674Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 23,
+              "Title": "OrderItem.cs",
+              "DocumentMoniker": "C:\\Users\\munez\\source\\repos\\MyEccomerce\\MyEccomerce\\Models\\OrderItem.cs",
+              "RelativeDocumentMoniker": "MyEccomerce\\Models\\OrderItem.cs",
+              "ToolTip": "C:\\Users\\munez\\source\\repos\\MyEccomerce\\MyEccomerce\\Models\\OrderItem.cs",
+              "RelativeToolTip": "MyEccomerce\\Models\\OrderItem.cs",
+              "ViewState": "AgIAAAMAAAAAAAAAAADwvw0AAAAzAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2026-06-05T02:20:41.356Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 24,
+              "Title": "NotificationController.cs",
+              "DocumentMoniker": "C:\\Users\\munez\\source\\repos\\MyEccomerce\\MyEccomerce\\Controllers\\NotificationController.cs",
+              "RelativeDocumentMoniker": "MyEccomerce\\Controllers\\NotificationController.cs",
+              "ToolTip": "C:\\Users\\munez\\source\\repos\\MyEccomerce\\MyEccomerce\\Controllers\\NotificationController.cs",
+              "RelativeToolTip": "MyEccomerce\\Controllers\\NotificationController.cs",
+              "ViewState": "AgIAAC8AAACAMzMzMzMXwDwAAAAJAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2026-06-04T13:02:30.113Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 26,
+              "Title": "Home.cshtml",
+              "DocumentMoniker": "C:\\Users\\munez\\source\\repos\\MyEccomerce\\MyEccomerce\\Pages\\Public\\Home.cshtml",
+              "RelativeDocumentMoniker": "MyEccomerce\\Pages\\Public\\Home.cshtml",
+              "ToolTip": "C:\\Users\\munez\\source\\repos\\MyEccomerce\\MyEccomerce\\Pages\\Public\\Home.cshtml",
+              "RelativeToolTip": "MyEccomerce\\Pages\\Public\\Home.cshtml",
+              "ViewState": "AgIAAAMBAACANTMzMzMrwCMBAAAMAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000759|",
+              "WhenOpened": "2026-06-05T00:36:00.682Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 25,
+              "Title": "ProductsController.cs",
+              "DocumentMoniker": "C:\\Users\\munez\\source\\repos\\MyEccomerce\\MyEccomerce\\Controllers\\ProductsController.cs",
+              "RelativeDocumentMoniker": "MyEccomerce\\Controllers\\ProductsController.cs",
+              "ToolTip": "C:\\Users\\munez\\source\\repos\\MyEccomerce\\MyEccomerce\\Controllers\\ProductsController.cs",
+              "RelativeToolTip": "MyEccomerce\\Controllers\\ProductsController.cs",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAADUAAAAJAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2026-06-05T01:06:34.59Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 27,
+              "Title": "Product.cs",
+              "DocumentMoniker": "C:\\Users\\munez\\source\\repos\\MyEccomerce\\MyEccomerce\\Models\\Product.cs",
+              "RelativeDocumentMoniker": "MyEccomerce\\Models\\Product.cs",
+              "ToolTip": "C:\\Users\\munez\\source\\repos\\MyEccomerce\\MyEccomerce\\Models\\Product.cs",
+              "RelativeToolTip": "MyEccomerce\\Models\\Product.cs",
+              "ViewState": "AgIAABgAAAAAAAAAAAAqwC0AAAABAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2026-06-03T01:43:58.095Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 29,
+              "Title": "AddVariation.cshtml",
+              "DocumentMoniker": "C:\\Users\\munez\\source\\repos\\MyEccomerce\\MyEccomerce\\Pages\\Admin\\AddVariation.cshtml",
+              "RelativeDocumentMoniker": "MyEccomerce\\Pages\\Admin\\AddVariation.cshtml",
+              "ToolTip": "C:\\Users\\munez\\source\\repos\\MyEccomerce\\MyEccomerce\\Pages\\Admin\\AddVariation.cshtml",
+              "RelativeToolTip": "MyEccomerce\\Pages\\Admin\\AddVariation.cshtml",
+              "ViewState": "AgIAAEIAAAAAAAAAAIBZwE0AAAAeAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000759|",
+              "WhenOpened": "2026-06-03T03:48:45.54Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 28,
+              "Title": "MediaScreen.css",
+              "DocumentMoniker": "C:\\Users\\munez\\source\\repos\\MyEccomerce\\MyEccomerce\\wwwroot\\css\\MediaScreen.css",
+              "RelativeDocumentMoniker": "MyEccomerce\\wwwroot\\css\\MediaScreen.css",
+              "ToolTip": "C:\\Users\\munez\\source\\repos\\MyEccomerce\\MyEccomerce\\wwwroot\\css\\MediaScreen.css",
+              "RelativeToolTip": "MyEccomerce\\wwwroot\\css\\MediaScreen.css",
+              "ViewState": "AgIAADoBAAAANDMzMzMjwFcBAAAAAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.003000|",
+              "WhenOpened": "2026-06-03T03:11:08.26Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 30,
+              "Title": "ProductList.cshtml",
+              "DocumentMoniker": "C:\\Users\\munez\\source\\repos\\MyEccomerce\\MyEccomerce\\Pages\\Admin\\ProductList.cshtml",
+              "RelativeDocumentMoniker": "MyEccomerce\\Pages\\Admin\\ProductList.cshtml",
+              "ToolTip": "C:\\Users\\munez\\source\\repos\\MyEccomerce\\MyEccomerce\\Pages\\Admin\\ProductList.cshtml",
+              "RelativeToolTip": "MyEccomerce\\Pages\\Admin\\ProductList.cshtml",
+              "ViewState": "AgIAAFMBAAAAAAAAAAAmwFsBAABJAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000759|",
+              "WhenOpened": "2026-06-03T01:52:03.895Z",
+              "EditorCaption": ""
+            }
+          ]
+        }
+      ]
+    }
+  ]
+}
