@@ -1,0 +1,150 @@
+﻿@model MyEccomerce.Models.User
+@{
+    Layout = null;
+}
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Signup - MyEcommerce</title>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css">
+</head>
+<body class="bg-light">
+    <div class="container mt-5">
+        <div class="row justify-content-center">
+            <div class="col-md-5">
+                <div class="card border-0 shadow-sm">
+                    <div class="card-body p-4">
+                        <h2 class="text-center fw-bold mb-4">Create Account</h2>
+
+                        @if (ViewBag.Error != null)
+                        {
+                            <div class="alert alert-danger">@ViewBag.Error</div>
+                        }
+
+                        <form asp-action="Signup" method="post">
+                            <div class="row">
+                                <div class="col-6 mb-3">
+                                    <label class="form-label small">First Name</label>
+                                    <input type="text" name="FirstName" class="form-control" required placeholder="Enter your First Name">
+                                </div>
+                                <div class="col-6 mb-3">
+                                    <label class="form-label small">Last Name</label>
+                                    <input type="text" name="LastName" class="form-control" required placeholder="Enter your Last Name">
+                                </div>
+                            </div>
+
+                            <div class="mb-3">
+                                <label class="form-label small">Email</label>
+                                <input type="email" name="Email" class="form-control" required placeholder="Enter your Email">
+                            </div>
+
+                            <div class="mb-3">
+                                <label class="form-label small">Password</label>
+                                <input type="password" name="Password" class="form-control" required placeholder="Enter your Password">
+                            </div>
+
+                            <div class="mb-3">
+                                <label class="form-label small">Phone (Required)</label>
+                                <input type="text" name="Phone" class="form-control" required placeholder="Enter Your Phone">
+                            </div>
+
+                            @* --- AREA SA ADDRESS --- *@
+                            <div class="row">
+                                <div class="col-6 mb-3">
+                                    <label class="form-label small">Lungsod (Town)</label>
+                                    <select class="form-select" id="townSelect" name="townInput" onchange="updateBarangay()" required>
+                                        <option value="" selected disabled>Pili og Lungsod...</option>
+                                        <option value="bantayan">Bantayan</option>
+                                        <option value="madredejos">Madredejos</option>
+                                        <option value="santafe">Santa Fe</option>
+                                    </select>
+                                </div>
+                                <div class="col-6 mb-3">
+                                    <label class="form-label small">Barangay</label>
+                                    <select class="form-select" id="barangaySelect" name="barangayInput" onchange="updateSitio()" disabled required>
+                                        <option value="">Pili una og Lungsod...</option>
+                                    </select>
+                                </div>
+                            </div>
+
+                            <div class="row">
+                                <div class="col-6 mb-3">
+                                    <label class="form-label small">Sitio / Street</label>
+                                    <select class="form-select" id="sitioSelect" name="sitioInput" disabled required>
+                                        <option value="">Pili una og Barangay...</option>
+                                    </select>
+                                </div>
+                            </div>
+
+                            <button type="submit" class="btn btn-primary w-100 fw-bold py-2 mt-2">REGISTER</button>
+                        </form>
+
+                        <div class="text-center mt-4">
+                            <p class="small text-muted">Naa na kay account? <a asp-action="Signin" class="text-decoration-none">Login diri</a></p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</body>
+
+<script type="text/javascript">
+    // Data para sa dynamic dropdowns
+    const addressData = {
+        bantayan: {
+            "Ticad": ["Manan-ao", "Poblacion Side", "Suba"],
+            "Circulo": ["Sentro", "Gawas"],
+            "Terplen": ["Proper", "Baybay"]
+        },
+        madredejos: {
+            "Poblacion": ["Kanto", "Pantalan"],
+            "Bunakan": ["Sulangon", "Tugas"],
+            "Tarong": ["Proper", "Ubos"]
+        },
+        santafe: {
+            "Talisay": ["Alice Beach Side", "Sentro"],
+            "Pooc": ["Maricaban", "Gawas"],
+            "Okoy": ["Proper", "Crossing"]
+        }
+    };
+
+    function updateBarangay() {
+        const town = document.getElementById("townSelect").value;
+        const brgySelect = document.getElementById("barangaySelect");
+        const sitioSelect = document.getElementById("sitioSelect");
+
+        brgySelect.innerHTML = '<option value="" selected disabled>Pili og Barangay...</option>';
+        sitioSelect.innerHTML = '<option value="">Pili una og Barangay...</option>';
+        sitioSelect.disabled = true;
+
+        if (town) {
+            brgySelect.disabled = false;
+            Object.keys(addressData[town]).forEach(brgy => {
+                let opt = document.createElement("option");
+                opt.value = brgy;
+                opt.innerHTML = brgy;
+                brgySelect.appendChild(opt);
+            });
+        }
+    }
+
+    function updateSitio() {
+        const town = document.getElementById("townSelect").value;
+        const brgy = document.getElementById("barangaySelect").value;
+        const sitioSelect = document.getElementById("sitioSelect");
+
+        sitioSelect.innerHTML = '<option value="" selected disabled>Pili og Sitio...</option>';
+
+        if (brgy) {
+            sitioSelect.disabled = false;
+            addressData[town][brgy].forEach(sitio => {
+                let opt = document.createElement("option");
+                opt.value = sitio;
+                opt.innerHTML = sitio;
+                sitioSelect.appendChild(opt);
+            });
+        }
+    }
+</script>
+</html>

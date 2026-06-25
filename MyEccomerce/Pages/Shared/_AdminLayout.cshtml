@@ -1,0 +1,330 @@
+﻿@using System.Security.Claims
+@using Microsoft.EntityFrameworkCore
+@using System.Linq
+@inject MyEccomerce.Data.ApplicationDbContext _context
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>@ViewData["Title"] - Admin Panel</title>
+
+    <link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.min.css" />
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.1/font/bootstrap-icons.css">
+
+    <style>
+        :root {
+            --sidebar-bg: #1e293b;
+            --sidebar-hover: #334155;
+            --primary-blue: #0d6efd;
+            --bg-light: #f1f5f9;
+            --text-muted: #94a3b8;
+        }
+
+        body {
+            font-family: 'Inter', sans-serif;
+            background-color: var(--bg-light);
+            overflow-x: hidden;
+        }
+
+        /* SIDEBAR STYLES */
+        .sidebar {
+            width: 260px;
+            height: 100vh;
+            position: fixed;
+            background: var(--sidebar-bg);
+            color: white;
+            transition: all 0.3s;
+            z-index: 1000;
+        }
+
+        .sidebar-header {
+            padding: 20px;
+            font-weight: 700;
+            font-size: 1.25rem;
+            border-bottom: 1px solid rgba(255,255,255,0.1);
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .nav-label {
+            padding: 20px 25px 10px;
+            font-size: 0.7rem;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            color: var(--text-muted);
+            font-weight: 700;
+        }
+
+        .sidebar .nav-link {
+            color: var(--text-muted);
+            padding: 12px 25px;
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            transition: 0.3s;
+            border-left: 4px solid transparent;
+        }
+
+            .sidebar .nav-link:hover, .sidebar .nav-link.active {
+                color: white;
+                background: var(--sidebar-hover);
+                border-left-color: var(--primary-blue);
+            }
+
+            .sidebar .nav-link i {
+                font-size: 1.1rem;
+            }
+
+        /* MAIN CONTENT AREA */
+        .main-wrapper {
+            margin-left: 260px;
+            width: calc(100% - 260px);
+            transition: all 0.3s;
+        }
+
+        .top-navbar {
+            background: white;
+            height: 70px;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding: 0 30px;
+            box-shadow: 0 1px 3px rgba(0,0,0,0.05);
+        }
+
+        .content-body {
+            padding: 30px;
+        }
+
+        /* DROPDOWN NOTIFICATION STYLES */
+        .notif-dropdown {
+            width: 320px;
+            border: none;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.1);
+            border-radius: 12px;
+        }
+
+        .notif-item {
+            padding: 15px;
+            border-bottom: 1px solid #f1f5f9;
+            transition: 0.2s;
+        }
+
+            .notif-item:hover {
+                background: #f8fafc;
+            }
+
+        /* RESPONSIVE */
+        @@media (max-width: 768px) {
+            .sidebar {
+                margin-left: -260px;
+            }
+
+            .main-wrapper {
+                margin-left: 0;
+                width: 100%;
+            }
+
+            .sidebar.active {
+                margin-left: 0;
+            }
+        }
+    </style>
+</head>
+<body>
+
+    <nav class="sidebar">
+        <div class="sidebar-header">
+            <i class="bi bi-cart-fill text-primary"></i>
+            <span>MyEcommerce</span>
+        </div>
+
+        <div class="nav-label">Main Menu</div>
+        <a href="/Admin/Dashboard" class="nav-link active">
+            <i class="bi bi-speedometer2"></i> Dashboard
+        </a>
+        <a href="/Admin/Inventory" class="nav-link">
+            <i class="bi bi-box-seam"></i> Inventory
+        </a>
+
+        <div class="nav-label">Management</div>
+        <a href="/Product/Add" class="nav-link">
+            <i class="bi bi-plus-circle"></i> Add Product
+        </a>
+
+        <a href="/Admin/ProductList" class="nav-link">
+            <i class="bi bi-tags">Product List</i>
+        </a>
+        <a href="/Category/Add" class="nav-link">
+            <i class="bi bi-tags"></i> Add Category
+        </a>
+        <a href="/Account/AddUser" class="nav-link">
+            <i class="bi bi-person-plus"></i> Add User
+        </a>
+        <a href="/Admin/Orders" class="nav-link">
+            <i class="bi bi-receipt"></i> Orders
+        </a>
+
+        <div class="nav-label">System</div>
+        <a href="/Settings" class="nav-link">
+            <i class="bi bi-gear"></i> Settings
+        </a>
+        <a href="/Logout" class="nav-link text-danger">
+            <i class="bi bi-box-arrow-left"></i> Logout
+        </a>
+    </nav>
+
+    <div class="main-wrapper">
+        <header class="top-navbar">
+            <h5 class="m-0 fw-bold text-dark">@ViewData["Title"]</h5>
+
+            <div class="d-flex align-items-center gap-4">
+                <div class="dropdown">
+                    <a href="#" class="text-dark position-relative" data-bs-toggle="dropdown" id="notifBtn">
+                        <i class="bi bi-bell fs-5"></i>
+                        @{
+                            var notifCount = _context.Notifications.Count();
+                        }
+                        @if (notifCount > 0)
+                        {
+                            <span class="position-absolute top-0 start-100 translate-middle badge rounded-pill bg-danger" style="font-size: 0.6rem;">
+                                @(notifCount > 9 ? "9+" : notifCount.ToString())
+                            </span>
+                        }
+                    </a>
+                    <div class="dropdown-menu dropdown-menu-end notif-dropdown p-0" id="notifMenu">
+                        <div class="p-3 fw-bold border-bottom">Notifications</div>
+                        <div style="max-height: 350px; overflow-y: auto;">
+                            @{
+                                // Kuhaon nato ang ID sa user nga naka-login karon
+                                // Siguroha nga ang "nameIdentifier" mao ang gigamit nimo pag-save sa UserId sa DB
+                                var currentUserId = User.FindFirst(System.Security.Claims.ClaimTypes.NameIdentifier)?.Value;
+
+                                // I-filter ang listahan: Ipakita lang ang para sa current user ug dili "Admin"
+                                var recentNotifs = _context.Notifications
+                                .Where(n => n.UserId == "Admin") // Mao ni ang filter
+                                .OrderByDescending(n => n.CreatedAt)
+                                .Take(5)
+                                .ToList();
+                            }
+
+                            @if (recentNotifs.Any())
+                            {
+                                foreach (var n in recentNotifs)
+                                {
+                                    // Default icon logic
+                                    var profileImg = !string.IsNullOrEmpty(n.UserProfilePicture)
+                                    ? n.UserProfilePicture
+                                    : $"https://ui-avatars.com/api/?name=User&background=0D6EFD&color=fff";
+
+                                    <a href="@(n.TargetUrl ?? "#")" class="dropdown-item notif-item d-flex align-items-start gap-3 text-wrap border-bottom py-2">
+                                        <img src="@profileImg" class="rounded-circle" width="35" height="35" style="object-fit:cover; flex-shrink:0;">
+                                        <div class="flex-grow-1">
+                                            <div class="small fw-bold" style="line-height: 1.2;">@n.Message</div>
+                                            <div class="text-muted" style="font-size: 0.65rem; margin-top: 2px;">
+                                                <i class="bi bi-clock me-1"></i>@n.CreatedAt.ToString("MMM dd, h:mm tt")
+                                            </div>
+                                        </div>
+                                    </a>
+                                }
+                            }
+                            else
+                            {
+                                <div class="p-4 text-center text-muted small">Walay notifications para nimo, boss.</div>
+                            }
+                        </div>
+                        <a href="/Notification/Dashboard" class="d-block text-center p-2 small text-primary fw-bold border-top text-decoration-none">View All</a>
+                    </div>
+                </div>
+
+                <div class="d-flex align-items-center gap-2">
+                    <div class="text-end d-none d-md-block">
+                        <div class="small fw-bold">Administrator</div>
+                        <div class="text-muted" style="font-size: 0.7rem;">Online</div>
+                    </div>
+                    <img src="https://ui-avatars.com/api/?name=Admin&background=0D6EFD&color=fff" class="rounded-circle border" width="40">
+                </div>
+            </div>
+        </header>
+
+        <main class="content-body">
+            @RenderBody()
+        </main>
+    </div>
+
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/microsoft-signalr/6.0.1/signal.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+    <script src="~/js/signalr.min.js"></script>
+
+    <script>
+        // 1. Usa ra ka Hub Connection Setup
+        const connection = new signalR.HubConnectionBuilder()
+            .withUrl("/orderHub")
+            .withAutomaticReconnect()
+            .build();
+
+        // 2. SIGNALR EVENT: Bag-ong Order gikan sa Customer
+        connection.on("NewOrderAlert", (data) => {
+            new Audio('https://actions.google.com/sounds/v1/alarms/beep_short.ogg').play();
+            Swal.fire({
+                toast: true,
+                position: 'top-end',
+                icon: 'success',
+                title: `Bag-ong Order gikan ni ${data.customerName}!`,
+                showConfirmButton: false,
+                timer: 3000
+            });
+            // I-refresh ang page human sa 3.2 segundos aron mogawas ang bag-ong order sa grid
+            setTimeout(() => { location.reload(); }, 3200);
+        });
+
+        // 3. SIGNALR EVENT: Gi-fix nga Cancelled Order Alert
+        connection.on("OrderCancelledAlert", (data) => {
+            // Pwede ra gihapon ni nga sound, o laing tingog kung gusto nimo
+            new Audio('https://actions.google.com/sounds/v1/alarms/beep_short.ogg').play();
+            Swal.fire({
+                toast: true,
+                position: 'top-end',
+                icon: 'warning', // Gi-change ngadto sa warning icon para makabantay si admin
+                title: `Gi-cancel ni ${data.customerName} ang Order #${data.orderId}!`,
+                showConfirmButton: false,
+                timer: 3000
+            });
+            // I-refresh ang page aron mawala o mausab ang status sa order sa admin dashboard
+            setTimeout(() => { location.reload(); }, 3200);
+        });
+
+        // 4. KAUSA RA I-START ANG CONNECTION UG MO-JOIN SA GROUP
+        connection.start().then(() => {
+            console.log("SignalR Connected successfully, Brod!");
+            connection.invoke("JoinAdminGroup");
+        }).catch(err => console.error("SignalR Connection Error: ", err));
+
+        // 5. SIMPLE DROPDOWN TOGGLE (Kausa ra gi-declare para walay conflict)
+        const notifBtn = document.getElementById('notifBtn');
+        const notifMenu = document.getElementById('notifMenu');
+
+        if (notifBtn && notifMenu) {
+            notifBtn.addEventListener('click', function(e) {
+                e.preventDefault();
+                notifMenu.classList.toggle('show');
+            });
+        }
+
+        // Isira ang dropdown kung mo-click ang user sa gawas nga bahin
+        window.onclick = function(event) {
+            if (!event.target.closest('.dropdown')) {
+                if (notifMenu && notifMenu.classList.contains('show')) {
+                    notifMenu.classList.remove('show');
+                }
+            }
+        }
+    </script>
+</body>
+</html>

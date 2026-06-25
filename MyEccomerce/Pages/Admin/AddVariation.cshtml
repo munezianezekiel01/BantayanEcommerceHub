@@ -1,0 +1,100 @@
+﻿@model MyEccomerce.Models.ProductVariant
+
+@{
+    ViewData["Title"] = "Add New Variation";
+}
+
+<div class="container mt-5">
+    <div class="row justify-content-center">
+        <div class="col-lg-8">
+
+            <!-- BREADCRUMB / HEADER -->
+            <div class="d-flex justify-content-between align-items-center mb-4 border-bottom pb-3">
+                <div>
+                    <h2 class="fw-bold text-dark m-0">
+                        <i class="fas fa-tags text-info me-2"></i> Create Product Variation
+                    </h2>
+                    <p class="text-muted fs-5 mt-1">
+                        Nagdugang og variation para sa: <strong class="text-primary">@ViewBag.ProductName</strong>
+                    </p>
+                </div>
+                <a asp-action="Index" class="btn btn-outline-secondary fw-bold px-4">
+                    <i class="fas fa-arrow-left me-2"></i> Back to List
+                </a>
+            </div>
+
+            <!-- MAIN FORM CARD -->
+            <div class="card border-0 shadow rounded-3 bg-white overflow-hidden">
+                <div class="card-header bg-dark text-white py-3 px-4">
+                    <h5 class="m-0 fw-bold"><i class="fas fa-edit me-2"></i> Variation Registry Form</h5>
+                </div>
+
+                <div class="card-body p-4 bg-light-subtle">
+                    <form asp-action="AddVariation" method="post" class="row g-4">
+                        @Html.AntiForgeryToken()
+
+                        <!-- Hidden field para sa ProductId -->
+                        <input type="hidden" asp-for="ProductId" value="@ViewBag.ProductId" />
+
+                        <!-- VARIATION NAME -->
+                        <div class="col-100">
+                            <label asp-for="VariationName" class="form-label fs-5 fw-bold text-secondary">Variation Name</label>
+                            <input asp-for="VariationName" class="form-control form-control-lg p-3 border-2 fs-5" placeholder="E.g., Size: Large, Color: Red, 128GB Storage" required />
+                            <span asp-validation-for="VariationName" class="text-danger small"></span>
+                        </div>
+
+                        <!-- SKU CODE -->
+                        <div class="col-100">
+                            <label asp-for="SKU" class="form-label fs-5 fw-bold text-secondary">SKU Code <span class="text-muted fw-normal small">(Optional)</span></label>
+                            <input asp-for="SKU" class="form-control font-monospace p-3 border-2 fs-5 text-uppercase" placeholder="E.g., B-HUB-XL-001" />
+                            <span asp-validation-for="SKU" class="text-danger small"></span>
+                        </div>
+
+                        <!-- PRICE (₱) -->
+                        <div class="col-md-6">
+                            <label asp-for="Price" class="form-label fs-5 fw-bold text-success">Price (₱)</label>
+                            <div class="input-group input-group-lg">
+                                <span class="input-group-text bg-success text-white border-success fw-bold fs-4">₱</span>
+                                <input asp-for="Price" class="form-control fw-bold border-2 text-success fs-4" type="number" step="0.01" min="0" required />
+                            </div>
+                            <span asp-validation-for="Price" class="text-danger small"></span>
+                        </div>
+
+                        <!-- STOCK QTY -->
+                        <div class="col-md-6">
+                            <label asp-for="Stock" class="form-label fs-5 fw-bold text-warning">Initial Stock Qty</label>
+                            <div class="input-group input-group-lg">
+                                <span class="input-group-text bg-warning text-dark border-warning fw-bold fs-4"><i class="fas fa-boxes"></i></span>
+                                <input asp-for="Stock" class="form-control fw-bold border-2 text-dark fs-4" type="number" min="0" required />
+                            </div>
+                            <span asp-validation-for="Stock" class="text-danger small"></span>
+                        </div>
+
+                        <!-- IMAGE URL -->
+                        <div class="col-100 mb-2">
+                            <label asp-for="ImageUrl" class="form-label fs-5 fw-bold text-secondary">Variation Image URL <span class="text-muted fw-normal small">(Optional)</span></label>
+                            <input asp-for="ImageUrl" class="form-for control p-3 border-2" placeholder="https://example.com/images/variant-large.jpg" />
+                            <span asp-validation-for="ImageUrl" class="text-danger small"></span>
+                        </div>
+
+                        <hr class="my-3" />
+
+                        <!-- SUBMIT BUTTONS -->
+                        <div class="col-100 d-flex justify-content-end gap-3">
+                            <a asp-action="Index" class="btn btn-secondary btn-lg px-4 fs-5">Cancel</a>
+                            <button type="submit" class="btn btn-success btn-lg px-5 shadow-sm fs-5 fw-bold">
+                                <i class="fas fa-save me-2"></i> Save Variation
+                            </button>
+                        </div>
+                    </form>
+                </div>
+            </div>
+
+        </div>
+    </div>
+</div>
+
+@section Scripts {
+    <!-- Gi-apil nako ang built-in jQuery Validation para mo-check dretso sa browser pa lang -->
+    <partial name="_ValidationScriptsPartial" />
+}

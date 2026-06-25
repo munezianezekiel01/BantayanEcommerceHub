@@ -1,0 +1,525 @@
+﻿@model MyEccomerce.Models.CheckoutViewModel
+
+@{
+    ViewData["Title"] = "Checkout - B-Hub";
+    Layout = "_Layout";
+
+    // GI-SET NAKO OG 35 ARON MAGKATUGMA SA IMONG CONTROLLER BACKGROUND LOGIC, BOSS
+    decimal delivery = 35;
+
+    decimal subtotal = Model.CartItems?.Sum(item =>
+        (item.Variant != null ? item.Variant.Price : item.Product.Price) * item.Quantity) ?? 0;
+    decimal total = subtotal + delivery;
+
+    // Mas sigurado nga mapping gikan sa user profile tracking area
+    bool hasSavedAddress = Model.UserProfile != null && !string.IsNullOrEmpty(Model.UserProfile.Address);
+    string currentAddress = hasSavedAddress ? Model.UserProfile.Address : "";
+}
+
+<style>
+    /* Desktop vs Mobile adjustments */
+    .checkout-table thead {
+        display: table-header-group;
+    }
+
+    @@media (max-width: 767.98px) {
+        /* Hide table headers on mobile */
+        .checkout-table thead {
+            display: none;
+        }
+        /* Make each row look like a card */
+        .checkout-table tr {
+            display: block;
+            border: 1px solid #eee;
+            border-radius: 8px;
+            margin-bottom: 15px;
+            padding: 10px;
+            position: relative;
+        }
+
+        .checkout-table td {
+            display: block;
+            text-align: left !important;
+            padding: 5px 0 !important;
+            border: none;
+        }
+
+        .product-img {
+            width: 80px !important;
+            height: 80px !important;
+        }
+
+        .remove-item-btn {
+            position: absolute;
+            top: 10px;
+            right: 10px;
+        }
+    }
+
+    .remove-item-btn {
+        color: #dc3545;
+        cursor: pointer;
+        transition: 0.2s;
+        border: none;
+        background: none;
+        padding: 5px;
+    }
+
+        .remove-item-btn:hover {
+            color: #a71d2a;
+            transform: scale(1.1);
+        }
+</style>
+
+<div class="container my-4 my-md-5" style="max-width: 900px; padding-bottom: 80px;">
+    <h4 class="text-danger mb-4 fw-bold"><i class="bi bi-cart-check"></i> Checkout</h4>
+
+    @* --- ADDRESS SECTION --- *@
+    <div class="card border-0 shadow-sm mb-3 rounded-3">
+        <div style="height: 4px; background: repeating-linear-gradient(45deg, #ee4d2d, #ee4d2d 10px, #4ea3e8 10px, #4ea3e8 20px);"></div>
+        <div class="card-body">
+            <h6 class="text-danger fw-bold mb-2"><i class="bi bi-geo-alt-fill"></i> Delivery Address</h6>
+            <div class="d-flex justify-content-between align-items-start">
+                <div class="small">
+                    @if (Model.UserProfile != null)
+                    {
+                        <div class="fw-bold text-dark">@Model.UserProfile.FirstName @Model.UserProfile.LastName (+63) @Model.UserProfile.Phone</div>
+                        <div id="display-address-text" class="@(hasSavedAddress ? "text-dark" : "text-muted italic") fw-bold">
+                            @(!string.IsNullOrEmpty(currentAddress) ? currentAddress : "Palihog i-set ang imong address sa Profile o gamita ang Change button, boss.")
+                        </div>
+                    }
+                    else
+                    {
+                        <div id="display-address-text" class="text-muted fw-bold">Palihog i-set ang imong address, boss aron maka-checkout.</div>
+                    }
+                </div>
+                <button class="btn btn-sm text-primary fw-bold" data-bs-toggle="modal" data-bs-target="#addressModal">
+                    <i class="bi bi-pencil-square"></i> Change / Add
+                </button>
+            </div>
+        </div>
+    </div>
+
+    @* Hidden field binding validation marker *@
+    <input type="hidden" id="selected-delivery-address" value="@currentAddress" />
+
+    @* --- PRODUCTS SECTION --- *@
+    <div class="card border-0 shadow-sm mb-3 rounded-3 overflow-hidden">
+        <div class="card-body p-0">
+            <table class="table table-borderless align-middle mb-0 checkout-table">
+                <thead class="bg-light">
+                    <tr class="text-muted small border-bottom">
+                        <th class="ps-4 py-3">Products Ordered</th>
+                        <th class="text-center">Unit Price</th>
+                        <th class="text-center">Quantity</th>
+                        <th class="text-end pe-4">Subtotal</th>
+                        <th></th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @foreach (var item in Model.CartItems)
+                    {
+                        decimal currentUnitPrice = item.Variant != null ? item.Variant.Price : item.Product.Price;
+                        decimal rowSubtotal = currentUnitPrice * item.Quantity;
+
+                        string displayImg = (item.Variant != null && !string.IsNullOrEmpty(item.Variant.ImageUrl))
+                        ? item.Variant.ImageUrl
+                        : item.Product.ImageUrl;
+
+                        <tr id="cart-row-@item.CartId" class="border-bottom">
+                            <td class="ps-md-4">
+                                <div class="d-flex align-items-center">
+                                    <img src="@displayImg" class="product-img me-3 border rounded shadow-sm"
+                                         style="width:60px; height:60px; object-fit: cover;"
+                                         alt="@item.Product.Name">
+
+                                    <div style="flex: 1;">
+                                        <div class="fw-bold text-dark text-truncate mb-0" style="max-width: 200px;">
+                                            @item.Product.Name
+                                        </div>
+                                        @if (item.Variant != null)
+                                        {
+                                            <div class="text-muted" style="font-size: 0.75rem;">
+                                                <i class="bi bi-tag-fill me-1"></i>Variation: @item.Variant.VariationName
+                                            </div>
+                                        }
+                                    </div>
+                                </div>
+                            </td>
+
+                            <td class="text-md-center">
+                                <span class="d-md-none text-muted small">Price: </span>
+                                ₱@currentUnitPrice.ToString("N2")
+                            </td>
+
+                            <td class="text-md-center">
+                                <div class="d-flex justify-content-md-center align-items-center mt-2 mt-md-0">
+                                    <div class="input-group input-group-sm" style="width: 100px; border: 1px solid #ddd; border-radius: 6px; overflow: hidden;">
+                                        <button class="btn btn-light btn-sm border-0" onclick="updateQty(@item.CartId, -1)">&minus;</button>
+                                        <input type="text" id="qty-@item.CartId" class="form-control text-center border-0 bg-white fw-bold small" value="@item.Quantity" readonly>
+                                        <button class="btn btn-light btn-sm border-0" onclick="updateQty(@item.CartId, 1)">&plus;</button>
+                                    </div>
+                                </div>
+                            </td>
+
+                            <td class="text-md-end pe-md-4 fw-bold text-danger">
+                                <span class="d-md-none text-muted small fw-normal">Total: </span>
+                                ₱<span id="subtotal-@item.CartId">@rowSubtotal.ToString("N2")</span>
+                            </td>
+
+                            <td class="text-center">
+                                <button class="remove-item-btn" onclick="confirmRemove(@item.CartId)" title="Remove Item">
+                                    <i class="bi bi-trash3-fill fs-5"></i>
+                                </button>
+                            </td>
+                        </tr>
+                    }
+                </tbody>
+            </table>
+        </div>
+    </div>
+
+    @* --- SUMMARY SECTION --- *@
+    <div class="card border-0 shadow-sm rounded-3">
+        <div class="card-body">
+            <div class="d-flex justify-content-between align-items-center mb-3">
+                <h6 class="mb-0 fw-bold">Payment Method</h6>
+                <div class="text-primary fw-bold small"><i class="bi bi-cash-coin"></i> Cash on Delivery</div>
+            </div>
+            <hr class="opacity-25">
+            <div class="row justify-content-end">
+                <div class="col-md-5">
+                    <div class="d-flex justify-content-between mb-2 small">
+                        <span class="text-muted">Merchandise Subtotal:</span>
+                        <span class="text-dark">₱<span id="merch-subtotal">@subtotal.ToString("N2")</span></span>
+                    </div>
+                    <div class="d-flex justify-content-between mb-2 small">
+                        <span class="text-muted">Delivery Fee:</span>
+                        <span class="text-dark">₱@delivery.ToString("N2")</span>
+                    </div>
+                    <div class="d-flex justify-content-between mt-3 align-items-center">
+                        <span class="h6 fw-bold mb-0">Total Payment:</span>
+                        <span class="h4 text-danger fw-bold mb-0">₱<span id="grand-total">@total.ToString("N2")</span></span>
+                    </div>
+                </div>
+            </div>
+
+            <button class="btn btn-danger btn-lg px-5 mt-4 fw-bold w-100 d-none d-md-block shadow" onclick="placeOrder()">
+                PLACE ORDER
+            </button>
+        </div>
+    </div>
+</div>
+
+@* --- STICKY FOOTER FOR MOBILE --- *@
+<div class="fixed-bottom bg-white border-top p-3 d-md-none shadow-lg">
+    <div class="container d-flex align-items-center justify-content-between">
+        <div>
+            <div class="text-muted small">Total Payment</div>
+            <div class="h5 text-danger fw-bold mb-0">₱<span id="mobile-grand-total">@total.ToString("N2")</span></div>
+        </div>
+        <button class="btn btn-danger fw-bold px-4 py-2 shadow" onclick="placeOrder()">PLACE ORDER</button>
+    </div>
+</div>
+
+
+@* ==========================================
+   MODAL POPUP FOR SELECTING DELIVERY ADDRESS
+   ========================================== *@
+<div class="modal fade" id="addressModal" data-bs-backdrop="static" tabindex="-1" aria-labelledby="addressModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered">
+        <div class="modal-content border-0 shadow">
+            <div class="modal-header bg-danger text-white">
+                <h5 class="modal-title fw-bold" id="addressModalLabel"><i class="bi bi-geo-alt-fill"></i> Pilia ang Address sa Paghatod</h5>
+                <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+
+                <div class="mb-3">
+                    <label class="form-label fw-bold small text-muted">Lungsod / Munisipyo</label>
+                    <select id="select-lungsod" class="form-select">
+                        <option value="">-- Pilia ang Lungsod --</option>
+                        <option value="Bantayan">Bantayan</option>
+                        <option value="Madredejos">Madredejos</option>
+                        <option value="Santa Fe">Santa Fe</option>
+                    </select>
+                </div>
+
+                <div class="mb-3">
+                    <label class="form-label fw-bold small text-muted">Barangay</label>
+                    <select id="select-barangay" class="form-select" disabled>
+                        <option value="">-- Pilia una ang Lungsod --</option>
+                    </select>
+                </div>
+
+                <div class="mb-3">
+                    <label class="form-label fw-bold small text-muted">Sitio / Street / Landmark</label>
+                    <select id="select-sitio" class="form-select" disabled>
+                        <option value="">-- Pilia una ang Barangay --</option>
+                    </select>
+                </div>
+
+                <div class="mb-2">
+                    <label class="form-label fw-bold small text-muted">Lain pang detalye (E.g. Kolor sa Balay, Tapos sa Skwelahan)</label>
+                    <input type="text" id="address-details" class="form-control" placeholder="Optional: Duol sa basketbolan, atbang tindahan..." />
+                </div>
+
+            </div>
+            <div class="modal-footer bg-light">
+                <button type="button" class="btn btn-secondary fw-bold text-white" data-bs-dismiss="modal">I-cancel</button>
+                <button type="button" class="btn btn-danger fw-bold" onclick="saveSelectedAddress()">I-save Address</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script>
+    const locationData = {
+        "Bantayan": {
+            "Poblacion": ["Sitio Baybay", "Sitio Laray", "Sitio Puting Buhangin", "Suba"],
+            "Binaobao": ["Sitio Suba", "Sitio Pag-utlan", "Centro"],
+            "Sillon": ["Sitio Tambis", "Sitio Tugas", "Purok 3"],
+            "Baigad": ["Sitio Mahayahay", "Sitio Tunga"],
+            "Ticad": ["Sitio Proper", "Sitio Crossing", "Biabas"],
+            "Sulangan": ["Sitio Lipayran", "Purok 1", "Proper"],
+            "Kabac": ["Sitio Moalboal", "Proper"]
+        },
+        "Madredejos": {
+            "Poblacion": ["Sitio Kota", "Sitio Lawis", "Bunakan"],
+            "Mancilang": ["Sitio Bunakan", "Sitio Riverside", "Purok Sunflower"],
+            "Kaongkod": ["Sitio Granada", "Sitio Malbago", "Sito Proper"],
+            "Talangnan": ["Sitio Tarong", "Sitio Kabangahan", "Purok Mabinuligon"],
+            "Pili": ["Sitio Proper", "Sitio Mahayahay"]
+        },
+        "Santa Fe": {
+            "Poblacion": ["Sitio Pantalan", "Sitio Central", "Talise"],
+            "Talisay": ["Sitio Maricaban", "Sitio Sugar Beach", "Proper"],
+            "Pooc": ["Sitio Ogtong", "Sitio Paradise", "Sito Bobon"],
+            "Okoy": ["Sitio Proper", "Sitio Nonoc", "Purok 4"],
+            "Balidbid": ["Sitio Maribu", "Proper"]
+        }
+    };
+
+    const selectLungsod = document.getElementById('select-lungsod');
+    const selectBarangay = document.getElementById('select-barangay');
+    const selectSitio = document.getElementById('select-sitio');
+    const addressDetails = document.getElementById('address-details');
+
+    selectLungsod.addEventListener('change', function() {
+        const lungsod = this.value;
+        selectBarangay.innerHTML = '<option value="">-- Pilia ang Barangay --</option>';
+        selectSitio.innerHTML = '<option value="">-- Pilia una ang Barangay --</option>';
+        selectBarangay.disabled = true;
+        selectSitio.disabled = true;
+
+        if(lungsod && locationData[lungsod]) {
+            const barangays = Object.keys(locationData[lungsod]);
+            barangays.forEach(brgy => {
+                const opt = document.createElement('option');
+                opt.value = brgy;
+                opt.textContent = brgy;
+                selectBarangay.appendChild(opt);
+            });
+            selectBarangay.disabled = false;
+        }
+    });
+
+    selectBarangay.addEventListener('change', function() {
+        const lungsod = selectLungsod.value;
+        const barangay = this.value;
+        selectSitio.innerHTML = '<option value="">-- Pilia ang Sitio --</option>';
+        selectSitio.disabled = true;
+
+        if(lungsod && barangay && locationData[lungsod][barangay]) {
+            const sitios = locationData[lungsod][barangay];
+            sitios.forEach(sitio => {
+                const opt = document.createElement('option');
+                opt.value = sitio;
+                opt.textContent = sitio;
+                selectSitio.appendChild(opt);
+            });
+            selectSitio.disabled = false;
+        }
+    });
+
+    function saveSelectedAddress() {
+        const lungsod = selectLungsod.value;
+        const barangay = selectBarangay.value;
+        const sitio = selectSitio.value;
+        const extra = addressDetails.value.trim();
+
+        if(!lungsod || !barangay || !sitio) {
+            Swal.fire('Kulangan, boss!', 'Palihog pilia ang Lungsod, Barangay, ug Sitio.', 'warning');
+            return;
+        }
+
+        let fullAddress = `${sitio}, Brgy. ${barangay}, ${lungsod}, Cebu`;
+        if(extra !== "") {
+            fullAddress += ` (${extra})`;
+        }
+
+        document.getElementById('selected-delivery-address').value = fullAddress;
+
+        const displayText = document.getElementById('display-address-text');
+        displayText.innerText = fullAddress;
+        displayText.classList.remove('text-muted', 'italic');
+        displayText.classList.add('text-dark');
+
+        const modalEl = document.getElementById('addressModal');
+        const modalInst = bootstrap.Modal.getInstance(modalEl) || new bootstrap.Modal(modalEl);
+        modalInst.hide();
+
+        Swal.fire('Address Saved!', 'Nabag-o na ang imong delivery address, boss.', 'success');
+    }
+
+    function placeOrder() {
+        const address = document.getElementById('selected-delivery-address').value.trim();
+
+        if (address === "") {
+            Swal.fire({
+                icon: 'error',
+                title: 'Walay Address, Boss!',
+                text: 'Palihog isulod o pilia una ang imong Delivery Address sa dili pa mupadayon.',
+                confirmButtonColor: '#dc3545',
+                footer: '<button class="btn btn-sm btn-primary" onclick="openAddressModalDirectly()">Pilia ang Address Karon</button>'
+            });
+            return;
+        }
+
+        Swal.fire({
+            title: 'I-confirm ang order?',
+            text: `Ipadala kini sa address: ${address}`,
+            icon: 'question',
+            showCancelButton: true,
+            confirmButtonColor: '#ee4d2d',
+            confirmButtonText: 'Order Now!'
+        }).then((result) => {
+            if (result.isConfirmed) {
+                $.post('/Cart/PlaceOrder', { deliveryAddress: address }, function (data) {
+                    if (data.success) {
+                        Swal.fire({
+                            icon: 'success',
+                            title: 'Order Placed!',
+                            text: 'Salamat sa pagpalit sa B-Hub!',
+                            timer: 2000,
+                            showConfirmButton: false
+                        }).then(() => window.location.href = "/");
+                    } else {
+                        Swal.fire('Error', data.message, 'error');
+                    }
+                });
+            }
+        });
+    }
+
+    function openAddressModalDirectly() {
+        Swal.close();
+        const myModal = new bootstrap.Modal(document.getElementById('addressModal'));
+        myModal.show();
+    }
+
+    function refreshTotals(data) {
+        if(data.newSubtotal) document.getElementById(`subtotal-${data.cartId}`).innerText = data.newSubtotal;
+        if(data.merchSubtotal) document.getElementById('merch-subtotal').innerText = data.merchSubtotal;
+        if(data.grandTotal) {
+            document.getElementById('grand-total').innerText = data.grandTotal;
+            if(document.getElementById('mobile-grand-total')) {
+                document.getElementById('mobile-grand-total').innerText = data.grandTotal;
+            }
+        }
+    }
+
+    function updateQty(cartId, change) {
+        const qtyInput = document.getElementById(`qty-${cartId}`);
+        let currentQty = parseInt(qtyInput.value) || 1;
+        let step = 1;
+        let newQty = currentQty + (change * step);
+        if (newQty < 1) return;
+
+        const formData = new FormData();
+        formData.append('cartId', cartId);
+        formData.append('newQty', newQty);
+
+        fetch('/Cart/UpdateQuantity', { method: 'POST', body: formData })
+        .then(res => res.json())
+        .then(data => {
+            if(data.success) {
+                qtyInput.value = newQty;
+                data.cartId = cartId;
+                refreshTotals(data);
+                if(typeof updateBadge === "function") updateBadge();
+            } else {
+                Swal.fire('Error', data.message, 'error');
+            }
+        })
+        .catch(err => console.error("Error updating quantity:", err));
+    }
+
+    function confirmRemove(cartId) {
+        Swal.fire({
+            title: 'I-remove ni, boss?',
+            text: "Matangtang ni sa imong listahan sa B-Hub.",
+            icon: 'warning',
+            showCancelButton: true,
+            confirmButtonColor: '#dc3545',
+            confirmButtonText: 'Yes, tangtanga!',
+            cancelButtonText: 'Ayaw lang'
+        }).then((result) => {
+            if (result.isConfirmed) {
+                $.post('/Cart/RemoveItem', { id: cartId }, function(data) {
+                    $(`#cart-row-${cartId}`).fadeOut(300, function() {
+                        $(this).remove();
+                        location.reload();
+                    });
+                });
+            }
+        });
+    }
+
+
+
+
+        function saveSelectedAddress() {
+        const lungsod = selectLungsod.value;
+        const barangay = selectBarangay.value;
+        const sitio = selectSitio.value;
+        const extra = addressDetails.value.trim();
+
+        if(!lungsod || !barangay || !sitio) {
+            Swal.fire('Kulangan, boss!', 'Palihog pilia ang Lungsod, Barangay, ug Sitio.', 'warning');
+            return;
+        }
+
+        // Paghimo sa kompleto nga string address format
+        let fullAddress = `${sitio}, Brgy. ${barangay}, ${lungsod}, Cebu`;
+        if(extra !== "") {
+            fullAddress += ` (${extra})`;
+        }
+
+        // --- MAO KINI ANG KINAHANGLANON: IPADALA SA CONTROLLER ARON MO-INSERT SA DB ---
+        $.post('/Cart/SaveDeliveryAddress', { address: fullAddress }, function(response) {
+            if(response.success) {
+                // I-update ang UI Text ug Hidden Input Field kon malampuson ang DB insertion
+                document.getElementById('selected-delivery-address').value = fullAddress;
+
+                const displayText = document.getElementById('display-address-text');
+                displayText.innerText = fullAddress;
+                displayText.classList.remove('text-muted', 'italic');
+                displayText.classList.add('text-dark');
+
+                // Isira ang Modal Popup
+                const modalEl = document.getElementById('addressModal');
+                const modalInst = bootstrap.Modal.getInstance(modalEl) || new bootstrap.Modal(modalEl);
+                modalInst.hide();
+
+                Swal.fire('Address Saved Permanent!', 'Na-save na sa imong Profile sa database, boss.', 'success');
+            } else {
+                Swal.fire('Error sa Database', response.message, 'error');
+            }
+        }).fail(function() {
+            Swal.fire('Server Error', 'Dili ma-contact ang server sa pag-save sa address, boss.', 'error');
+        });
+    }
+</script>
+
+

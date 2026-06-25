@@ -1,0 +1,194 @@
+﻿@model MyEccomerce.Models.Order
+@{
+    Layout = "_AdminLayout";
+}
+
+<div class="container mt-4">
+    <div class="d-flex justify-content-between align-items-center">
+        <h2>Order Details #@Model.OrderId</h2>
+        <a href="/Admin/Orders" class="btn btn-outline-secondary btn-sm">
+            <i class="fas fa-arrow-left"></i> Balik sa Listahan
+        </a>
+    </div>
+    <hr />
+
+    <div class="row mb-4 shadow-sm p-3 bg-white rounded align-items-center">
+        <div class="col-md-6 d-flex align-items-center">
+            <div class="mr-3">
+                @if (!string.IsNullOrEmpty(Model.User?.ImageUrl))
+                {
+                    <img src="@Model.User.ImageUrl"
+                         alt="Profile"
+                         class="rounded-circle me-3"
+                         style="width: 70px; height: 70px; object-fit: cover; border: 3px solid #f8f9fa;" />
+                }
+                else
+                {
+                    <img src="https://ui-avatars.com/api/?name=@(Model.User?.FirstName)+@(Model.User?.LastName)&background=random&color=fff&size=128"
+                         alt="Initial"
+                         class="rounded-circle me-3"
+                         style="width: 70px; height: 70px; border: 3px solid #f8f9fa;" />
+                }
+            </div>
+            <div>
+                <h4 class="mb-0">@Model.User?.FirstName @Model.User?.LastName</h4>
+                <p class="mb-0 text-muted small"><strong>Petsa:</strong> @Model.OrderDate.ToString("MMM dd, yyyy hh:mm tt")</p>
+            </div>
+        </div>
+
+        <div class="col-md-6 text-md-right mt-3 mt-md-0">
+            <h5 class="mb-1 text-muted small uppercase">Status sa Order</h5>
+            @{
+                var badgeClass = Model.Status == "Pending" ? "badge-warning" :
+                Model.Status == "Cancelled" ? "badge-danger" : "badge-success";
+            }
+            <span class="badge badge-pill @badgeClass" style="font-size: 1.1rem; padding: 10px 20px;">
+                @Model.Status
+            </span>
+        </div>
+    </div>
+
+    <div class="row mb-4">
+        <div class="col-md-6">
+            <div class="card h-100 shadow-sm">
+                <div class="card-body">
+                    <h5 class="card-title text-primary"><i class="fas fa-map-marker-alt"></i> Delivery Location</h5>
+                    <hr />
+                    <p class="mb-1"><strong>Address/Landmark:</strong> @Model.DeliveryAddress</p>
+                    <p class="mb-1"><strong>Phone Number:</strong> @Model.User?.Phone</p>
+                    <p class="mb-0"><strong>Payment Method:</strong> <span class="badge  border text-uppercase">COD</span></p>
+                </div>
+            </div>
+        </div>
+
+        <div class="col-md-6">
+            <div class="card h-100 shadow-sm border-primary">
+                <div class="card-body">
+                    <h5 class="card-title text-primary"><i class="fas fa-cogs"></i> Admin Actions</h5>
+                    <hr />
+                    <div class="d-flex flex-wrap gap-2">
+                        @Html.AntiForgeryToken()
+
+                        @if (Model.Status == "Completed")
+                        {
+                            <div class="alert alert-success w-100">
+                                <i class="fas fa-check-circle"></i> <strong>Transaction Closed:</strong> Kini nga order malampuson nga nahatod ug nabayran na.
+                            </div>
+                        }
+                        else if (Model.Status == "Cancelled")
+                        {
+                            <div class="alert alert-secondary w-100">
+                                <i class="fas fa-ban"></i> Kini nga order gi-cancel na.
+                            </div>
+                        }
+                        else
+                        {
+                            @if (Model.Status == "Pending")
+                            {
+                                <button onclick="updateStatus(@Model.OrderId, 'Confirmed')" class="btn btn-success mr-2 mb-2">
+                                    <i class="fas fa-check"></i> Dawaton ang Order
+                                </button>
+                            }
+
+                            @if (Model.Status == "Confirmed")
+                            {
+                                <button onclick="updateStatus(@Model.OrderId, 'Out for Delivery')" class="btn btn-info text-white mr-2 mb-2">
+                                    <i class="fas fa-motorcycle"></i> I-deliver Na
+                                </button>
+                            }
+
+                            @if (Model.Status == "Out for Delivery")
+                            {
+                                <button onclick="updateStatus(@Model.OrderId, 'Completed')" class="btn btn-primary mr-2 mb-2">
+                                    <i class="fas fa-money-bill-wave"></i> Nadawat na & Bayad Na
+                                </button>
+                            }
+
+                            <button onclick="updateStatus(@Model.OrderId, 'Cancelled')" class="btn btn-outline-danger mb-2">
+                                <i class="fas fa-times"></i> I-cancel
+                            </button>
+                        }
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="card shadow-sm">
+        <div class="card-header bg-light">
+            <h4 class="mb-0">Items Ordered</h4>
+        </div>
+        <div class="card-body p-0">
+            <table class="table table-hover mb-0">
+                <thead class="thead-light">
+                    <tr>
+                        <th>Product</th>
+                        <th class="text-center">Quantity</th>
+                        <th class="text-right">Price</th>
+                        <th class="text-right">Total</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @foreach (var item in Model.OrderItems)
+                    {
+                        <tr>
+                            <td>
+                                <div class="d-flex align-items-center">
+                                    <img src="@(item.Variant != null && !string.IsNullOrEmpty(item.Variant.ImageUrl)
+                                                     ? item.Variant.ImageUrl
+                                                     : (!string.IsNullOrEmpty(item.Product?.ImageUrl)
+                                                         ? item.Product.ImageUrl
+                                                         : "/images/no-image.png"))"
+                                         alt="Product Image"
+                                         style="width: 50px; height: 50px; object-fit: cover; border-radius: 5px; margin-right: 15px;" />
+                                    <div>
+                                        <strong>@item.Product?.Name</strong> <br />
+                                        <small class="text-muted">
+                                            @(item.Variant != null ? $"Variant: {item.Variant.VariationName}" : "Standard")
+                                        </small>
+                                    </div>
+                                </div>
+                            </td>
+                            <td class="text-center">@item.Quantity</td>
+                            <td class="text-right">₱@item.Price.ToString("N2")</td>
+                            <td class="text-right">₱@((item.Quantity * item.Price).ToString("N2"))</td>
+                        </tr>
+                    }
+                </tbody>
+                <tfoot class="bg-light">
+                    <tr>
+                        <td colspan="3" class="text-right"><strong>Grand Total:</strong></td>
+                        <td class="text-right"><h4 class="text-primary mb-0">₱@Model.TotalAmount.ToString("N2")</h4></td>
+                    </tr>
+                </tfoot>
+            </table>
+        </div>
+    </div>
+</div>
+
+<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+<script>
+    function updateStatus(id, newStatus) {
+        let alertMsg = "I-update ang order status ngadto sa '" + newStatus + "'?";
+
+        if (confirm(alertMsg)) {
+            // Kuhaa ang anti-forgery token para sa security
+            var token = $('input[name="__RequestVerificationToken"]').val();
+
+            $.post('/Admin/UpdateStatus', {
+                orderId: id,
+                status: newStatus,
+                __RequestVerificationToken: token
+            }, function (res) {
+                if (res.success) {
+                    location.reload();
+                } else {
+                    alert("Ops! Naay problema: " + (res.message || "Unknown error"));
+                }
+            }).fail(function(xhr) {
+                console.error(xhr.responseText);
+                alert("Error: Dili ma-contact ang server. Siguroha nga husto ang URL.");
+            });
+        }
+    }
+</script>
