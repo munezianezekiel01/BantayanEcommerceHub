@@ -2,6 +2,8 @@
 using Microsoft.AspNetCore.Authentication.Cookies;
 using Microsoft.AspNetCore.Authentication.Facebook;
 using Microsoft.AspNetCore.Authentication.Google;
+using Microsoft.AspNetCore.Hosting;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using MyEccomerce.Data;
@@ -13,10 +15,13 @@ namespace MyEccomerce.Controllers
     public class AccountController : Controller
     {
         private readonly ApplicationDbContext _context;
-
-        public AccountController(ApplicationDbContext context)
+        private readonly SignInManager<MyEccomerce.Models.User> _signInManager;
+        //private readonly ApplicationDbContext _context;
+        private readonly IWebHostEnvironment _webHostEnvironment;
+        public AccountController(ApplicationDbContext context, IWebHostEnvironment webHostEnvironment)
         {
             _context = context;
+            _webHostEnvironment = webHostEnvironment;
         }
 
         [HttpPost]
@@ -452,5 +457,71 @@ namespace MyEccomerce.Controllers
             ViewBag.Error = "Palihug susiha ang mga sayop sa porma, boss.";
             return View("~/Pages/Public/Signup.cshtml", model);
         }
-    }
+
+
+
+        [HttpPost]
+        public async Task<IActionResult> UpdateProfilePicture(IFormFile profilePic, int userId)
+        {
+            // 1. Siguroha nga naay file nga nadawat
+            if (profilePic == null || profilePic.Length == 0)
+            {
+                return Json(new { success = false, message = "Walay file nga nadawat." });
+            }
+
+            // 2. DIREKTA NA NIMO MA-FIND GAMIT ANG INT ID!
+            var user = await _context.Users.FindAsync(userId);
+
+            if (user == null)
+            {
+                return Json(new { success = false, message = "Wala makit-i ang user." });
+            }
+
+            try
+            {
+                // 3. I-setup ang folder path sa wwwroot/images/profiles
+                string uploadsFolder = Path.Combine(_webHostEnvironment.WebRootPath, "images", "profiles");
+
+                if (!Directory.Exists(uploadsFolder))
+                {
+                    Directory.CreateDirectory(uploadsFolder);
+                }
+
+                // 4. Paghimo og unique filename gamit ang UserId ug random string
+                string extension = Path.GetExtension(profilePic.FileName);
+                string uniqueFileName = $"profile_{user.UserId}_{Guid.NewGuid().ToString().Substring(0, 8)}{extension}";
+                string filePath = Path.Combine(uploadsFolder, uniqueFileName);
+
+                // 5. I-delete ang daan nga picture kung gikan sa profiles o UserProfile para dili mapuno ang server
+                if (!string.IsNullOrEmpty(user.ImageUrl) &&
+                    (user.ImageUrl.StartsWith("/images/profiles/") || user.ImageUrl.StartsWith("/images/UserProfile/")))
+                {
+                    string oldFilePath = Path.Combine(_webHostEnvironment.WebRootPath, user.ImageUrl.TrimStart('/'));
+                    if (System.IO.File.Exists(oldFilePath))
+                    {
+                        System.IO.File.Delete(oldFilePath);
+                    }
+                }
+
+                // 6. I-save ang bag-ong file sa disk
+                using (var fileStream = new FileStream(filePath, FileMode.Create))
+                {
+                    await profilePic.CopyToAsync(fileStream);
+                }
+
+                // 7. I-update ang ImageUrl column sa Database
+                user.ImageUrl = $"/images/profiles/{uniqueFileName}";
+                _context.Users.Update(user);
+                await _context.SaveChangesAsync();
+
+                // I-return ang bag-ong path sa JavaScript
+                return Json(new { success = true, newImageUrl = user.ImageUrl });
+            }
+            catch (Exception ex)
+            {
+                return Json(new { success = false, message = $"Naay sayop sa server: {ex.Message}" });
+            }
+        }
+    
+}
 }

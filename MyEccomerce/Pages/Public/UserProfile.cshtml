@@ -1,5 +1,7 @@
 ﻿@model MyEccomerce.Models.User
-
+@{
+    var genderClaim = User.FindFirst("Gender")?.Value;
+}
 @* ========================================== *@
 @* INLINE CUSTOM STYLE: IMONG COLOR PALETTE  *@
 @* ========================================== *@
@@ -63,14 +65,27 @@
             <div class="col-md-4 col-lg-3">
                 <div class="card border-0 shadow-sm mb-4" style="border-radius: 8px; border-top: 4px solid var(--king-blue) !important;">
                     <div class="card-body text-center p-4">
-                        <img src="@(!string.IsNullOrEmpty(Model.ImageUrl) ? Model.ImageUrl : "https://ui-avatars.com/api/?name=" + Model.FirstName + "&background=0047AB&color=fff&size=128")"
-                             class="rounded-circle border mb-3"
-                             style="width: 90px; height: 90px; object-fit: cover; border-color: var(--king-blue) !important; border-width: 2px !important;"
-                             alt="Profile Picture">
+
+                        <!-- PROFILE IMAGE WRAPPER WITH CAMERA ICON -->
+                        <div class="position-relative d-inline-block mb-3">
+                            <img id="profilePictureImage"
+                                 src="@(!string.IsNullOrEmpty(Model.ImageUrl) ? Model.ImageUrl : "https://ui-avatars.com/api/?name=" + Model.FirstName + "&background=0047AB&color=fff&size=128")"
+                                 class="rounded-circle border"
+                                 style="width: 90px; height: 90px; object-fit: cover; border-color: var(--king-blue) !important; border-width: 2px !important; cursor: pointer;" @* <-- GI-DUGANG ANG CURSOR POINTER *@
+                                 alt="Profile Picture">
+
+                            <!-- Hidden File Input -->
+                            <input type="file" id="profilePictureInput" accept="image/*" style="display: none;" />
+
+                            <!-- Camera Button Overlay -->
+                            <button data-user-id="@Model.UserId"  type="button" id="btnChangePicture" class="btn btn-sm btn-primary rounded-circle position-absolute d-flex align-items-center justify-content-center shadow-sm"
+                                    style="bottom: 0; right: 0; width: 28px; height: 28px; padding: 0; background-color: var(--king-blue) !important; border: 2px solid #fff; z-index: 10;">
+                                <i class="bi bi-camera-fill" style="font-size: 0.85rem; color: #fff;"></i>
+                            </button>
+                        </div>
 
                         <h5 class="fw-bold mb-1" style="color: #212529;">@Model.FirstName @Model.LastName</h5>
 
-                        @* Green badge para sa imong personal status (Active Dev Growth) *@
                         <span class="badge fw-semibold rounded-pill px-3 py-1" style="font-size: 0.65rem; background-color: rgba(46, 125, 50, 0.15) !important; color: var(--dev-green) !important;">
                             <i class="bi bi-patch-check-fill me-1"></i> Active Member
                         </span>
@@ -255,7 +270,30 @@
                             <p class="text-muted small">Listahan sa mga nadawat nga bayad ug mga e-receipts gikan sa B-Hub.</p>
                             <hr class="opacity-25">
                             <div class="alert text-dark border-0 p-3 bg-cyan-glow d-flex align-items-center gap-2" style="border-radius: 6px; font-weight: 500;">
-                                <i class="bi bi-info-circle-fill"></i> Magsunod kini nga feature sa sunod nga update, Boss Ian!
+                               
+                                    
+
+                                
+                                @{
+                                    string greeting = $" {Model.FirstName}";
+                                     @if (!string.IsNullOrEmpty(genderClaim))
+                                {
+
+                                if (genderClaim.Equals("male", StringComparison.OrdinalIgnoreCase))
+                                {
+                                greeting = $" Sir, {Model.LastName}";
+                                }
+                                else if (genderClaim.Equals("female", StringComparison.OrdinalIgnoreCase))
+                                {
+                                greeting = $" Ma'am, {Model.FirstName}";
+                                }
+                                }
+
+                                    <p>
+                                    <i class="bi bi-info-circle-fill"></i>   Magsunod kini nga feature sa sunod nga update, @greeting </p>
+       
+                                }
+                               
                             </div>
                         </div>
                     </div>
@@ -358,6 +396,23 @@
     </div>
 </div>
 
+@* Modal Kung eclick ang prof pc *@
+<div class="modal fade" id="imagePreviewModal" tabindex="-1" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered d-flex justify-content-center">
+        <div class="modal-content border-0 bg-transparent shadow-none text-center position-relative">
+
+            <button type="button" class="btn-close btn-close-white position-absolute" data-bs-dismiss="modal" aria-label="Close"
+                    style="z-index: 1060; top: -20px; right: -10px; width: 35px; height: 35px; border-radius: 50%; box-shadow: 0px 4px 10px "></button>
+
+            <div class="p-2">
+                <img id="previewLargeImage" src="" class="shadow-lg border border-4 border-white"
+                     style="width: 280px; height: 280px; object-fit: cover; border-radius: 2px;">
+            </div>
+
+        </div>
+    </div>
+</div>
+
 @* ========================================== *@
 @* JAVASCRIPT / AJAX FETCH FOR VIEWING MODAL   *@
 @* ========================================== *@
@@ -425,4 +480,90 @@
                 });
         }
     </script>
+
+
+    <script>
+        const userId = btnChangePicture.getAttribute('data-user-id');
+
+
+        
+        document.addEventListener("DOMContentLoaded", function () {
+            const btnChangePicture = document.getElementById('btnChangePicture');
+            const fileInput = document.getElementById('profilePictureInput');
+            const imgProfile = document.getElementById('profilePictureImage');
+
+            if (btnChangePicture && fileInput) {
+                btnChangePicture.addEventListener('click', function () {
+                    fileInput.click();
+                });
+
+                fileInput.addEventListener('change', function () {
+                    if (this.files && this.files[0]) {
+                        const file = this.files[0];
+
+                        if (!file.type.startsWith('image/')) {
+                            Swal.fire('Error', 'Palihug pagpili og saktong hulagway (Image)!', 'error');
+                            return;
+                        }
+
+                        // Kuhaa ang UserId gikan sa data-user-id attribute sa button
+                        const userId = btnChangePicture.getAttribute('data-user-id');
+
+                        // I-log sa console para makita nimo sa Inspect Element kung naay sulod ba gyud o 'null'
+                        console.log("Gi-upload nga UserId:", userId);
+
+                        const formData = new FormData();
+                        formData.append("profilePic", file);
+                        formData.append("userId", userId); // <--- I-APIL ANG USERID SULOD SA FORMDATA
+
+                        // Limpyo nga URL, wala nay query string extension
+                        fetch('/Account/UpdateProfilePicture', {
+                            method: 'POST',
+                            body: formData
+                        })
+                        .then(response => response.json())
+                        .then(data => {
+                            if (data.success) {
+                                imgProfile.src = data.newImageUrl + '?t=' + new Date().getTime();
+
+                                Swal.fire({
+                                    toast: true,
+                                    position: 'top-end',
+                                    icon: 'success',
+                                    title: 'Profile picture na-update na!',
+                                    showConfirmButton: false,
+                                    timer: 2500
+                                });
+                            } else {
+                                Swal.fire('Error', data.message || 'Naay sayop sa pag-upload.', 'error');
+                            }
+                        })
+                        .catch(error => {
+                            console.error('Error:', error);
+                            Swal.fire('Error', 'Dili ma-contact ang server.', 'error');
+                        });
+                    }
+                });
+            }
+        });
+    
+    </script>
+
+   <script>
+               // 3. Inig click sa mismong profile picture, ipakita ang dako nga preview modal
+        const imgProfile = document.getElementById('profilePictureImage');
+        const previewLargeImage = document.getElementById('previewLargeImage');
+        const imagePreviewModalElement = document.getElementById('imagePreviewModal');
+
+        if (imgProfile && previewLargeImage && imagePreviewModalElement) {
+            imgProfile.addEventListener('click', function () {
+                // Kuhaa ang src sa gamay nga picture ug i-pasa sa modal preview image
+                previewLargeImage.src = imgProfile.src;
+
+                // I-show ang Bootstrap Modal
+                var previewModal = new bootstrap.Modal(imagePreviewModalElement);
+                previewModal.show();
+            });
+        }
+   </script>
 }

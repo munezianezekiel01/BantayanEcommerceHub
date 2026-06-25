@@ -10,6 +10,7 @@ wwwroot\images\products\5101822d-496c-4e6b-8402-be4c6b34d905.jpg
 wwwroot\images\products\577209f6-b064-48a9-9096-43a6c6ebd9d2.jpg
 wwwroot\images\products\bd11419e-9cf5-40cc-9ed8-f27ae1e0f93d.jpg
 wwwroot\images\products\fe8fb335-f752-419c-856d-fbc86288a8ef.jpg
+wwwroot\images\profiles\profile_17_171bd0a5.jpg
 wwwroot\images\UserProfile\67348301_460960921153180_5400011747891347456_n.jpg
 wwwroot\images\UserProfile\default-avatar.png
 wwwroot\js\CartSidebar.js

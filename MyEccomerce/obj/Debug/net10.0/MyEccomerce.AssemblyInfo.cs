@@ -14,7 +14,7 @@ using System.Reflection;
 [assembly: System.Reflection.AssemblyCompanyAttribute("MyEccomerce")]
 [assembly: System.Reflection.AssemblyConfigurationAttribute("Debug")]
 [assembly: System.Reflection.AssemblyFileVersionAttribute("1.0.0.0")]
-[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+ff2a1b5f38d512c01bdd4d3d90e769c869f1920e")]
+[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+4a7158585ecb8655e128ba271b085a42cbf95356")]
 [assembly: System.Reflection.AssemblyProductAttribute("MyEccomerce")]
 [assembly: System.Reflection.AssemblyTitleAttribute("MyEccomerce")]
 [assembly: System.Reflection.AssemblyVersionAttribute("1.0.0.0")]
