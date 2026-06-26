@@ -3,6 +3,10 @@
   "WorkspaceRootPath": "C:\\Users\\munez\\source\\repos\\MyEccomerce\\",
   "Documents": [
     {
+      "AbsoluteMoniker": "D:0:0:{9B1743BD-7698-0B54-778F-A66D53743F75}|MyEccomerce\\MyEccomerce.csproj|c:\\users\\munez\\source\\repos\\myeccomerce\\myeccomerce\\pages\\public\\home.cshtml||{40D31677-CBC0-4297-A9EF-89D907823A98}",
+      "RelativeMoniker": "D:0:0:{9B1743BD-7698-0B54-778F-A66D53743F75}|MyEccomerce\\MyEccomerce.csproj|solutionrelative:myeccomerce\\pages\\public\\home.cshtml||{40D31677-CBC0-4297-A9EF-89D907823A98}"
+    },
+    {
       "AbsoluteMoniker": "D:0:0:{9B1743BD-7698-0B54-778F-A66D53743F75}|MyEccomerce\\MyEccomerce.csproj|c:\\users\\munez\\source\\repos\\myeccomerce\\myeccomerce\\pages\\shared\\_layout.cshtml||{40D31677-CBC0-4297-A9EF-89D907823A98}",
       "RelativeMoniker": "D:0:0:{9B1743BD-7698-0B54-778F-A66D53743F75}|MyEccomerce\\MyEccomerce.csproj|solutionrelative:myeccomerce\\pages\\shared\\_layout.cshtml||{40D31677-CBC0-4297-A9EF-89D907823A98}"
     },
@@ -111,10 +115,6 @@
       "RelativeMoniker": "D:0:0:{9B1743BD-7698-0B54-778F-A66D53743F75}|MyEccomerce\\MyEccomerce.csproj|solutionrelative:myeccomerce\\controllers\\productscontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     },
     {
-      "AbsoluteMoniker": "D:0:0:{9B1743BD-7698-0B54-778F-A66D53743F75}|MyEccomerce\\MyEccomerce.csproj|c:\\users\\munez\\source\\repos\\myeccomerce\\myeccomerce\\pages\\public\\home.cshtml||{40D31677-CBC0-4297-A9EF-89D907823A98}",
-      "RelativeMoniker": "D:0:0:{9B1743BD-7698-0B54-778F-A66D53743F75}|MyEccomerce\\MyEccomerce.csproj|solutionrelative:myeccomerce\\pages\\public\\home.cshtml||{40D31677-CBC0-4297-A9EF-89D907823A98}"
-    },
-    {
       "AbsoluteMoniker": "D:0:0:{9B1743BD-7698-0B54-778F-A66D53743F75}|MyEccomerce\\MyEccomerce.csproj|c:\\users\\munez\\source\\repos\\myeccomerce\\myeccomerce\\models\\product.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
       "RelativeMoniker": "D:0:0:{9B1743BD-7698-0B54-778F-A66D53743F75}|MyEccomerce\\MyEccomerce.csproj|solutionrelative:myeccomerce\\models\\product.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     },
@@ -134,37 +134,24 @@
       "DocumentGroups": [
         {
           "DockedWidth": 200,
-          "SelectedChildIndex": 0,
+          "SelectedChildIndex": 7,
           "Children": [
             {
               "$type": "Document",
-              "DocumentIndex": 0,
+              "DocumentIndex": 1,
               "Title": "_Layout.cshtml",
               "DocumentMoniker": "C:\\Users\\munez\\source\\repos\\MyEccomerce\\MyEccomerce\\Pages\\Shared\\_Layout.cshtml",
               "RelativeDocumentMoniker": "MyEccomerce\\Pages\\Shared\\_Layout.cshtml",
               "ToolTip": "C:\\Users\\munez\\source\\repos\\MyEccomerce\\MyEccomerce\\Pages\\Shared\\_Layout.cshtml",
               "RelativeToolTip": "MyEccomerce\\Pages\\Shared\\_Layout.cshtml",
-              "ViewState": "AgIAANgBAACAZmZmZmYowHABAAAKAAAAAAAAAA==",
+              "ViewState": "AgIAAFwAAAAAmJmZmZkZwGgAAAAAAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000759|",
               "WhenOpened": "2026-06-15T09:11:08.263Z",
               "EditorCaption": ""
             },
             {
               "$type": "Document",
-              "DocumentIndex": 1,
-              "Title": "AccountController.cs",
-              "DocumentMoniker": "C:\\Users\\munez\\source\\repos\\MyEccomerce\\MyEccomerce\\Controllers\\AccountController.cs",
-              "RelativeDocumentMoniker": "MyEccomerce\\Controllers\\AccountController.cs",
-              "ToolTip": "C:\\Users\\munez\\source\\repos\\MyEccomerce\\MyEccomerce\\Controllers\\AccountController.cs",
-              "RelativeToolTip": "MyEccomerce\\Controllers\\AccountController.cs",
-              "ViewState": "AgIAAA4AAAAAAAAAAAAxwBgAAAAJAAAAAAAAAA==",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2026-06-15T01:20:25.622Z",
-              "EditorCaption": ""
-            },
-            {
-              "$type": "Document",
-              "DocumentIndex": 10,
+              "DocumentIndex": 11,
               "Title": "UpdateStatusDto.cs",
               "DocumentMoniker": "C:\\Users\\munez\\source\\repos\\MyEccomerce\\MyEccomerce\\Models\\UpdateStatusDto.cs",
               "RelativeDocumentMoniker": "MyEccomerce\\Models\\UpdateStatusDto.cs",
@@ -176,7 +163,7 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 5,
+              "DocumentIndex": 6,
               "Title": "Program.cs",
               "DocumentMoniker": "C:\\Users\\munez\\source\\repos\\MyEccomerce\\MyEccomerce\\Program.cs",
               "RelativeDocumentMoniker": "MyEccomerce\\Program.cs",
@@ -188,7 +175,7 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 3,
+              "DocumentIndex": 4,
               "Title": "MediaScreen.css",
               "DocumentMoniker": "C:\\Users\\munez\\source\\repos\\MyEccomerce\\MyEccomerce\\wwwroot\\css\\MediaScreen.css",
               "RelativeDocumentMoniker": "MyEccomerce\\wwwroot\\css\\MediaScreen.css",
@@ -200,7 +187,7 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 2,
+              "DocumentIndex": 3,
               "Title": "UserProfile.cshtml",
               "DocumentMoniker": "C:\\Users\\munez\\source\\repos\\MyEccomerce\\MyEccomerce\\Pages\\Public\\UserProfile.cshtml",
               "RelativeDocumentMoniker": "MyEccomerce\\Pages\\Public\\UserProfile.cshtml",
@@ -212,7 +199,7 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 7,
+              "DocumentIndex": 8,
               "Title": "Signup.cshtml",
               "DocumentMoniker": "C:\\Users\\munez\\source\\repos\\MyEccomerce\\MyEccomerce\\Pages\\Public\\Signup.cshtml",
               "RelativeDocumentMoniker": "MyEccomerce\\Pages\\Public\\Signup.cshtml",
@@ -224,7 +211,7 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 8,
+              "DocumentIndex": 9,
               "Title": "User.cs",
               "DocumentMoniker": "C:\\Users\\munez\\source\\repos\\MyEccomerce\\MyEccomerce\\Models\\User.cs",
               "RelativeDocumentMoniker": "MyEccomerce\\Models\\User.cs",
@@ -236,7 +223,32 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 4,
+              "DocumentIndex": 0,
+              "Title": "Home.cshtml",
+              "DocumentMoniker": "C:\\Users\\munez\\source\\repos\\MyEccomerce\\MyEccomerce\\Pages\\Public\\Home.cshtml",
+              "RelativeDocumentMoniker": "MyEccomerce\\Pages\\Public\\Home.cshtml",
+              "ToolTip": "C:\\Users\\munez\\source\\repos\\MyEccomerce\\MyEccomerce\\Pages\\Public\\Home.cshtml",
+              "RelativeToolTip": "MyEccomerce\\Pages\\Public\\Home.cshtml",
+              "ViewState": "AgIAAMIAAADAmZmZmZkhwP8AAAAAAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000759|",
+              "WhenOpened": "2026-06-05T00:36:00.682Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 2,
+              "Title": "AccountController.cs",
+              "DocumentMoniker": "C:\\Users\\munez\\source\\repos\\MyEccomerce\\MyEccomerce\\Controllers\\AccountController.cs",
+              "RelativeDocumentMoniker": "MyEccomerce\\Controllers\\AccountController.cs",
+              "ToolTip": "C:\\Users\\munez\\source\\repos\\MyEccomerce\\MyEccomerce\\Controllers\\AccountController.cs",
+              "RelativeToolTip": "MyEccomerce\\Controllers\\AccountController.cs",
+              "ViewState": "AgIAAA4AAAAAAAAAAAAxwBgAAAAJAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2026-06-15T01:20:25.622Z"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 5,
               "Title": "SearchInputMobile.js",
               "DocumentMoniker": "C:\\Users\\munez\\source\\repos\\MyEccomerce\\MyEccomerce\\wwwroot\\js\\SearchInputMobile.js",
               "RelativeDocumentMoniker": "MyEccomerce\\wwwroot\\js\\SearchInputMobile.js",
@@ -248,7 +260,7 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 6,
+              "DocumentIndex": 7,
               "Title": "Signin.cshtml",
               "DocumentMoniker": "C:\\Users\\munez\\source\\repos\\MyEccomerce\\MyEccomerce\\Pages\\Public\\Signin.cshtml",
               "RelativeDocumentMoniker": "MyEccomerce\\Pages\\Public\\Signin.cshtml",
@@ -260,7 +272,7 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 9,
+              "DocumentIndex": 10,
               "Title": "AdminOrdersController.cs",
               "DocumentMoniker": "C:\\Users\\munez\\source\\repos\\MyEccomerce\\MyEccomerce\\Controllers\\Api\\AdminOrdersController.cs",
               "RelativeDocumentMoniker": "MyEccomerce\\Controllers\\Api\\AdminOrdersController.cs",
@@ -272,7 +284,7 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 13,
+              "DocumentIndex": 14,
               "Title": "ProductVariant.cs",
               "DocumentMoniker": "C:\\Users\\munez\\source\\repos\\MyEccomerce\\MyEccomerce\\Models\\ProductVariant.cs",
               "RelativeDocumentMoniker": "MyEccomerce\\Models\\ProductVariant.cs",
@@ -284,7 +296,7 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 14,
+              "DocumentIndex": 15,
               "Title": "NotificationLogic.js",
               "DocumentMoniker": "C:\\Users\\munez\\source\\repos\\MyEccomerce\\MyEccomerce\\wwwroot\\js\\NotificationLogic.js",
               "RelativeDocumentMoniker": "MyEccomerce\\wwwroot\\js\\NotificationLogic.js",
@@ -296,7 +308,7 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 11,
+              "DocumentIndex": 12,
               "Title": "AcountApiController.cs",
               "DocumentMoniker": "C:\\Users\\munez\\source\\repos\\MyEccomerce\\MyEccomerce\\Controllers\\Api\\AcountApiController.cs",
               "RelativeDocumentMoniker": "MyEccomerce\\Controllers\\Api\\AcountApiController.cs",
@@ -308,7 +320,7 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 17,
+              "DocumentIndex": 18,
               "Title": "OrderHub.cs",
               "DocumentMoniker": "C:\\Users\\munez\\source\\repos\\MyEccomerce\\MyEccomerce\\Hubs\\OrderHub.cs",
               "RelativeDocumentMoniker": "MyEccomerce\\Hubs\\OrderHub.cs",
@@ -320,7 +332,7 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 12,
+              "DocumentIndex": 13,
               "Title": "OrdersController.cs",
               "DocumentMoniker": "C:\\Users\\munez\\source\\repos\\MyEccomerce\\MyEccomerce\\Controllers\\OrdersController.cs",
               "RelativeDocumentMoniker": "MyEccomerce\\Controllers\\OrdersController.cs",
@@ -332,7 +344,7 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 15,
+              "DocumentIndex": 16,
               "Title": "NotificationCleanUpService.cs",
               "DocumentMoniker": "C:\\Users\\munez\\source\\repos\\MyEccomerce\\MyEccomerce\\Services\\NotificationCleanUpService.cs",
               "RelativeDocumentMoniker": "MyEccomerce\\Services\\NotificationCleanUpService.cs",
@@ -344,7 +356,7 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 16,
+              "DocumentIndex": 17,
               "Title": "Order.cs",
               "DocumentMoniker": "C:\\Users\\munez\\source\\repos\\MyEccomerce\\MyEccomerce\\Models\\Order.cs",
               "RelativeDocumentMoniker": "MyEccomerce\\Models\\Order.cs",
@@ -356,7 +368,7 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 21,
+              "DocumentIndex": 22,
               "Title": "OrderDetails.cshtml",
               "DocumentMoniker": "C:\\Users\\munez\\source\\repos\\MyEccomerce\\MyEccomerce\\Pages\\Admin\\OrderDetails.cshtml",
               "RelativeDocumentMoniker": "MyEccomerce\\Pages\\Admin\\OrderDetails.cshtml",
@@ -368,7 +380,7 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 18,
+              "DocumentIndex": 19,
               "Title": "MyOrders.cshtml",
               "DocumentMoniker": "C:\\Users\\munez\\source\\repos\\MyEccomerce\\MyEccomerce\\Pages\\Public\\MyOrders.cshtml",
               "RelativeDocumentMoniker": "MyEccomerce\\Pages\\Public\\MyOrders.cshtml",
@@ -380,7 +392,7 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 20,
+              "DocumentIndex": 21,
               "Title": "MyOrders.css",
               "DocumentMoniker": "C:\\Users\\munez\\source\\repos\\MyEccomerce\\MyEccomerce\\wwwroot\\css\\MyOrders.css",
               "RelativeDocumentMoniker": "MyEccomerce\\wwwroot\\css\\MyOrders.css",
@@ -392,7 +404,7 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 19,
+              "DocumentIndex": 20,
               "Title": "_AdminLayout.cshtml",
               "DocumentMoniker": "C:\\Users\\munez\\source\\repos\\MyEccomerce\\MyEccomerce\\Pages\\Shared\\_AdminLayout.cshtml",
               "RelativeDocumentMoniker": "MyEccomerce\\Pages\\Shared\\_AdminLayout.cshtml",
@@ -404,7 +416,7 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 22,
+              "DocumentIndex": 23,
               "Title": "Details.cshtml",
               "DocumentMoniker": "C:\\Users\\munez\\source\\repos\\MyEccomerce\\MyEccomerce\\Pages\\Public\\Details.cshtml",
               "RelativeDocumentMoniker": "MyEccomerce\\Pages\\Public\\Details.cshtml",
@@ -416,7 +428,7 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 23,
+              "DocumentIndex": 24,
               "Title": "HomeController.cs",
               "DocumentMoniker": "C:\\Users\\munez\\source\\repos\\MyEccomerce\\MyEccomerce\\Controllers\\HomeController.cs",
               "RelativeDocumentMoniker": "MyEccomerce\\Controllers\\HomeController.cs",
@@ -428,7 +440,7 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 24,
+              "DocumentIndex": 25,
               "Title": "OrderItem.cs",
               "DocumentMoniker": "C:\\Users\\munez\\source\\repos\\MyEccomerce\\MyEccomerce\\Models\\OrderItem.cs",
               "RelativeDocumentMoniker": "MyEccomerce\\Models\\OrderItem.cs",
@@ -440,7 +452,7 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 25,
+              "DocumentIndex": 26,
               "Title": "NotificationController.cs",
               "DocumentMoniker": "C:\\Users\\munez\\source\\repos\\MyEccomerce\\MyEccomerce\\Controllers\\NotificationController.cs",
               "RelativeDocumentMoniker": "MyEccomerce\\Controllers\\NotificationController.cs",
@@ -453,18 +465,6 @@
             {
               "$type": "Document",
               "DocumentIndex": 27,
-              "Title": "Home.cshtml",
-              "DocumentMoniker": "C:\\Users\\munez\\source\\repos\\MyEccomerce\\MyEccomerce\\Pages\\Public\\Home.cshtml",
-              "RelativeDocumentMoniker": "MyEccomerce\\Pages\\Public\\Home.cshtml",
-              "ToolTip": "C:\\Users\\munez\\source\\repos\\MyEccomerce\\MyEccomerce\\Pages\\Public\\Home.cshtml",
-              "RelativeToolTip": "MyEccomerce\\Pages\\Public\\Home.cshtml",
-              "ViewState": "AgIAAAMBAACANTMzMzMrwCMBAAAMAAAAAAAAAA==",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000759|",
-              "WhenOpened": "2026-06-05T00:36:00.682Z"
-            },
-            {
-              "$type": "Document",
-              "DocumentIndex": 26,
               "Title": "ProductsController.cs",
               "DocumentMoniker": "C:\\Users\\munez\\source\\repos\\MyEccomerce\\MyEccomerce\\Controllers\\ProductsController.cs",
               "RelativeDocumentMoniker": "MyEccomerce\\Controllers\\ProductsController.cs",

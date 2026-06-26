@@ -196,15 +196,71 @@
 
 <div id="heroSlider" class="carousel slide hero-carousel" data-bs-ride="carousel">
 
-    <div class="category-nav bg-white border-top overflow-auto py-2">
-        <div class="container d-flex gap-3">
-            <a href="/" class="small text-dark text-decoration-none fw-medium text-nowrap">Tanan</a>
+    <style>
+        /* Tagoon ang scrollbar para sa Chrome, Safari, ug Opera */
+        .no-scrollbar::-webkit-scrollbar {
+            display: none;
+        }
+
+        /* Tagoon ang scrollbar para sa IE, Edge, ug Firefox */
+        .no-scrollbar {
+            -ms-overflow-style: none; /* IE ug Edge */
+            scrollbar-width: none; /* Firefox */
+            -webkit-overflow-scrolling: touch; /* Para hapsay ang pag-scroll sa mobile */
+        }
+
+        /* Gi-align ang icon ug text aron nindot tan-awon */
+        .category-item {
+            display: inline-flex;
+            align-items: center;
+            gap: 0.5rem; /* Space sa icon ug text */
+            position: relative;
+            padding-top: 4px;
+            padding-bottom: 4px;
+            cursor: pointer;
+        }
+
+            /* Hover effect sa Text ug Icon: Mahimo silang Blue */
+            .category-item:hover a,
+            .category-item:hover i {
+                color: #0d6efd !important; /* Bootstrap Blue (Puyde nimo usbon ang hex code kung naay specific blue ka nga gusto) */
+                transition: color 0.2s ease-in-out;
+            }
+
+            /* Pag-andam sa badilis (underline) gamit ang ::after */
+            .category-item::after {
+                content: '';
+                position: absolute;
+                bottom: 0;
+                left: 0;
+                width: 100%;
+                height: 2px; /* Gibagon sa badilis */
+                background-color: #0d6efd; /* Color sa badilis (Blue) */
+                transform: scaleX(0); /* Itago una ang badilis sa sugod */
+                transform-origin: bottom left;
+                transition: transform 0.25s ease-out; /* Hapsay nga animation inig gawas */
+            }
+
+            /* Mogawas ang badilis kung i-hover ang tibuok category-item */
+            .category-item:hover::after {
+                transform: scaleX(1); /* Mo-stretch ang badilis gikan sa kilid */
+            }
+    </style>
+
+    <div class="category-nav bg-white border-top overflow-auto py-4 no-scrollbar">
+        <div class="container d-flex align-items-center gap-4">
+            <!-- Tanan Link (Giputos sab og category-item aron maapil sa epekto) -->
+            <div class="category-item">
+                <a href="/" class="small text-dark text-decoration-none fw-medium text-nowrap">Tanan</a>
+            </div>
+
+            <!-- Loop sa mga Categories -->
             @foreach (var category in categories)
             {
-                @* <i class="bi @ViewBag.CategoryIcon fs-2"></i> *@
-                <a href="/Home/Category/@category.CategoryId" class="small text-dark text-decoration-none fw-medium text-nowrap">@category.Name</a>
-
-
+                <div class="category-item">
+                    <i class="bi @category.IconClass fs-5 text-secondary"></i>
+                    <a href="/Home/Category/@category.CategoryId" class="small text-dark text-decoration-none fw-medium text-nowrap">@category.Name</a>
+                </div>
             }
         </div>
     </div>
