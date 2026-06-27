@@ -221,6 +221,9 @@
 </script>
 
 <div class="container">
+   <input type="hidden" id="currentUserId" value="@ViewBag.CurrentUserId" />
+<input type="hidden" id="currentProductId" value="@Model.ProductId" />
+
    
     <div class="product-details-card">
         <div class="row">
@@ -252,6 +255,10 @@
                     </div>
                     <div class="vr"></div>
                     <span class="text-muted small">Sold: <strong>@Model.SoldCount</strong></span>
+                    <div class="vr"></div>
+                    <span class="text-muted small d-flex align-items-center gap-1">
+                        <i class="bi bi-eye text-secondary fs-6"></i> Views: <strong>@Model.ViewCount</strong>
+                    </span>
                     <span id="stockStatus" class="stock-badge in-stock">
                         <i class="bi bi-check-circle-fill"></i> <span id="displayStock">@Model.Stock</span> @unitLabel
                     </span>
@@ -478,3 +485,89 @@
         }
     });
 </script>
+
+
+        <script>
+
+           // --- 1. GUEST ID SYSTEM ---
+    if (!localStorage.getItem('bhub_guest_id')) {
+        let randomId = 'GUEST-' + Math.random().toString(36).substring(2, 11).toUpperCase() + '-' + Date.now();
+        localStorage.setItem('bhub_guest_id', randomId);
+    }
+    let myGuestId = localStorage.getItem('bhub_guest_id');
+
+    // --- 2. TIME TRACKER VARIABLES (KINI ANG IMPORTANTE NGA FIX, BOSS!) ---
+    let secondsSpent = 0;
+    let trackerInterval = 0; // <<< KINI DAPAT KAAUGALINGON NGA DEKLARASYON SA GAWAS SA FUNCTION!
+
+       
+
+    // 1. Sugdan ang timer inig load sa page
+    function startTracking() {
+        secondsSpent = 0; // reset
+        trackerInterval = setInterval(function () {
+            secondsSpent++;
+            console.log("Time spent:", secondsSpent); // Para makita nimo sa console nga nag-ihap siya
+        }, 1000);
+    }
+
+    // 2. Tawgon lang kini INIG BIYA sa user sa page (pananglitan, sa `beforeunload` event)
+    function sendTimeToDatabase() {
+        // I-check kon abot ba og 2 segundos pataas
+        if (secondsSpent < 2) {
+            console.warn("Tracking skipped: Wala kaabot og 2 segundos.");
+            return;
+        }
+
+        if (trackerInterval) {
+            clearInterval(trackerInterval);
+        }
+
+        let registeredUserId = document.getElementById('currentUserId')?.value || "";
+        let anonymousGuestId = (typeof myGuestId !== 'undefined') ? myGuestId : "GUEST_USER";
+        let productId = document.getElementById('currentProductId')?.value || 0;
+
+        let url = "/Product/SaveTimeSpent";
+        let formData = new FormData();
+        formData.append("authUserId", registeredUserId);
+        formData.append("guestSessionId", anonymousGuestId);
+        formData.append("productId", productId);
+        formData.append("seconds", secondsSpent); // Karon, dili na kini 0
+
+        fetch(url, {
+            method: "POST",
+            body: formData,
+            keepalive: true
+        }).catch(err => console.error("Fetch tracking error:", err));
+    }
+
+    // Mo-andar inig sulod sa page
+    window.addEventListener('DOMContentLoaded', (event) => {
+        startTracking();
+    });
+
+    // Mo-send sa data inig close o biya sa page
+    window.addEventListener('beforeunload', function () {
+        sendTimeToDatabase();
+    });
+
+    // Pagbira sa hitabo sa pagsira sa tab o window
+    document.addEventListener("visibilitychange", function() {
+        if (document.visibilityState === "hidden") { sendTimeToDatabase(); }
+    });
+    window.addEventListener("pagehide", function() { sendTimeToDatabase(); });
+
+    // 4. Sync Selection (Clicking Thumbnails)
+    function syncSelection(imgUrl, thumb, variantId) {
+        document.getElementById('mainProductImage').src = imgUrl;
+        document.querySelectorAll('.thumb-item').forEach(t => t.classList.remove('active-thumb'));
+        thumb.classList.add('active-thumb');
+
+        if(variantId !== '0') {
+            const btn = document.getElementById('btn-v-' + variantId);
+            if(btn) selectVariant(btn, false);
+        }
+    }
+
+   
+        </script>

@@ -7,17 +7,17 @@ using System.Security.Claims;
 
 namespace MyEccomerce.Controllers
 {
-    
-        public class ProductsController : Controller
+
+    public class ProductsController : Controller
+    {
+        public readonly ApplicationDbContext _context;
+
+
+        public ProductsController(ApplicationDbContext context)
         {
-            public readonly ApplicationDbContext _context;
 
-
-            public ProductsController(ApplicationDbContext context)
-            {
-
-                _context = context;
-            }
+            _context = context;
+        }
 
 
         [Route("Product/Details/{id}")]
@@ -32,6 +32,10 @@ namespace MyEccomerce.Controllers
 
             if (product == null) return NotFound();
 
+            product.ViewCount += 1;
+            _context.Products.Update(product); // Siguradoha nga e-update ang product tracker
+            await _context.SaveChangesAsync();
+
             // 2. KUHAON ANG USER PARA SA LAYOUT (Gi-optimize ug gi-AsNoTracking sab)
             var email = User.FindFirstValue(ClaimTypes.Email);
             if (!string.IsNullOrEmpty(email))
@@ -42,6 +46,7 @@ namespace MyEccomerce.Controllers
                     .FirstOrDefaultAsync(u => u.Email == email);
 
                 ViewBag.CurrentUser = user;
+                ViewBag.CurrentUserId = user.UserId;
             }
 
             // Siguradoha nga dili null ang UnitName (Fallback value)
@@ -55,7 +60,7 @@ namespace MyEccomerce.Controllers
 
         [HttpGet]
 
-        
+
         [HttpGet]
         [Route("Products/GetSearchSuggestions")]
         [HttpGet]
@@ -79,5 +84,58 @@ namespace MyEccomerce.Controllers
 
             return Json(suggestions);
         }
+
+        [HttpPost]
+        [Route("Product/SaveTimeSpent")]
+        [IgnoreAntiforgeryToken]
+        public async Task<IActionResult> SaveTimeSpent()
+        {
+            try
+            {
+                // Mas luwas ug sigurado kon mano-mano natong kuhaon gikan sa Form request data
+                var requestForm = Request.Form;
+
+                string authUserId = requestForm["authUserId"];
+                string guestSessionId = requestForm["guestSessionId"];
+
+                int.TryParse(requestForm["productId"], out int productId);
+                int.TryParse(requestForm["seconds"], out int seconds);
+
+                // 1. I-log kon unsa gyuy sulod sa nadawat
+                if (productId == 0 || seconds == 0)
+                {
+                    return BadRequest(new
+                    {
+                        success = false,
+                        message = $"Kulang o sipyat ang parsing! ProductId={productId}, Seconds={seconds}"
+                    });
+                }
+
+                if (seconds < 2)
+                {
+                    return BadRequest(new { success = false, message = $"Gi-block kay {seconds}s ra." });
+                }
+
+                string finalUserId = !string.IsNullOrEmpty(authUserId) ? authUserId : guestSessionId;
+
+                var viewLog = new ProductViewLog
+                {
+                    UserId = finalUserId,
+                    ProductId = productId,
+                    SecondsSpent = seconds,
+                    ViewDateTime = DateTime.Now
+                };
+
+                _context.productViewLogs.Add(viewLog);
+                await _context.SaveChangesAsync();
+
+                return Ok(new { success = true });
+            }
+            catch (Exception ex)
+            {
+                string errorText = ex.InnerException != null ? ex.InnerException.Message : ex.Message;
+                return StatusCode(500, new { success = false, message = errorText });
+            }
+        }
     }
-    }
+}

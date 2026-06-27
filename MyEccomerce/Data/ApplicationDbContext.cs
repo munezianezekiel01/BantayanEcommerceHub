@@ -20,6 +20,8 @@ namespace MyEccomerce.Data
         public DbSet<OrderItem> OrderItems { get; set; }
 
         public DbSet<Category> Categories { get; set; }
+
+        public DbSet<ProductViewLog> productViewLogs { get; set; }
          
         public DbSet<InventoryLog> InventoryLogs { get; set; }
         public DbSet<Notification> Notifications { get; set; }

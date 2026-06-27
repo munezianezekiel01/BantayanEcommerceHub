@@ -1,0 +1,219 @@
+﻿:root {
+    --bg-main: #ffffff;
+    --bg-secondary: #f8fafc;
+    --text-dark: #0f172a;
+    --text-muted: #64748b;
+    --accent: #2563eb;
+    --border: #e2e8f0;
+}
+
+body {
+    margin-top: 100px;
+    background-color: var(--bg-main);
+    font-family: 'Inter', -apple-system, sans-serif;
+    color: var(--text-dark);
+    margin: 0;
+    overflow-x: hidden;
+}
+
+/* --- HERO SLIDER --- */
+.hero-carousel {
+    background: linear-gradient(180deg, #f1f5f9 0%, #ffffff 100%);
+    border-bottom: 1px solid var(--border);
+}
+
+.carousel-item {
+    padding: 30px 0 40px 0;
+}
+
+.hero-img {
+    width: 100%;
+    height: 200px;
+    object-fit: cover;
+    border-radius: 15px;
+    box-shadow: 0 10px 20px rgba(0,0,0,0.08);
+}
+
+/* --- CATEGORY SCROLLER (MOBILE OPTIMIZED) --- */
+.category-wrapper {
+    /* KINI ANG PINAKAPORMANTE NGA LINE */
+    display: block !important;
+    position: sticky;
+    top: 60px; /* I-adjust ni para dili matabunan sa imong Main Navbar */
+    z-index: 1020; /* Kinahanglan mas taas kaysa sa uban elements */
+    background: #ffffff; /* Solid white para dili transparent sa mobile */
+    backdrop-filter: blur(10px);
+    padding: 12px 0;
+    border-bottom: 1px solid var(--border);
+}
+
+.category-container {
+    display: flex;
+    gap: 8px;
+    overflow-x: auto;
+    white-space: nowrap;
+    scrollbar-width: none; /* Firefox */
+    -ms-overflow-style: none; /* IE/Edge */
+    padding: 0 15px;
+}
+
+    .category-container::-webkit-scrollbar {
+        display: none;
+    }
+/* Chrome/Safari */
+
+.category-pill {
+    padding: 8px 18px;
+    background-color: #f1f5f9;
+    border-radius: 50px;
+    color: var(--text-dark);
+    font-size: 0.85rem;
+    font-weight: 600;
+    text-decoration: none;
+    border: 1px solid var(--border);
+    transition: all 0.2s ease;
+}
+
+    .category-pill.active, .category-pill:active {
+        background-color: var(--accent);
+        color: white;
+        border-color: var(--accent);
+    }
+
+/* --- PRODUCT GRID --- */
+.card-clean {
+    background: #fff;
+    border: 1px solid var(--border);
+    border-radius: 12px;
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+    transition: transform 0.1s ease;
+    text-decoration: none !important;
+    color: inherit;
+}
+
+    .card-clean:active {
+        transform: scale(0.96);
+    }
+
+.img-container {
+    width: 100%;
+    aspect-ratio: 1 / 1;
+    overflow: hidden;
+    border-radius: 12px 12px 0 0;
+    background: #f8fafc;
+}
+
+    .img-container img {
+        width: 100%;
+        height: 100%;
+        object-fit: cover;
+    }
+
+.card-body-clean {
+    padding: 10px;
+    flex-grow: 1;
+}
+
+.p-category {
+    font-size: 0.65rem;
+    font-weight: 700;
+    color: var(--accent);
+    text-transform: uppercase;
+    display: block;
+}
+
+.p-name {
+    font-size: 0.85rem;
+    font-weight: 600;
+    line-height: 1.25;
+    margin: 4px 0 8px 0;
+    display: -webkit-box;
+    -webkit-line-clamp: 2;
+    -webkit-box-orient: vertical;
+    overflow: hidden;
+    height: 2.5em;
+}
+
+.p-price {
+    font-size: 1rem;
+    font-weight: 800;
+    color: var(--text-dark);
+}
+
+/* --- DESKTOP TWEAKS --- */
+@media (min-width: 992px) {
+    .carousel-item {
+        padding: 60px 0;
+    }
+
+    .hero-img {
+        height: 350px;
+    }
+
+    .p-name {
+        font-size: 0.95rem;
+    }
+}
+
+/* Sa Home.cshtml */
+.hero-carousel {
+    position: relative;
+    z-index: 1; /* Ubos lang ni siya */
+}
+
+/* Sigurohon nga ang product grid dili sad mopa-ibabaw */
+.container.mt-4 {
+    position: relative;
+    z-index: 1;
+}
+
+/* Tagoon ang scrollbar para sa Chrome, Safari, ug Opera */
+.no-scrollbar::-webkit-scrollbar {
+    display: none;
+}
+
+/* Tagoon ang scrollbar para sa IE, Edge, ug Firefox */
+.no-scrollbar {
+    -ms-overflow-style: none; /* IE ug Edge */
+    scrollbar-width: none; /* Firefox */
+    -webkit-overflow-scrolling: touch; /* Para hapsay ang pag-scroll sa mobile */
+}
+
+/* Gi-align ang icon ug text aron nindot tan-awon */
+.category-item {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.5rem; /* Space sa icon ug text */
+    position: relative;
+    padding-top: 4px;
+    padding-bottom: 4px;
+    cursor: pointer;
+}
+
+    /* Hover effect sa Text ug Icon: Mahimo silang Blue */
+    .category-item:hover a,
+    .category-item:hover i {
+        color: #0d6efd !important; /* Bootstrap Blue (Puyde nimo usbon ang hex code kung naay specific blue ka nga gusto) */
+        transition: color 0.2s ease-in-out;
+    }
+
+    /* Pag-andam sa badilis (underline) gamit ang ::after */
+    .category-item::after {
+        content: '';
+        position: absolute;
+        bottom: 0;
+        left: 0;
+        width: 100%;
+        height: 2px; /* Gibagon sa badilis */
+        background-color: #0d6efd; /* Color sa badilis (Blue) */
+        transform: scaleX(0); /* Itago una ang badilis sa sugod */
+        transform-origin: bottom left;
+        transition: transform 0.25s ease-out; /* Hapsay nga animation inig gawas */
+    }
+
+    /* Mogawas ang badilis kung i-hover ang tibuok category-item */
+    .category-item:hover::after {
+        transform: scaleX(1); /* Mo-stretch ang badilis gikan sa kilid */
+    }

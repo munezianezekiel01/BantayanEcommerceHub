@@ -390,3 +390,4 @@ C:\Users\munez\source\repos\MyEccomerce\MyEccomerce\obj\Debug\net10.0\MyEccomerc
 C:\Users\munez\source\repos\MyEccomerce\MyEccomerce\obj\Debug\net10.0\MyEccomerce.genruntimeconfig.cache
 C:\Users\munez\source\repos\MyEccomerce\MyEccomerce\obj\Debug\net10.0\ref\MyEccomerce.dll
 C:\Users\munez\source\repos\MyEccomerce\MyEccomerce\obj\Debug\net10.0\MyEccomerce.sourcelink.json
+C:\Users\munez\source\repos\MyEccomerce\MyEccomerce\obj\Debug\net10.0\compressed\oxkl54a379-{0}-1ome9z7g5m-1ome9z7g5m.gz

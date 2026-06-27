@@ -41,6 +41,10 @@ namespace MyEccomerce.Models
         // Kani ang UnitName, dapat gyud ni nullable string
         public string? UnitName { get; set; }
 
+        public int ViewCount { get; set; } = 0;
         public virtual ICollection<ProductVariant> ProductVariants { get; set; } = new List<ProductVariant>();
+    
+    
+    
     }
 }
