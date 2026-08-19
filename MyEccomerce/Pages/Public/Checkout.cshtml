@@ -16,60 +16,7 @@
     string currentAddress = hasSavedAddress ? Model.UserProfile.Address : "";
 }
 
-<style>
-    /* Desktop vs Mobile adjustments */
-    .checkout-table thead {
-        display: table-header-group;
-    }
-
-    @@media (max-width: 767.98px) {
-        /* Hide table headers on mobile */
-        .checkout-table thead {
-            display: none;
-        }
-        /* Make each row look like a card */
-        .checkout-table tr {
-            display: block;
-            border: 1px solid #eee;
-            border-radius: 8px;
-            margin-bottom: 15px;
-            padding: 10px;
-            position: relative;
-        }
-
-        .checkout-table td {
-            display: block;
-            text-align: left !important;
-            padding: 5px 0 !important;
-            border: none;
-        }
-
-        .product-img {
-            width: 80px !important;
-            height: 80px !important;
-        }
-
-        .remove-item-btn {
-            position: absolute;
-            top: 10px;
-            right: 10px;
-        }
-    }
-
-    .remove-item-btn {
-        color: #dc3545;
-        cursor: pointer;
-        transition: 0.2s;
-        border: none;
-        background: none;
-        padding: 5px;
-    }
-
-        .remove-item-btn:hover {
-            color: #a71d2a;
-            transform: scale(1.1);
-        }
-</style>
+<link rel="stylesheet" href="~/css/checkout.css"/>
 
 <div class="container my-4 my-md-5" style="max-width: 900px; padding-bottom: 80px;">
     <h4 class="text-danger mb-4 fw-bold"><i class="bi bi-cart-check"></i> Checkout</h4>

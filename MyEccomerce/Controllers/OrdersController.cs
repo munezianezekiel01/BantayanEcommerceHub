@@ -5,7 +5,7 @@ using Microsoft.EntityFrameworkCore;
 using MyEccomerce.Data;
 using MyEccomerce.Hubs;
 using MyEccomerce.Models; // Siguroha nga husto ang imong namespace
-using Rotativa.AspNetCore;
+
 using System.Security.Claims;
 
 public class OrdersController : Controller
@@ -287,12 +287,23 @@ public class OrdersController : Controller
     }
 
     // GET: Orders/TrackOrder/5
+
+    [HttpGet]
+    [Route("Orders/TrackOrder/{id}")]
     public async Task<IActionResult> TrackOrder(int id)
     {
         // Kuhaon ang order data base sa ID
-        var order = await _context.Orders
-            .FirstOrDefaultAsync(m => m.OrderId == id);
 
+        var currentUserId = (int)Convert.ToInt32(User.FindFirstValue(ClaimTypes.NameIdentifier));
+        var order = await _context.Orders
+            .FirstOrDefaultAsync(m => m.OrderId == id && m.UserId == currentUserId );
+
+       
+      
+
+        
+
+        
         if (order == null)
         {
             return NotFound();
@@ -310,7 +321,10 @@ public class OrdersController : Controller
     ///
 
     // GET: Orders/AssignRider/5
-    // GET: Orders/AssignRider/5
+    // GET: Orders/AssignRider/14
+
+    [HttpGet]
+    [Route("Orders/AssignRider/{id}")]
     public async Task<IActionResult> AssignRider(int id)
     {
         var order = await _context.Orders.FindAsync(id);
@@ -328,7 +342,7 @@ public class OrdersController : Controller
         ViewBag.RiderList = new SelectList(riders, "UserId", "FullName");
 
         // Siguroha nga husto ang path sa imong CSHTML file
-        return View("~/Views/Admin/AssignRider.cshtml", order);
+        return View("~/Pages/Admin/AssignedRider.cshtml", order);
     }
 
     // POST: Orders/AssignRider
@@ -383,31 +397,7 @@ public class OrdersController : Controller
 
     
 
-    public async Task<IActionResult> DownloadInvoice(int id)
-{
-    var userIdString = User.FindFirstValue(ClaimTypes.NameIdentifier);
-    int userId = int.Parse(userIdString);
-
-    var order = await _context.Orders
-        .Include(o => o.OrderItems).ThenInclude(oi => oi.Product)
-        .Include(o => o.OrderItems).ThenInclude(oi => oi.Variant)
-        .Include(o => o.User)
-        .FirstOrDefaultAsync(o => o.OrderId == id && o.UserId == userId);
-
-    if (order == null) return NotFound();
-
-    // Mao ni ang magic line:
-    return new ViewAsPdf("Invoice", order)
-    {
-        FileName = $"Invoice_{order.OrderId}.pdf",
-        PageSize = Rotativa.AspNetCore.Options.Size.A4,
-        PageOrientation = Rotativa.AspNetCore.Options.Orientation.Portrait,
-        CustomSwitches = "--footer-center \"Pagpasalamat sa pagpalit sa BantayanHub!\" --footer-line --footer-font-size \"10\""
-    };
-
-
-
-}
+   
 
 
     // GET: /Orders/OrderDetails/1240
@@ -450,6 +440,98 @@ public class OrdersController : Controller
 
         return View("~/Pages/Public/OrderDetails.cshtml", order);
     }
+
+
+
+    /* [HttpPost]
+     [ValidateAntiForgeryToken]
+     public async Task<IActionResult> CompleteOrder(int orderId)
+     {
+         var userIdString = User.FindFirstValue(ClaimTypes.NameIdentifier);
+         if (string.IsNullOrEmpty(userIdString))
+             return Json(new { success = false, message = "Palihog login una, boss." });
+
+         int userId = int.Parse(userIdString);
+
+         // 1. SECURITY & DATA VALIDATION
+         var order = await _context.Orders
+             .Include(o => o.User)
+             .FirstOrDefaultAsync(o => o.OrderId == orderId && o.UserId == userId);
+
+         if (order == null)
+             return Json(new { success = false, message = "Wala makita ang order, boss." });
+
+         // Siguroha nga Out for Delivery o Shipped na ang status bago ma-complete
+         if (order.Status != "Out for Delivery" && order.Status != "Shipped")
+         {
+             return Json(new { success = false, message = "Dili pa kini ma-confirm nga completed, Boss." });
+         }
+
+         // 2. MAG-SUGOD OG TRANSACTION
+         using var transaction = await _context.Database.BeginTransactionAsync();
+         try
+         {
+             // 3. UPDATE STATUS SA ORDER TABLE
+             order.Status = "Completed";
+
+             // 4. LOG THE EVENT (I-record sa OrderLogs)
+             var log = new OrderLog
+             {
+                 OrderId = orderId,
+                 Status = "Completed",
+                 Note = "Gikumpirma sa kustomer nga nadawat na ang order.",
+                 LogDate = DateTime.Now
+             };
+             _context.OrderLogs.Add(log);
+
+             // Save EF Tracking changes
+             await _context.SaveChangesAsync();
+
+             // 5. INSERT NOTIFICATION PARA SA ADMIN (Direct SQL Query)
+             string sql = @"INSERT INTO Notifications (UserId, Message, TargetUrl, UserProfilePicture, CreatedAt, IsRead) 
+                        VALUES ({0}, {1}, {2}, {3}, {4}, {5})";
+
+             string profilePic = !string.IsNullOrEmpty(order.User?.ImageUrl)
+                                 ? order.User.ImageUrl
+                                 : $"https://ui-avatars.com/api/?name={order.User?.FirstName}&background=random";
+
+             await _context.Database.ExecuteSqlRawAsync(sql,
+                 "Admin",
+                 $"Nadawat na ni {order.User?.FirstName ?? "usa ka Customer"} ang Order #{orderId}!",
+                 $"/Admin/Orders/Details/{orderId}",
+                 profilePic,
+                 DateTime.Now,
+                 false);
+
+             // 6. COMMIT TRANSACTION
+             await transaction.CommitAsync();
+
+             // 7. SIGNALR REAL-TIME PUSH (I-notify ang Admin Dashboard)
+             await _hubContext.Clients.Group("Admins").SendAsync("OrderCompletedAlert", new
+             {
+                 orderId = order.OrderId,
+                 customerName = order.User?.FirstName ?? "A Customer",
+                 status = "Completed"
+             });
+
+             return Json(new { success = true, message = "Salamat! Gi-confirm na nga nadawat nimo ang order." });
+         }
+         catch (Exception ex)
+         {
+             // Rollback kung naay problema sa database
+             await transaction.RollbackAsync();
+
+             var innerError = ex.InnerException != null ? ex.InnerException.Message : "";
+             return Json(new { success = false, message = $"Error: {ex.Message}. Inner: {innerError}" });
+         }
+     }
+    */
+
+
+    
+   
+
+   
 
 }
 

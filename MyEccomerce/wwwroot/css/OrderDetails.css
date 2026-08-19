@@ -1,0 +1,38 @@
+﻿.theme-card-header {
+    background: linear-gradient(135deg, #1565c0 0%, #00838f 50%, #2e7d32 100%);
+}
+
+/* Individual hidden classes */
+.text-marie {
+    color: #1565c0 !important;
+}
+
+.i-text {
+    color: #2e7d32 !important;
+}
+
+/* Ang tago nga kombinasyon: .im-cyan (i + m = cyan) */
+.im-cyan {
+    color: #00a8cc !important;
+}
+
+.border-im {
+    border-color: #00bcd4 !important;
+}
+
+.border-marie {
+    border-color: #1565c0 !important;
+}
+
+.border-i {
+    border-color: #2e7d32 !important;
+}
+
+.bg-light-cyan {
+    background-color: #f0fbfd !important;
+}
+
+.border-gradient-accent {
+    border-top: 4px solid transparent;
+    border-image: linear-gradient(to right, #1565c0, #00bcd4, #2e7d32) 1;
+}

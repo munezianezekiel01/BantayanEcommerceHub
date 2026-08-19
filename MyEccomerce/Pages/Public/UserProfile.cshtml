@@ -1,6 +1,20 @@
-﻿@model MyEccomerce.Models.User
+﻿@using System.Security.Claims
+@model MyEccomerce.Models.User
 @{
     var genderClaim = User.FindFirst("Gender")?.Value;
+   
+}
+
+@inject MyEccomerce.Data.ApplicationDbContext _context 
+@{
+    var currentUserId = (int)Convert.ToInt32(User.FindFirstValue(ClaimTypes.NameIdentifier));
+
+    var Order = _context.Orders.Where(u => u.UserId == currentUserId);
+
+    Order.Count();
+
+
+
 }
 @* ========================================== *@
 @* INLINE CUSTOM STYLE: IMONG COLOR PALETTE  *@
@@ -195,70 +209,97 @@
                     @* -------------------------------------- *@
                     @* TAB 2: ORDER HISTORY (DYNAMIC NA CORNER) *@
                     @* -------------------------------------- *@
+                   
+                   
                     <div class="tab-pane fade" id="v-pills-orders" role="tabpanel" aria-labelledby="v-pills-orders-tab">
-                        <div class="card border-0 shadow-sm" style="border-radius: 8px; background-color: #ffffff;">
+                        
 
+                        @if(Order.Count() ==  0 || Order == null ) 
+                        {
                             <div class="card-body p-4 border-bottom">
                                 <div class="d-flex align-items-center justify-content-between">
                                     <div>
-                                        <h4 class="fw-bold mb-1" style="color: #212529;">My Purchase History</h4>
-                                        <p class="text-muted small mb-0">Dali-a pag-monitor sa imong mga orders ug mga gipamalit sa B-Hub.</p>
+                                        <h4 class="fw-bold mb-1" style="color: #212529;">Wala pa Kay Orders</h4>
+                                        <p class="text-muted small mb-0">Sugod na ug Orders sa B-Hub.</p>
                                     </div>
-                                    <a href="@Url.Action("MyOrders", "Orders")" class="btn btn-bhub-primary btn-sm px-3 rounded-pill fw-semibold" style="font-size: 0.8rem;">
-                                        <i class="bi bi-fullscreen me-1"></i> View Full Orders
+                                    <a href="@Url.Action("Home", "Home")" class="btn btn-bhub-primary btn-sm px-3 rounded-pill fw-semibold" style="font-size: 0.8rem;">
+                                        <i class="bi bi-fullscreen me-1"></i>Order Now
                                     </a>
                                 </div>
                             </div>
+                        }
+                        else
+                        {
+                            
 
-                            <div class="card-body p-4">
-                                <div class="table-responsive">
-                                    <table class="table table-hover align-middle" style="font-size: 0.9rem;">
-                                        <thead class="table-light text-muted small fw-bold text-uppercase">
-                                            <tr>
-                                                <th scope="col" class="border-0 py-3">Order ID</th>
-                                                <th scope="col" class="border-0 py-3">Date</th>
-                                                <th scope="col" class="border-0 py-3">Total Price</th>
-                                                <th scope="col" class="border-0 py-3">Status</th>
-                                                <th scope="col" class="border-0 py-3 text-end">Aksyon</th>
-                                            </tr>
-                                        </thead>
-                                        <tbody>
-                                            <tr>
-                                                <td class="fw-bold text-secondary py-3">#BH-98431</td>
-                                                <td class="text-muted">June 05, 2026</td>
-                                                <td class="fw-semibold text-dark">₱1,450.00</td>
-                                                <td>
-                                                    <span class="badge bg-warning-subtle text-warning px-3 py-2 rounded-pill fw-medium" style="font-size: 0.7rem;">
-                                                        <i class="bi bi-clock-history me-1"></i> Pending
-                                                    </span>
-                                                </td>
-                                                <td class="text-end">
-                                                    <button type="button" class="btn btn-light btn-sm rounded-circle" onclick="viewOrderDetails(98431)">
-                                                        <i class="bi bi-eye text-marie"></i>
-                                                    </button>
-                                                </td>
-                                            </tr>
-                                            <tr>
-                                                <td class="fw-bold text-secondary py-3">#BH-97210</td>
-                                                <td class="text-muted">May 28, 2026</td>
-                                                <td class="fw-semibold text-dark">₱3,200.00</td>
-                                                <td>
-                                                    <span class="badge bg-success-subtle text-ian px-3 py-2 rounded-pill fw-medium" style="font-size: 0.7rem; background-color: rgba(46, 125, 50, 0.1) !important;">
-                                                        <i class="bi bi-check-circle me-1"></i> Completed
-                                                    </span>
-                                                </td>
-                                                <td class="text-end">
-                                                    <button type="button" class="btn btn-light btn-sm rounded-circle" onclick="viewOrderDetails(97210)">
-                                                        <i class="bi bi-eye text-marie"></i>
-                                                    </button>
-                                                </td>
-                                            </tr>
-                                        </tbody>
-                                    </table>
+
+
+                            <div class="card border-0 shadow-sm" style="border-radius: 8px; background-color: #ffffff;">
+
+
+                                <div class="card-body p-4 border-bottom">
+                                    <div class="d-flex align-items-center justify-content-between">
+                                        <div>
+                                            <h4 class="fw-bold mb-1" style="color: #212529;">My Purchase History</h4>
+                                            <p class="text-muted small mb-0">Dali-a pag-monitor sa imong mga orders ug mga gipamalit sa B-Hub.</p>
+                                        </div>
+                                        <a href="@Url.Action("MyOrders", "Orders")" class="btn btn-bhub-primary btn-sm px-3 rounded-pill fw-semibold" style="font-size: 0.8rem;">
+                                            <i class="bi bi-fullscreen me-1"></i> View Full Orders
+                                        </a>
+                                    </div>
                                 </div>
-                            </div>
 
-                        </div>
+                                <div class="card-body p-4">
+                                    <div class="table-responsive">
+                                        <table class="table table-hover align-middle" style="font-size: 0.9rem;">
+                                            <thead class="table-light text-muted small fw-bold text-uppercase">
+                                                <tr>
+                                                    <th scope="col" class="border-0 py-3">Order ID</th>
+                                                    <th scope="col" class="border-0 py-3">Date</th>
+                                                    <th scope="col" class="border-0 py-3">Total Price</th>
+                                                    <th scope="col" class="border-0 py-3">Status</th>
+                                                    <th scope="col" class="border-0 py-3 text-end">Aksyon</th>
+                                                </tr>
+                                            </thead>
+                                            <tbody>
+                                                <tr>
+                                                    <td class="fw-bold text-secondary py-3">#BH-98431</td>
+                                                    <td class="text-muted">June 05, 2026</td>
+                                                    <td class="fw-semibold text-dark">₱1,450.00</td>
+                                                    <td>
+                                                        <span class="badge bg-warning-subtle text-warning px-3 py-2 rounded-pill fw-medium" style="font-size: 0.7rem;">
+                                                            <i class="bi bi-clock-history me-1"></i> Pending
+                                                        </span>
+                                                    </td>
+                                                    <td class="text-end">
+                                                        <button type="button" class="btn btn-light btn-sm rounded-circle" onclick="viewOrderDetails(98431)">
+                                                            <i class="bi bi-eye text-marie"></i>
+                                                        </button>
+                                                    </td>
+                                                </tr>
+                                                <tr>
+                                                    <td class="fw-bold text-secondary py-3">#BH-97210</td>
+                                                    <td class="text-muted">May 28, 2026</td>
+                                                    <td class="fw-semibold text-dark">₱3,200.00</td>
+                                                    <td>
+                                                        <span class="badge bg-success-subtle text-ian px-3 py-2 rounded-pill fw-medium" style="font-size: 0.7rem; background-color: rgba(46, 125, 50, 0.1) !important;">
+                                                            <i class="bi bi-check-circle me-1"></i> Completed
+                                                        </span>
+                                                    </td>
+                                                    <td class="text-end">
+                                                        <button type="button" class="btn btn-light btn-sm rounded-circle" onclick="viewOrderDetails(97210)">
+                                                            <i class="bi bi-eye text-marie"></i>
+                                                        </button>
+                                                    </td>
+                                                </tr>
+                                            </tbody>
+                                        </table>
+                                    </div>
+                                </div>
+
+                            </div>
+                        }
+                        
                     </div>
 
                     @* -------------------------------------- *@

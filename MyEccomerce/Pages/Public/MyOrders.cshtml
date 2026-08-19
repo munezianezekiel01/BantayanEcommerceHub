@@ -1,4 +1,5 @@
-﻿@model IEnumerable<MyEccomerce.Models.Order>
+﻿@using System.Security.Claims
+@model IEnumerable<MyEccomerce.Models.Order>
 
 @{
     ViewData["Title"] = "Akong mga Order";
@@ -8,7 +9,19 @@
     var deliveringCount = Model?.Count(o => o.Status == "Out for Delivery") ?? 0;
     var completedCount = Model?.Count(o => o.Status == "Completed") ?? 0;
     var cancelledCount = Model?.Count(o => o.Status == "Cancelled") ?? 0;
+    
 }
+
+@inject MyEccomerce.Data.ApplicationDbContext _context 
+
+@{
+    var firstName = User.FindFirstValue(ClaimTypes.GivenName) ?? User.Identity.Name;
+
+   
+    var genderClaim = User.FindFirst("Gender")?.Value;
+}
+
+
 
 <a href="javascript:history.back()" class="back-nav ms-3 mt-3 d-inline-block" style="color: #000; font-size: 20px;">
     <i class="bi bi-arrow-left"></i>
@@ -105,7 +118,22 @@
     {
         <div class="text-center py-5 shadow-sm bg-white rounded-3 border mx-2">
             <i class="bi bi-cart-x text-muted" style="font-size: 4rem;"></i>
-            <p class="mt-3 text-muted">Wala pa kay order, Boss. Sugod na og shop!</p>
+            @{
+                string greeting = $" {@firstName}";
+                @if (!string.IsNullOrEmpty(genderClaim))
+                {
+
+                    if (genderClaim.Equals("male", StringComparison.OrdinalIgnoreCase))
+                    {
+                        greeting = $" Sir, {@firstName}";
+                    }
+                    else if (genderClaim.Equals("female", StringComparison.OrdinalIgnoreCase))
+                    {
+                        greeting = $" Ma'am, {@firstName}";
+                    }
+                }
+            }
+            <p class="mt-3 text-muted">Wala pa kay order, @greeting. Sugod na og shop!</p>
             <a href="/" class="btn btn-primary rounded-pill px-4">Shop Karon</a>
         </div>
     }
@@ -250,6 +278,19 @@
                                         </form>
                                     }
 
+                                    @if(order.Status == "Out for Delivery")
+                                    {
+                                      
+                                        <a href="/Orders/TrackOrder/@order.OrderId" class="btn btn-info btn-sm px-3 rounded-pill text-white" style="font-size: 0.65rem; font-weight: 700;">
+                                            
+                                            
+                                                <i class="bi bi-truck">Track Order</i> 
+                                           
+
+                                         </a>
+                                       
+                                    }
+
                                     @if(order.Status == "Cancelled")
                                     {
                                         <form asp-action="ArchiveOrder" method="post" onsubmit="return confirm('I-hide kini, Boss?');" >
@@ -275,7 +316,24 @@
 
         <div id="emptyFilterState" class="text-center py-5 bg-white rounded-3 border mx-2 shadow-sm" style="display: none;">
             <i class="bi bi-search text-muted" style="font-size: 3rem;"></i>
-            <p class="mt-3 text-muted">Walay order dinhi, Boss.</p>
+
+
+            @{
+                string greeting = $" {@firstName}";
+                @if (!string.IsNullOrEmpty(genderClaim))
+                {
+
+                    if (genderClaim.Equals("male", StringComparison.OrdinalIgnoreCase))
+                    {
+                        greeting = $" Sir, {@firstName}";
+                    }
+                    else if (genderClaim.Equals("female", StringComparison.OrdinalIgnoreCase))
+                    {
+                        greeting = $" Ma'am, {@firstName}";
+                    }
+                }
+            }
+            <p class="mt-3 text-muted">Walay order dinhi, @greeting</p>
         </div>
     }
 </div>

@@ -1,5 +1,5 @@
-using FirebaseAdmin;
-using Google.Apis.Auth.OAuth2;
+
+
 using Microsoft.AspNetCore.Authentication;
 using Microsoft.AspNetCore.Authentication.Cookies;
 using Microsoft.AspNetCore.Authentication.Facebook;
@@ -11,14 +11,11 @@ using Microsoft.IdentityModel.Tokens;
 using MyEccomerce.Data;
 using MyEccomerce.Hubs;
 using MyEccomerce.Services;
-using Rotativa.AspNetCore;
+
 using System.Text;
 
 var builder = WebApplication.CreateBuilder(args);
-FirebaseApp.Create(new AppOptions()
-{
-    Credential = GoogleCredential.FromFile(Path.Combine(builder.Environment.ContentRootPath, "myeccomerce-firebase-adminsdk.json")) // Usba sa saktong ngalan sa imong JSON file
-});
+
 // --- 1. SETTINGS & SERVICES CONFIGURATION ---
 
 // SignalR
@@ -125,7 +122,7 @@ var env = builder.Environment;
 
 // I-setup ang Rotativa path. 
 // Kung ang NuGet package nagbutang sa .exe sa 'wkhtmltopdf' folder:
-RotativaConfiguration.Setup(env.ContentRootPath, "wkhtmltopdf");
+
 // --- 4. MIDDLEWARE PIPELINE ---
 
 app.UseForwardedHeaders();

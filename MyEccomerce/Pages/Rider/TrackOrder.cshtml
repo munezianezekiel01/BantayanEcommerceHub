@@ -2,7 +2,11 @@
 
 @{
     ViewData["Title"] = "Track Order #" + Model.OrderId;
+    Layout = "_Layout";
 }
+
+<!-- Ibutang diri ang Leaflet CSS para ma-load gyud siya sa una -->
+<link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" />
 
 <div class="container mt-4">
     <div class="card shadow-sm border-0" style="border-radius: 20px; overflow: hidden;">
@@ -11,6 +15,7 @@
             <small>Status: <span id="statusText">@Model.Status</span></small>
         </div>
 
+        <!-- Siguraduha nga adunay fixed height ang map div -->
         <div id="map" style="height: 450px; width: 100%;"></div>
 
         <div class="card-footer bg-white p-4">
@@ -30,63 +35,71 @@
 </div>
 
 @section Scripts {
-    <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" />
+    <!-- Leaflet JS & SignalR JS -->
     <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
-
     <script src="https://cdnjs.cloudflare.com/ajax/libs/microsoft-signalr/6.0.1/signalr.min.js"></script>
 
     <script>
-        // 1. Initialize Map (Center sa Santa Fe/Bantayan or default coordinates)
-        var map = L.map('map').setView([11.1537, 123.8054], 16);
+        document.addEventListener("DOMContentLoaded", function() {
+            // 1. Initialize Map
+            var defaultLat = 11.1537;
+            var defaultLng = 123.8054;
 
-        L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
-            attribution: '© OpenStreetMap contributors'
-        }).addTo(map);
+            var map = L.map('map').setView([defaultLat, defaultLng], 16);
 
-        // Custom Icon para sa Rider (Motorcycle)
-        var riderIcon = L.icon({
-            iconUrl: 'https://cdn-icons-png.flaticon.com/512/713/713422.png', // Pwede nimo ilisan og local image
-            iconSize: [40, 40],
-            iconAnchor: [20, 20]
-        });
+            L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+                maxZoom: 19,
+                attribution: '© OpenStreetMap contributors'
+            }).addTo(map);
 
-        var riderMarker = L.marker([11.1537, 123.8054], { icon: riderIcon }).addTo(map)
-            .bindPopup("<b>B-HUB Rider</b><br>Padulong na ko, Boss!").openPopup();
+            // Pugson ang Leaflet nga i-recalculate ang dimensions sa card
+            setTimeout(function() {
+                map.invalidateSize();
+            }, 300);
 
-        // 2. SignalR Connection Setup
-        const connection = new signalR.HubConnectionBuilder()
-            .withUrl("/trackingHub")
-            .withAutomaticReconnect()
-            .build();
+            // Custom Icon para sa Rider
+            var riderIcon = L.icon({
+                iconUrl: 'https://cdn-icons-png.flaticon.com/512/713/713422.png',
+                iconSize: [40, 40],
+                iconAnchor: [20, 20],
+                popupAnchor: [0, -20]
+            });
 
-        const orderId = "@Model.OrderId";
+            var riderMarker = L.marker([defaultLat, defaultLng], { icon: riderIcon }).addTo(map)
+                .bindPopup("<b>B-HUB Rider</b><br>Padulong na ko, Boss!").openPopup();
 
-        // Listen sa location updates gikan sa Hub
-        connection.on("ReceiveLocation", function (lat, lng) {
-            console.log("New location received:", lat, lng);
+            // 2. SignalR Connection Setup
+            const connection = new signalR.HubConnectionBuilder()
+                .withUrl("/trackingHub")
+                .withAutomaticReconnect()
+                .build();
 
-            var newPos = new L.LatLng(lat, lng);
-            riderMarker.setLatLng(newPos);
-            map.panTo(newPos); // I-follow ang rider sa mapa
+            const orderId = "@Model.OrderId";
 
-            // Update Status UI
-            document.getElementById("connectionStatus").className = "badge bg-success-subtle text-success border";
-            document.getElementById("connectionStatus").innerHTML = "<i class='bi bi-record-fill animate-pulse'></i> Live Tracking Active";
-        });
+            connection.on("ReceiveLocation", function(lat, lng) {
+                console.log("New location received:", lat, lng);
 
-        // Start Connection
-        connection.start().then(function () {
-            console.log("Connected to SignalR Hub");
-            connection.invoke("JoinOrderGroup", orderId);
+                var newPos = new L.LatLng(lat, lng);
+                riderMarker.setLatLng(newPos);
+                map.panTo(newPos);
 
-            document.getElementById("connectionStatus").innerHTML = "Waiting for rider location...";
-        }).catch(function (err) {
-            return console.error(err.toString());
+                document.getElementById("connectionStatus").className = "badge bg-success-subtle text-success border";
+                document.getElementById("connectionStatus").innerHTML = "<i class='bi bi-record-fill animate-pulse'></i> Live Tracking Active";
+            });
+
+            connection.start().then(function() {
+                console.log("Connected to SignalR Hub");
+                connection.invoke("JoinOrderGroup", orderId);
+
+                document.getElementById("connectionStatus").innerHTML = "Waiting for rider location...";
+            }).catch(function(err) {
+                console.error("SignalR Error: ", err.toString());
+                document.getElementById("connectionStatus").innerHTML = "Connection failed";
+            });
         });
     </script>
 
     <style>
-        /* Pulse effect para sa Live indicator */
         .animate-pulse {
             animation: pulse 2s cubic-bezier(0.4, 0, 0.6, 1) infinite;
         }

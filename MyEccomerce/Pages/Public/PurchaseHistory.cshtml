@@ -1,0 +1,94 @@
+﻿@model MyEccomerce.Models.PurchaseSummaryViewModel
+
+@{
+    ViewData["Title"] = "Purchase Summary";
+}
+
+<div class="container my-4">
+    <div class="card shadow-sm border-0">
+        <div class="card-header bg-success text-white d-flex justify-content-between align-items-center">
+            <h4 class="mb-0"><i class="bi bi-check-circle-fill me-2"></i> Order Summary</h4>
+            <span class="badge bg-light text-dark fs-6">Order #@Model.OrderId</span>
+        </div>
+
+        <div class="card-body p-4">
+            <!-- Customer & Shipping Info -->
+            <div class="row mb-4">
+                <div class="col-md-6 mb-3">
+                    <h5 class="fw-bold border-bottom pb-2">Delivery Details</h5>
+                    <p class="mb-1"><strong>Name:</strong> @Model.CustomerName</p>
+                    <p class="mb-1"><strong>Phone:</strong> @Model.PhoneNumber</p>
+                    <p class="mb-1"><strong>Address:</strong> @Model.ShippingAddress</p>
+                </div>
+                <div class="col-md-6 mb-3">
+                    <h5 class="fw-bold border-bottom pb-2">Payment Info</h5>
+                    <p class="mb-1"><strong>Payment Method:</strong> @Model.PaymentMethod</p>
+                    <p class="mb-1"><strong>Status:</strong> <span class="badge bg-warning text-dark">@Model.OrderStatus</span></p>
+                    <p class="mb-1"><strong>Date:</strong> @Model.CreatedAt.ToString("MMM dd, yyyy hh:mm tt")</p>
+                </div>
+            </div>
+
+            <!-- Ordered Items Table -->
+            <h5 class="fw-bold border-bottom pb-2 mb-3">Items Purchased</h5>
+            <div class="table-responsive">
+                <table class="table align-middle">
+                    <thead class="table-light">
+                        <tr>
+                            <th>Item</th>
+                            <th class="text-center">Price</th>
+                            <th class="text-center">Qty</th>
+                            <th class="text-end">Total</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        @foreach (var item in Model.Items)
+                        {
+                            <tr>
+                                <td>
+                                    <div class="d-flex align-items-center">
+                                        <img src="@item.ImageUrl" alt="@item.ProductName" class="rounded me-3" style="width: 50px; height: 50px; object-fit: cover;" />
+                                        <span class="fw-semibold">@item.ProductName</span>
+                                    </div>
+                                </td>
+                                <td class="text-center">₱@item.UnitPrice.ToString("N2")</td>
+                                <td class="text-center">@item.Quantity</td>
+                                <td class="text-end fw-bold">₱@item.TotalPrice.ToString("N2")</td>
+                            </tr>
+                        }
+                    </tbody>
+                </table>
+            </div>
+
+            <!-- Financial Summary -->
+            <div class="row justify-content-end mt-4">
+                <div class="col-md-5">
+                    <div class="bg-light p-3 rounded">
+                        <div class="d-flex justify-content-between mb-2">
+                            <span>Subtotal:</span>
+                            <strong>₱@Model.SubTotal.ToString("N2")</strong>
+                        </div>
+                        <div class="d-flex justify-content-between mb-2">
+                            <span>Shipping Fee:</span>
+                            <strong>₱@Model.ShippingFee.ToString("N2")</strong>
+                        </div>
+                        <hr />
+                        <div class="d-flex justify-content-between text-success fs-5 fw-bold">
+                            <span>Total Amount:</span>
+                            <span>₱@Model.TotalAmount.ToString("N2")</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Action Buttons -->
+            <div class="d-flex justify-content-between mt-4">
+                <a asp-action="MyOrders" asp-controller="Orders" class="btn btn-outline-secondary">
+                    <i class="bi bi-arrow-left"></i> View My Orders
+                </a>
+                <button onclick="window.print()" class="btn btn-primary">
+                    <i class="bi bi-printer"></i> Print Receipt
+                </button>
+            </div>
+        </div>
+    </div>
+</div>

@@ -2,7 +2,6 @@
 using Microsoft.EntityFrameworkCore;
 using MyEccomerce.Data;
 using MyEccomerce.Models;
-using Org.BouncyCastle.Tls;
 using System.Security.Claims;
 
 namespace MyEccomerce.Controllers
@@ -95,5 +94,8 @@ namespace MyEccomerce.Controllers
             return View("~/Pages/Public/Home.cshtml", products);
 
         }
+
+
+        
     }
 }

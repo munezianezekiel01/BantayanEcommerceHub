@@ -17,12 +17,13 @@ build_property._SupportedPlatformList = Linux,macOS,Windows
 build_property._SupportedPlatformList = Linux,macOS,Windows
 build_property.TargetFrameworkIdentifier = .NETCoreApp
 build_property.TargetFrameworkVersion = v10.0
+build_property.EntryPointFilePath = 
 build_property.RootNamespace = MyEccomerce
 build_property.RootNamespace = MyEccomerce
 build_property.ProjectDir = C:\Users\munez\source\repos\MyEccomerce\MyEccomerce\
 build_property.EnableComHosting = 
 build_property.EnableGeneratedComInterfaceComImportInterop = 
-build_property.RazorLangVersion = 9.0
+build_property.RazorLangVersion = 10.0
 build_property.SupportLocalizedComponentNames = 
 build_property.GenerateRazorMetadataSourceChecksumAttributes = 
 build_property.MSBuildProjectDirectory = C:\Users\munez\source\repos\MyEccomerce\MyEccomerce
@@ -38,8 +39,8 @@ build_metadata.AdditionalFiles.CssScope =
 build_metadata.AdditionalFiles.TargetPath = UGFnZXNcQWRtaW5cQWRkVmFyaWF0aW9uLmNzaHRtbA==
 build_metadata.AdditionalFiles.CssScope = 
 
-[C:/Users/munez/source/repos/MyEccomerce/MyEccomerce/Pages/Admin/AssignRider.cshtml]
-build_metadata.AdditionalFiles.TargetPath = UGFnZXNcQWRtaW5cQXNzaWduUmlkZXIuY3NodG1s
+[C:/Users/munez/source/repos/MyEccomerce/MyEccomerce/Pages/Admin/AssignedRider.cshtml]
+build_metadata.AdditionalFiles.TargetPath = UGFnZXNcQWRtaW5cQXNzaWduZWRSaWRlci5jc2h0bWw=
 build_metadata.AdditionalFiles.CssScope = 
 
 [C:/Users/munez/source/repos/MyEccomerce/MyEccomerce/Pages/Admin/Dashboard.cshtml]
@@ -104,6 +105,10 @@ build_metadata.AdditionalFiles.CssScope =
 
 [C:/Users/munez/source/repos/MyEccomerce/MyEccomerce/Pages/Public/PrintAccount.cshtml]
 build_metadata.AdditionalFiles.TargetPath = UGFnZXNcUHVibGljXFByaW50QWNjb3VudC5jc2h0bWw=
+build_metadata.AdditionalFiles.CssScope = 
+
+[C:/Users/munez/source/repos/MyEccomerce/MyEccomerce/Pages/Public/PurchaseHistory.cshtml]
+build_metadata.AdditionalFiles.TargetPath = UGFnZXNcUHVibGljXFB1cmNoYXNlSGlzdG9yeS5jc2h0bWw=
 build_metadata.AdditionalFiles.CssScope = 
 
 [C:/Users/munez/source/repos/MyEccomerce/MyEccomerce/Pages/Public/Signin.cshtml]

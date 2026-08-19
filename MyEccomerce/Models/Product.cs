@@ -42,6 +42,9 @@ namespace MyEccomerce.Models
         public string? UnitName { get; set; }
 
         public int ViewCount { get; set; } = 0;
+
+
+       public bool IsActive { get; set; }  // Clean & complete spelling
         public virtual ICollection<ProductVariant> ProductVariants { get; set; } = new List<ProductVariant>();
     
     
