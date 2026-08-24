@@ -1,21 +1,21 @@
 ﻿@model MyEccomerce.Models.Order
 
 @{
-    ViewData["Title"] = "Track Order #" + Model.OrderId;
+    ViewData["Title"] = "Track Order #" + Model.OrderIdGenerated;
     Layout = "_Layout";
 }
 
-<!-- Ibutang diri ang Leaflet CSS para ma-load gyud siya sa una -->
+<!-- Leaflet CSS -->
 <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" />
 
 <div class="container mt-4">
     <div class="card shadow-sm border-0" style="border-radius: 20px; overflow: hidden;">
         <div class="card-header bg-primary text-white p-3">
-            <h5 class="mb-0 fw-bold"><i class="bi bi-geo-alt-fill"></i> Tracking Order #@Model.OrderId</h5>
+            <h5 class="mb-0 fw-bold"><i class="bi bi-geo-alt-fill"></i> Order ID: #@Model.OrderIdGenerated</h5>
             <small>Status: <span id="statusText">@Model.Status</span></small>
         </div>
 
-        <!-- Siguraduha nga adunay fixed height ang map div -->
+        <!-- Fixed height map div -->
         <div id="map" style="height: 450px; width: 100%;"></div>
 
         <div class="card-footer bg-white p-4">
@@ -37,27 +37,30 @@
 @section Scripts {
     <!-- Leaflet JS & SignalR JS -->
     <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/microsoft-signalr/6.0.1/signalr.min.js"></script>
+    <script src="~/js/signalr.min.js"></script>
 
     <script>
         document.addEventListener("DOMContentLoaded", function() {
-            // 1. Initialize Map
-            var defaultLat = 11.1537;
-            var defaultLng = 123.8054;
+            // Default sa Bantayan Island (11.1537, 123.8054) kon null ang DB
+            var savedLat = parseFloat("@(Model.Latitude.HasValue ? Model.Latitude.Value : 37.233166)");
+            var savedLng = parseFloat("@(Model.Longitude.HasValue ? Model.Longitude.Value : -3.572008)");
 
-            var map = L.map('map').setView([defaultLat, defaultLng], 16);
+            console.log(@Model.Latitude);
+            console.log(@Model.Longitude)
+
+            // Setup Leaflet Map
+            var map = L.map('map').setView([savedLat, savedLng], 15);
 
             L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
                 maxZoom: 19,
                 attribution: '© OpenStreetMap contributors'
             }).addTo(map);
 
-            // Pugson ang Leaflet nga i-recalculate ang dimensions sa card
             setTimeout(function() {
                 map.invalidateSize();
             }, 300);
 
-            // Custom Icon para sa Rider
+            // Custom Icon
             var riderIcon = L.icon({
                 iconUrl: 'https://cdn-icons-png.flaticon.com/512/713/713422.png',
                 iconSize: [40, 40],
@@ -65,19 +68,26 @@
                 popupAnchor: [0, -20]
             });
 
-            var riderMarker = L.marker([defaultLat, defaultLng], { icon: riderIcon }).addTo(map)
+            // Add Marker
+            var riderMarker = L.marker([savedLat, savedLng], { icon: riderIcon }).addTo(map)
                 .bindPopup("<b>B-HUB Rider</b><br>Padulong na ko, Boss!").openPopup();
 
-            // 2. SignalR Connection Setup
+            if (@(Model.Latitude.HasValue ? "true" : "false")) {
+                document.getElementById("connectionStatus").className = "badge bg-info-subtle text-info border";
+                document.getElementById("connectionStatus").innerHTML = "Last known location loaded";
+            }
+
+            // SignalR Setup
             const connection = new signalR.HubConnectionBuilder()
                 .withUrl("/trackingHub")
                 .withAutomaticReconnect()
                 .build();
 
-            const orderId = "@Model.OrderId";
+            const orderId = "@Model.OrderIdGenerated";
 
+            // FIX 1: Gi-change gikan sa ReceiveLocation -> ReceiveRiderLocation
             connection.on("ReceiveLocation", function(lat, lng) {
-                console.log("New location received:", lat, lng);
+                console.log("New GPS location received:", lat, lng);
 
                 var newPos = new L.LatLng(lat, lng);
                 riderMarker.setLatLng(newPos);
@@ -88,10 +98,8 @@
             });
 
             connection.start().then(function() {
-                console.log("Connected to SignalR Hub");
+                console.log("Connected to TrackingHub");
                 connection.invoke("JoinOrderGroup", orderId);
-
-                document.getElementById("connectionStatus").innerHTML = "Waiting for rider location...";
             }).catch(function(err) {
                 console.error("SignalR Error: ", err.toString());
                 document.getElementById("connectionStatus").innerHTML = "Connection failed";

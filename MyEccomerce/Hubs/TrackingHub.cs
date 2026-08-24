@@ -1,21 +1,44 @@
 ﻿using Microsoft.AspNetCore.SignalR;
+using Microsoft.EntityFrameworkCore;
+using MyEccomerce.Data; // I-check kung sakto imong DbContext namespace
 
 namespace MyEccomerce.Hubs
 {
     public class TrackingHub : Hub
     {
-        // 1. Join Group: Ang customer mo-join sa group base sa ilang OrderId
+        private readonly ApplicationDbContext _context;
+
+        public TrackingHub(ApplicationDbContext context)
+        {
+            _context = context;
+        }
+
         public async Task JoinOrderGroup(string orderId)
         {
             await Groups.AddToGroupAsync(Context.ConnectionId, orderId);
         }
 
-        // 2. Update Location: Ang Rider App/Page mo-tawag ani para i-broadcast ang coordinates
-        public async Task UpdateRiderLocation(string orderId, double lat, double lng)
+        public async Task UpdateRiderLocation(string orderIdGenerated, double lat, double lng)
         {
-            // I-send ra sa mga tawo nga naa sulod sa maong OrderId nga group
-            await Clients.Group(orderId).SendAsync("ReceiveLocation", lat, lng);
+            // 1. Panggitaon ang Order sa DB
+            var order = await _context.Orders
+                .FirstOrDefaultAsync(o => o.OrderIdGenerated == orderIdGenerated);
+
+            if (order != null)
+            {
+                // Assign sa bag-ong coordinates
+                order.Latitude = lat;
+                order.Longitude = lng;
+
+                // Pugson ang EF Core nga i-mark as modified
+                _context.Entry(order).State = EntityState.Modified;
+
+                // I-save sa Database
+                await _context.SaveChangesAsync();
+            }
+
+            // 2. Broadcast gihapon sa Customer real-time
+            await Clients.Group(orderIdGenerated).SendAsync("ReceiveLocation", lat, lng);
         }
-    
-}
+    }
 }

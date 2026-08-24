@@ -1,0 +1,98 @@
+﻿@{
+    Layout = "_Layout";
+    ViewData["Title"] = "User Not Found";
+}
+
+<style>
+    /* Base Container Animations */
+    .animated-404-container {
+        animation: fadeInScale 0.6s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+    }
+
+    /* Floating 404 Text Effect */
+    .floating-404 {
+        font-size: 6.5rem;
+        font-weight: 900;
+        background: linear-gradient(135deg, #ff4d4f 0%, #d9363e 100%);
+        -webkit-background-clip: text;
+        -webkit-text-fill-color: transparent;
+        animation: floatAnim 3s ease-in-out infinite;
+        display: inline-block;
+    }
+
+    /* Keyframe Animations */
+    @@keyframes floatAnim {
+        0%, 100% {
+            transform: translateY(0);
+        }
+
+        50% {
+            transform: translateY(-12px);
+        }
+    }
+
+    @@keyframes fadeInScale {
+        0% {
+            opacity: 0;
+            transform: scale(0.92);
+        }
+
+        100% {
+            opacity: 1;
+            transform: scale(1);
+        }
+    }
+
+    .btn-hover-effect {
+        transition: all 0.25s ease;
+    }
+
+        .btn-hover-effect:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 6px 18px rgba(0, 0, 0, 0.15);
+        }
+</style>
+
+<div class="container text-center py-5 my-auto">
+    <div class="row justify-content-center">
+        <div class="col-md-7 col-lg-5 animated-404-container">
+
+            <!-- Animated Floating 404 -->
+            <div class="mb-2">
+                <h1 class="floating-404 m-0">404</h1>
+            </div>
+
+            <!-- Icon & Text -->
+            <h3 class="fw-bold mb-3 text-dark">Wala Nakit-an Ang Profile</h3>
+            <p class="text-muted mb-4 lead fs-6">
+                @(ViewData["ErrorMessage"] ?? "Ang profile nga imong gipangita dili na available o basi nasayop ang Link.")
+            </p>
+
+            <!-- Action Buttons -->
+            <div class="d-flex justify-content-center align-items-center gap-2 flex-wrap">
+                <!-- Button 1: Dynamic Go Back to Previous Page -->
+                <button onclick="goBackOrHome()" class="btn btn-outline-secondary rounded-pill px-4 py-2 btn-hover-effect fw-semibold">
+                    ⬅️ Balik sa Gi-gikanan
+                </button>
+
+                <!-- Button 2: Direct Home Page -->
+                <a href="/" class="btn btn-primary rounded-pill px-4 py-2 btn-hover-effect fw-semibold">
+                    🏠 Balik sa Home
+                </a>
+            </div>
+
+        </div>
+    </div>
+</div>
+
+<script>
+    function goBackOrHome() {
+        // Kung naay gi-gikanan nga page sa parehong site, mobalik didto
+        if (document.referrer && document.referrer.indexOf(window.location.host) !== -1) {
+            window.history.back();
+        } else {
+            // Kung gi-direct ra sa URL o gikan sa gawas, mo-redirect ra sa Home
+            window.location.href = "/";
+        }
+    }
+</script>

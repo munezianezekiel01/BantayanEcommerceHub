@@ -1,8 +1,10 @@
-﻿using Microsoft.AspNetCore.Authentication;
+﻿using Azure.Messaging;
+using Microsoft.AspNetCore.Authentication;
 using Microsoft.AspNetCore.Authentication.Cookies;
 using Microsoft.AspNetCore.Authentication.Facebook;
 using Microsoft.AspNetCore.Authentication.Google;
 using Microsoft.AspNetCore.Hosting;
+using Microsoft.AspNetCore.Http.HttpResults;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
@@ -123,6 +125,7 @@ namespace MyEccomerce.Controllers
             new Claim(ClaimTypes.Email, user.Email),
             new Claim(ClaimTypes.GivenName, user.FirstName ?? ""),
             new Claim(ClaimTypes.Surname, user.LastName ?? ""),
+            new Claim("UserIdString", user.UserIdStringGenerated.ToString() ?? ""),
             new Claim("ProfilePicture", user.ImageUrl ?? "")
         };
 
@@ -392,26 +395,63 @@ namespace MyEccomerce.Controllers
         }
 
         [HttpGet]
-        [Route("Account/UserProfile/{Id}")]
+        [Route("Account/UserProfile/{UserIdStringGenerated}")]
         [ResponseCache(Location = ResponseCacheLocation.None, NoStore = true)]
-        public async Task<IActionResult> UserProfile(int Id)
+        public async Task<IActionResult> UserProfile(string UserIdStringGenerated)
         {
-           
-            var userId = _context.Users.FirstOrDefault(u => u.UserId == Id);
+            // 1. Gamita ang FirstOrDefaultAsync para sa async method
+            var user = await _context.Users
+                .FirstOrDefaultAsync(u => u.UserIdStringGenerated == UserIdStringGenerated);
 
-            return View("~/Pages/Public/UserProfile.cshtml", userId);
+            // 2. Kung walay nakit-an nga user sa DB, diretso 404 NotFound
+            if (user == null)
+            {
+                Response.StatusCode = 404; // Para sakto gihapon ang HTTP Status Code sa browser
+                ViewData["ErrorMessage"] = "Apasas! Ang user profile nga imong gipangita wala nag-exist o natangtang na.";
+
+                return View("~/Pages/Public/Error404.cshtml"); // o custom Error View path
+            }
+
+            // 3. IF SUCCESS -> Return User Profile Page
+            return View("~/Pages/Public/UserProfile.cshtml", user);
+
+            // 3. Kuhaa ang logged-in status ug Current User ID para sa in-view checks
+            bool isAuthenticated = User.Identity?.IsAuthenticated ?? false;
+            string currentUserId = User.FindFirstValue(ClaimTypes.NameIdentifier);
+
+            // Pass additional info sa View gamit ang ViewData/ViewBag kung kinahanglan nimo i-check kung iya ba kaugalingon profile
+           // ViewData["IsOwner"] = isAuthenticated && currentUserId == user.UserId;
+
+            return View("~/Pages/Public/UserProfile.cshtml", user);
         }
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
         public IActionResult Signup()
         {
             return View("~/Pages/Public/Signup.cshtml");
 
+
+
+
         }
 
+       
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public IActionResult Signup(User model, string townInput, string barangayInput, string sitioInput)
+        public async Task<IActionResult> Signup(User model, string townInput, string barangayInput, string sitioInput)
         {
             // 1. Susiha kung ang email gigamit na ba daan
             var emailExists = _context.Users.Any(u => u.Email == model.Email);
@@ -420,6 +460,11 @@ namespace MyEccomerce.Controllers
                 ViewBag.Error = "Kini nga Email kay gigamit na, boss.";
                 return View("~/Pages/Public/Signup.cshtml", model);
             }
+
+            DateTime today = DateTime.UtcNow.Date;
+            int todayUserCount = await _context.Users.Where(o => o.DateCreated == today).CountAsync();
+            int nextSequence = todayUserCount + 1;
+            string UserIdString = UserIdGenerator.UserIdStringGenerator(nextSequence, "user");
 
             if (ModelState.IsValid)
             {
@@ -442,6 +487,7 @@ namespace MyEccomerce.Controllers
                 }
 
                 // 4. KINI ANG IMONG GIPANGITA: I-set ang UserType ug uban pang system fields
+                model.UserIdStringGenerated = UserIdString;
                 model.UserType = "User";
                 model.DateCreated = DateTime.Now; // Importante para dili mag-error ang non-nullable DateTime sa DB
 

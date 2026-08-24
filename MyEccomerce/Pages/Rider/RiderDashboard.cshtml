@@ -1,0 +1,187 @@
+﻿@{
+    ViewData["Title"] = "Rider Dashboard";
+    Layout = "_LayoutRider";
+
+}
+
+<!-- Custom CSS Rules for Styling -->
+<style>
+    .bg-cyan-blue {
+        background-color: #008080 !important; /* Deep Cyan Blue */
+    }
+
+    .btn-cyan {
+        background-color: #0d6efd;
+        color: #ffffff;
+        border: none;
+    }
+
+        .btn-cyan:hover {
+            background-color: #0b5ed7;
+            color: #ffffff;
+        }
+
+    .btn-action-green {
+        background-color: #198754;
+        color: #ffffff;
+        font-weight: 600;
+    }
+
+        .btn-action-green:hover {
+            background-color: #146c43;
+            color: #ffffff;
+        }
+
+    .text-cyan {
+        color: #008080 !important;
+    }
+
+    .text-green-accent {
+        color: #198754 !important;
+    }
+
+    .border-cyan-left {
+        border-left: 5px solid #008080 !important;
+    }
+</style>
+
+<div class="container my-3">
+    <!-- Header Summary Section -->
+    <div class="card bg-cyan-blue text-white shadow-sm mb-3">
+        <div class="card-body p-3">
+            <div class="d-flex justify-content-between align-items-center">
+                <div>
+                    <small class="text-white-50 d-block">Rider Status</small>
+                    <span class="badge bg-success fs-6"><i class="bi bi-circle-fill me-1"></i> ONLINE</span>
+                </div>
+                <div class="text-end">
+                    <small class="text-white-50 d-block">Today's Earnings</small>
+                    <h4 class="mb-0 fw-bold">₱850.00</h4>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Navigation Tabs -->
+    <ul class="nav nav-pills nav-justified mb-3 shadow-sm bg-light rounded p-1" id="riderTab" role="tablist">
+        <li class="nav-item" role="presentation">
+            <button class="nav-link active fw-bold" id="active-tab" data-bs-toggle="tab" data-bs-target="#active-delivery" type="button" role="tab">Active Task (1)</button>
+        </li>
+        <li class="nav-item" role="presentation">
+            <button class="nav-link text-secondary fw-bold" id="history-tab" data-bs-toggle="tab" data-bs-target="#history" type="button" role="tab">History</button>
+        </li>
+    </ul>
+
+    <!-- Tab Content -->
+    <div class="tab-content" id="riderTabContent">
+
+        <!-- ACTIVE DELIVERY CARD -->
+        <div class="tab-pane fade show active" id="active-delivery" role="tabpanel">
+            <div class="card shadow-sm border-cyan-left">
+                <div class="card-header bg-white d-flex justify-content-between align-items-center pt-3">
+                    <span class="fw-bold text-cyan">Order #ORD-98214</span>
+                    <span class="badge bg-warning text-dark">FOR PICKUP</span>
+                </div>
+
+                <div class="card-body">
+                    <!-- Pickup Details -->
+                    <div class="mb-3">
+                        <small class="text-muted text-uppercase d-block fw-bold">1. Pickup Store</small>
+                        <h6 class="mb-0 fw-bold text-dark">Bantayan Hub Store</h6>
+                        <p class="text-secondary small mb-1">Poblacion, Bantayan, Cebu</p>
+                        <a href="tel:09123456789" class="btn btn-sm btn-outline-secondary rounded-pill me-1">
+                            <i class="bi bi-telephone-fill"></i> Call Store
+                        </a>
+                    </div>
+
+                    <hr class="text-muted">
+
+                    <!-- Delivery Details -->
+                    <div class="mb-3">
+                        <small class="text-muted text-uppercase d-block fw-bold">2. Customer Drop-off</small>
+                        <h6 class="mb-0 fw-bold text-dark">Juan Dela Cruz</h6>
+                        <p class="text-secondary small mb-1">Suba, Bantayan, Cebu (Atbang sa White Store)</p>
+                        <div class="d-flex gap-2 mt-2">
+                            <a href="tel:09987654321" class="btn btn-sm btn-cyan rounded-pill">
+                                <i class="bi bi-telephone-fill"></i> Call Customer
+                            </a>
+                            <button class="btn btn-sm btn-outline-primary rounded-pill">
+                                <i class="bi bi-chat-text-fill"></i> In-App Chat
+                            </button>
+                        </div>
+                    </div>
+
+                    <hr class="text-muted">
+
+                    <!-- Payment & Item Info -->
+                    <div class="row g-2 mb-3 bg-light p-2 rounded">
+                        <div class="col-6">
+                            <small class="text-muted d-block">Payment Mode</small>
+                            <span class="fw-bold text-green-accent">Cash on Delivery (COD)</span>
+                        </div>
+                        <div class="col-6 text-end">
+                            <small class="text-muted d-block">Collect Amount</small>
+                            <span class="fw-bold text-dark fs-5">₱450.00</span>
+                        </div>
+                    </div>
+
+                    <!-- Navigation Map Button -->
+                    <a href="https://maps.google.com" target="_blank" class="btn btn-outline-success w-100 mb-3 fw-bold">
+                        <i class="bi bi-geo-alt-fill"></i> Open in Google Maps
+                    </a>
+
+                    <div class="d-grid gap-2">
+                        <!-- Button para mag-notify nga Out for Delivery na -->
+                        <button class="btn btn-cyan btn-lg mb-2" type="button" onclick="notifyCustomer('ORD-98214', 'OutForDelivery')">
+                            <i class="bi bi-truck me-2"></i> On the Way na ko (Notify Customer)
+                        </button>
+
+                        <!-- Modal Button para sa Complete Delivery -->
+                        <button class="btn btn-action-green btn-lg" type="button" data-bs-toggle="modal" data-bs-target="#proofModal">
+                            Complete Delivery
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- HISTORY TAB -->
+        <div class="tab-pane fade" id="history" role="tabpanel">
+            <div class="list-group shadow-sm">
+                <div class="list-group-item d-flex justify-content-between align-items-center">
+                    <div>
+                        <h6 class="mb-0 fw-bold">Order #ORD-98100</h6>
+                        <small class="text-muted">Completed • 10:30 AM</small>
+                    </div>
+                    <span class="fw-bold text-green-accent">+₱50.00</span>
+                </div>
+            </div>
+        </div>
+
+    </div>
+</div>
+
+<!-- Proof of Delivery Modal -->
+<div class="modal fade" id="proofModal" tabindex="-1" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered">
+        <div class="modal-content">
+            <div class="modal-header bg-cyan-blue text-white">
+                <h5 class="modal-title fs-6">Complete Delivery</h5>
+                <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                <form>
+                    <div class="mb-3">
+                        <label class="form-label fw-bold text-secondary">Upload Proof of Delivery (Photo)</label>
+                        <input type="file" class="form-control" accept="image/*" capture="camera">
+                    </div>
+                    <div class="mb-3">
+                        <label class="form-label fw-bold text-secondary">Notes (Optional)</label>
+                        <textarea class="form-control" rows="2" placeholder="e.g., Received by sister"></textarea>
+                    </div>
+                    <button type="submit" class="btn btn-action-green w-100">Submit & Complete</button>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>

@@ -2,10 +2,12 @@
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.AspNetCore.SignalR;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.EntityFrameworkCore.Metadata.Internal;
+using Microsoft.Identity.Client;
 using MyEccomerce.Data;
 using MyEccomerce.Hubs;
 using MyEccomerce.Models; // Siguroha nga husto ang imong namespace
-
+using System.Data;
 using System.Security.Claims;
 
 public class OrdersController : Controller
@@ -289,17 +291,21 @@ public class OrdersController : Controller
     // GET: Orders/TrackOrder/5
 
     [HttpGet]
-    [Route("Orders/TrackOrder/{id}")]
-    public async Task<IActionResult> TrackOrder(int id)
+    [Route("Orders/TrackOrder/{generatedOrderId}")]
+    public async Task<IActionResult> TrackOrder(string generatedOrderId)
     {
         // Kuhaon ang order data base sa ID
 
         var currentUserId = (int)Convert.ToInt32(User.FindFirstValue(ClaimTypes.NameIdentifier));
-        var order = await _context.Orders
-            .FirstOrDefaultAsync(m => m.OrderId == id && m.UserId == currentUserId );
+        
+
 
        
-      
+
+        var order = await _context.Orders
+            .FirstOrDefaultAsync(o => o.OrderIdGenerated == generatedOrderId && o.UserId == currentUserId && o.RiderId != 0 && o.RiderId != null);
+
+        
 
         
 
@@ -442,6 +448,9 @@ public class OrdersController : Controller
     }
 
 
+    
+      
+    }
 
     /* [HttpPost]
      [ValidateAntiForgeryToken]
@@ -532,7 +541,5 @@ public class OrdersController : Controller
    
 
    
-
-}
 
 

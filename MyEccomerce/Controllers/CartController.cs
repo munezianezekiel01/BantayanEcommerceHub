@@ -282,9 +282,20 @@ namespace MyEccomerce.Controllers
 
             var userProfile = await _context.Users.FindAsync(userId);
 
+
+            DateTime today = DateTime.UtcNow.Date;
+            int todayOrderCount = await _context.Orders.Where(o => o.OrderDate == today).CountAsync();
+            int nextSequence = todayOrderCount +1;
+            string custumerOrderId = OrderIdGenerator.GeneratedOrderId(nextSequence, "BH");
+
+
+
+           
+
             // 3. Create Order (Gigamit ang 'deliveryAddress' gikan sa front-end parameter)
             var newOrder = new Order
             {
+                OrderIdGenerated = custumerOrderId,
                 UserId = userId,
                 OrderDate = DateTime.Now,
                 Status = "Pending",

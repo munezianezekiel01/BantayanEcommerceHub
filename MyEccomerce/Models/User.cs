@@ -24,6 +24,8 @@
 
         public string? Address { get; set; }
 
+        public string? UserIdStringGenerated { get; set; }
+
         // --- MUNI ANG MGA SECURITY FIELDS NGA ATONG I-ADD ---
 
         // Para sa 6-digit code
