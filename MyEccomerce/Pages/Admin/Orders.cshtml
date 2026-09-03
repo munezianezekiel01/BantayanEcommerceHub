@@ -15,7 +15,7 @@
         </span>
     </div>
 
-    <!-- FEATURE 1: Search ug Filter Tabs -->
+    <!-- Search ug Filter Tabs -->
     <div class="card shadow-sm border-0 mb-4 p-3 bg-white">
         <div class="row g-2 align-items-center">
             <div class="col-md-4">
@@ -25,7 +25,6 @@
                 </div>
             </div>
             <div class="col-md-8 text-md-end">
-                <!-- Filter Buttons (Dali ra i-filter gamit ang JS sa ubos) -->
                 <button class="btn btn-sm btn-outline-secondary active filter-btn" onclick="filterOrders('All')">Tanan</button>
                 <button class="btn btn-sm btn-outline-warning text-dark filter-btn" onclick="filterOrders('Pending')">Pending</button>
                 <button class="btn btn-sm btn-outline-primary filter-btn" onclick="filterOrders('Confirmed')">Confirmed</button>
@@ -38,7 +37,7 @@
     @if (!Model.Any())
     {
         <div class="text-center p-5 border rounded bg-light">
-            <h5 class="text-muted">Walay order pa karon, @currentUser?.FirstName </h5>
+            <h5 class="text-muted">Walay order pa karon, @currentUser?.FirstName</h5>
         </div>
     }
 
@@ -46,13 +45,12 @@
     <div id="ordersContainer">
         @foreach (var order in Model)
         {
-            // GI-AYO: Gi-adjust ang badge class base sa tinuod nga status string sa imong switch case
             var badgeClass = order.Status == "Pending" ? "bg-warning text-dark" :
+            order.Status == "Assigned" ? "bg-info":
             order.Status == "Completed" ? "bg-success" :
             order.Status == "Cancelled" ? "bg-secondary" :
             order.Status == "Out for Delivery" ? "bg-info text-dark" : "bg-primary";
 
-            <!-- Gidugangan og data attributes para sa sayon nga pag-filter ug search sa JS -->
             <div class="card order-card shadow-sm border-0 mb-4 overflow-hidden"
                  data-status="@order.Status"
                  data-customer="@(order.User?.FirstName) @(order.User?.LastName)"
@@ -112,15 +110,16 @@
                                         break;
 
                                     case "Confirmed":
-                                        <button class="btn btn-warning btn-sm text-dark" onclick="updateStatus(@order.OrderId, 'Out for Delivery')">
-                                            <i class="bi bi-bicycle"></i> Out for Delivery
+                                        <!-- Modal Trigger Button -->
+                                        <button class="btn btn-warning btn-sm text-dark" onclick="openAssignModal(@order.OrderId)">
+                                            <i class="bi bi-person-badge"></i> Assign Rider
                                         </button>
                                         break;
 
                                     case "Out for Delivery":
-                                        <button class="btn btn-success btn-sm" onclick="updateStatus(@order.OrderId, 'Completed')">
-                                            <i class="bi bi-check2-all"></i> Mark Completed
-                                        </button>
+                                        <span class="badge bg-info text-dark p-2">
+                                            <i class="bi bi-bicycle"></i> Out for Delivery (Rider Active)
+                                        </span>
                                         break;
 
                                     case "Completed":
@@ -132,7 +131,6 @@
                                         break;
                                 }
 
-                                <!-- FEATURE 3: Print Receipt Element (Mao ni idugang) -->
                                 <button class="btn btn-outline-secondary btn-sm" onclick="window.print()">
                                     <i class="bi bi-printer"></i> Print Invoice
                                 </button>
@@ -152,63 +150,208 @@
     </div>
 </div>
 
+<!-- ========================================== -->
+<!-- REUSABLE ASSIGN RIDER MODAL                -->
+<!-- ========================================== -->
+<!-- REUSABLE ASSIGN RIDER MODAL -->
+<div class="modal fade" id="assignRiderModal" tabindex="-1" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered">
+        <div class="modal-content border-0 shadow">
+            <div class="modal-header bg-dark text-white">
+                <h5 class="modal-title fw-bold" id="modalTitle">Assign Rider</h5>
+                <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                <input type="hidden" id="modalOrderId" />
 
-<script>
-    // FEATURE 1: Client-side Search ug Filter Logic (Wala nay sige refresh)
-    function filterOrders(status) {
-        $('.filter-btn').removeClass('active');
-        $(event.target).addClass('active');
+                <div class="mb-3">
+                    
+                    <label class="form-label fw-bold">Pili og Rider para ani nga order:</label>
+                    <select id="riderSelect" class="form-select" required>
 
-        $('.order-card').each(function() {
-            var cardStatus = $(this).data('status');
-            if(status === 'All' || cardStatus === status) {
-                $(this).show();
-            } else {
-                $(this).hide();
-            }
+                        <option value="">Nag-load sa lista sa riders...</option>
+                    </select>
+                </div>
+            </div>
+            <div class="modal-footer border-top-0">
+                <button onclick="updateStatus(1294, 'Assigned')">Assigned </button>
+                <button type="button" class="btn btn-light rounded-pill" data-bs-dismiss="modal">Cancel</button>
+                <button type="button" class="btn btn-primary rounded-pill px-4" onclick="submitRiderAssignment()">Confirm Assignment</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+@section Scripts {
+    <script>
+        // Open Modal Function
+    async function openAssignModal(orderId) {
+    document.getElementById('modalOrderId').value = orderId;
+    document.getElementById('modalTitle').innerText = "Assign Rider para sa Order #" + orderId;
+
+    const selectElement = document.getElementById('riderSelect');
+    selectElement.innerHTML = '<option value="">Nag-load sa lista sa riders...</option>';
+
+    // Ablihan ang Modal
+    const assignModal = new bootstrap.Modal(document.getElementById('assignRiderModal'));
+    assignModal.show();
+
+    // Fetch sa mga riders gikan sa Controller
+    try {
+        const response = await fetch('/Admin/GetRiders');
+        const riders = await response.json();
+
+        selectElement.innerHTML = '<option value="">-- Pilia ang Rider nga i-assign --</option>';
+        riders.forEach(rider => {
+            const option = document.createElement('option');
+            option.value = rider.userId;
+            option.textContent = rider.fullName;
+            selectElement.appendChild(option);
         });
+    } catch (error) {
+        selectElement.innerHTML = '<option value="">Failed to load riders</option>';
+    }
+}
+
+// Function para sa pag-save sa Rider Assignment
+function submitRiderAssignment() {
+
+    const orderId = document.getElementById('modalOrderId').value;
+    const riderId = document.getElementById('riderSelect').value;
+
+
+    updateStatus(orderId, 'Assigned');
+
+    if (!riderId) {
+        Swal.fire('Pahimangno', 'Palihog pili og rider una.', 'warning');
+        return;
     }
 
-    $('#orderSearch').on('keyup', function() {
-        var value = $(this).val().toLowerCase();
-        $('.order-card').each(function() {
-            var name = $(this).data('customer').toLowerCase();
-            var id = $(this).data('id').toLowerCase();
-            if(name.indexOf(value) > -1 || id.indexOf(value) > -1) {
-                $(this).show();
-            } else {
-                $(this).hide();
+    
+    
+
+    fetch('/Admin/AssignRider', {
+        method: 'POST',
+        headers: {
+            'Content-Type': 'application/x-www-form-urlencoded',
+        },
+        body: `orderId=${orderId}&riderId=${riderId}`
+    })
+    .then(res => res.json())
+    .then(data => {
+        if (data.success) {
+           
+                        
+
+            location.reload();
+        } else {
+            Swal.fire('Error', data.message || 'Naay sayop sa pag-assign sa rider.', 'error');
+        }
+    });
+}
+
+        // Search ug Filter (Pure JS)
+        function filterOrders(status) {
+            const filterBtns = document.querySelectorAll('.filter-btn');
+            filterBtns.forEach(btn => btn.classList.remove('active'));
+
+            if (window.event && window.event.currentTarget) {
+                window.event.currentTarget.classList.add('active');
+            }
+
+            const cards = document.querySelectorAll('.order-card');
+            cards.forEach(card => {
+                const cardStatus = card.getAttribute('data-status');
+                if (status === 'All' || cardStatus === status) {
+                    card.style.display = '';
+                } else {
+                    card.style.display = 'none';
+                }
+            });
+        }
+
+        document.addEventListener('DOMContentLoaded', function () {
+            const searchInput = document.getElementById('orderSearch');
+            if (searchInput) {
+                searchInput.addEventListener('keyup', function () {
+                    const value = this.value.toLowerCase();
+                    const cards = document.querySelectorAll('.order-card');
+
+                    cards.forEach(card => {
+                        const name = (card.getAttribute('data-customer') || '').toLowerCase();
+                        const id = (card.getAttribute('data-id') || '').toLowerCase();
+
+                        if (name.includes(value) || id.includes(value)) {
+                            card.style.display = '';
+                        } else {
+                            card.style.display = 'none';
+                        }
+                    });
+                });
             }
         });
-    });
 
-    // Original Update Status Function
-    function updateStatus(id, newStatus) {
-        Swal.fire({
-            title: 'Sigurado ka, boss?',
-            text: "I-update nato ang order mahimong: " + newStatus,
-            icon: 'question',
-            showCancelButton: true,
-            confirmButtonColor: '#0d6efd',
-            cancelButtonColor: '#6c757d',
-            confirmButtonText: 'Oo, Dayon!'
-        }).then((result) => {
-            if (result.isConfirmed) {
-                $.ajax({
-                    url: '/Admin/UpdateStatus',
-                    type: 'POST',
-                    data: { orderId: id, status: newStatus },
-                    success: function (res) {
+        // AJAX Update Status Function
+        function updateStatus(id, newStatus) {
+            Swal.fire({
+                title: 'Sigurado ka, boss?',
+                text: "I-update nato ang order mahimong: " + newStatus,
+                icon: 'question',
+                showCancelButton: true,
+                confirmButtonColor: '#0d6efd',
+                cancelButtonColor: '#6c757d',
+                confirmButtonText: 'Oo, Dayon!'
+            }).then((result) => {
+                if (result.isConfirmed) {
+                    fetch('/Admin/UpdateStatus', {
+                        method: 'POST',
+                        headers: {
+                            'Content-Type': 'application/x-www-form-urlencoded',
+                        },
+                        body: `orderId=${id}&status=${encodeURIComponent(newStatus)}`
+                    })
+                    .then(response => response.json())
+                    .then(res => {
                         if (res.success) {
                             location.reload();
                         } else {
                             Swal.fire('Error', 'Naay sayop sa pag-save, boss.', 'error');
                         }
-                    }
-                });
-            }
-        });
-    }
+                    });
+                }
+            });
+        }
 
-    
-</script>
+        async function saveAssignRider() {
+            const orderId = document.getElementById('modalOrderId').value;
+            const riderId = document.getElementById('riderSelect').value;
+
+            if (!riderId) {
+                alert("Palihug pilia ang rider.");
+                return;
+            }
+
+            try {
+                const response = await fetch('/Admin/AssignRider', {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({ orderId: parseInt(orderId), riderId: riderId })
+                });
+
+                if (response.ok) {
+                    // I-close ang modal
+                    const modalElement = document.getElementById('assignRiderModal');
+                    const modalInstance = bootstrap.Modal.getInstance(modalElement);
+                    modalInstance.hide();
+
+                    Swal.fire('Success', 'Nalampuson nga na-assign ang rider!', 'success');
+                } else {
+                    Swal.fire('Error', 'Nabaysog ang pag-assign sa rider.', 'error');
+                }
+            } catch (error) {
+                console.error("Assign error:", error);
+            }
+        }
+
+    </script>
+}

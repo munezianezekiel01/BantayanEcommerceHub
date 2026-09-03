@@ -7,7 +7,7 @@
 
     var slides = new[] {
         
-        new { Badge = "Flash Deal", Title = "Good Quality nga Dangit, Diri Maka barto ka Order na!", Desc = "Premium items nga dili sakit sa bulsa.", Img = "/Products/Images/danggit-main.jpg" },
+        new { Badge = "Flash Deal", Title = "Good Quality nga Dangit, Diri Maka barato ka Order na!", Desc = "Premium items nga dili sakit sa bulsa.", Img = "/Products/Images/danggit-main.jpg" },
         new { Badge = "New Arrival", Title = "Bag-ong Abot!", Desc = "Best and Good Quality nga Mga Bulad", Img = "/Products/Images/dried_gonggong.jpg" },
         new { Badge = "New Arrival", Title = "Presko!, Maka barato", Desc = "Best and Good Quality nga Mga Bulad", Img = "/Products/Images/" },
         new {Badge = "Flash Deal", Title = "Seasonal Items!", Desc = "Buko for Summer", Img = ""}
@@ -17,6 +17,8 @@
 @inject MyEccomerce.Data.ApplicationDbContext _context 
 @{
     var categories = _context.Categories.Take(11).ToList();
+
+    var ActiveProducts = _context.Products.Any(p => p.IsActive == true);
 }
 
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/4.1.1/animate.min.css" />
@@ -36,10 +38,14 @@
 
             @foreach (var category in categories)
             {
-                <div class="category-item">
-                    <i class="bi @category.IconClass fs-5 text-secondary"></i>
-                    <a href="/Home/Category/@category.CategoryId" class="small text-dark text-decoration-none fw-medium text-nowrap">@category.Name</a>
-                </div>
+                
+                if(category.IsActive == false)
+                {
+                    <div class="category-item">
+                        <i class="bi @category.IconClass fs-5 text-secondary"></i>
+                        <a href="/Home/Category/@category.CategoryId" class="small text-dark text-decoration-none fw-medium text-nowrap">@category.Name</a>
+                    </div>
+                }
             }
         </div>
     </div>
@@ -91,37 +97,41 @@
     </div>
 
     <div class="row g-2 g-lg-4 px-2">
-        @if (Model != null && Model.Any())
+        @if (Model != null && Model.Any() && Model.Any(p => p.IsActive == true ))
         {
             @foreach (var p in Model)
             {
-                // Safety check para sa price (Gi-ayo na!)
-                var firstVariant = p.ProductVariants?.OrderBy(v => v.Price).FirstOrDefault();
-                var finalPrice = firstVariant != null ? firstVariant.Price : p.Price;
-                var priceDisplay = finalPrice.ToString("N0");
+                //TANGTANGA RANI KUNG KINAHANGLANON 
+                if (p.IsActive == false)
+                {
+                    // Safety check para sa price (Gi-ayo na!)
+                    var firstVariant = p.ProductVariants?.OrderBy(v => v.Price).FirstOrDefault();
+                    var finalPrice = firstVariant != null ? firstVariant.Price : p.Price;
+                    var priceDisplay = finalPrice.ToString("N0");
 
-                <div class="col-6 col-md-4 col-lg-3">
-                    <a href="/Product/Details/@p.ProductId" class="card-clean animate__animated animate__fadeIn">
-                        <div class="img-container">
-                            <img src="@(string.IsNullOrEmpty(p.ImageUrl) ? "/images/no-image.png" : p.ImageUrl)"
-                                 alt="@p.Name"
-                                 loading="lazy">
-                        </div>
-
-                        <div class="card-body-clean">
-                            <span class="p-category">@(p.Category?.Name ?? "General")</span>
-                            <div class="p-name">@p.Name</div>
-
-                            <div class="p-price">
-                                @if (p.ProductVariants != null && p.ProductVariants.Count > 1)
-                                {
-                                    <span class="d-block text-muted" style="font-size: 0.6rem; font-weight: 400; line-height: 1;">Starts at</span>
-                                }
-                                ₱@priceDisplay
+                    <div class="col-6 col-md-4 col-lg-3">
+                        <a href="/Product/Details/@p.ProductId" class="card-clean animate__animated animate__fadeIn">
+                            <div class="img-container">
+                                <img src="@(string.IsNullOrEmpty(p.ImageUrl) ? "/images/no-image.png" : p.ImageUrl)"
+                                     alt="@p.Name"
+                                     loading="lazy">
                             </div>
-                        </div>
-                    </a>
-                </div>
+
+                            <div class="card-body-clean">
+                                <span class="p-category">@(p.Category?.Name ?? "General")</span>
+                                <div class="p-name">@p.Name</div>
+
+                                <div class="p-price">
+                                    @if (p.ProductVariants != null && p.ProductVariants.Count > 1)
+                                    {
+                                        <span class="d-block text-muted" style="font-size: 0.6rem; font-weight: 400; line-height: 1;">Starts at</span>
+                                    }
+                                    ₱@priceDisplay
+                                </div>
+                            </div>
+                        </a>
+                    </div>
+                }
             }
         }
         else

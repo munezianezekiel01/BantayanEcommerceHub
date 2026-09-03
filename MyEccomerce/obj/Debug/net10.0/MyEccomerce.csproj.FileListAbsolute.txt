@@ -168,6 +168,7 @@ C:\Users\munez\source\repos\MyEccomerce\MyEccomerce\obj\Debug\net10.0\compressed
 C:\Users\munez\source\repos\MyEccomerce\MyEccomerce\obj\Debug\net10.0\compressed\6eitzkdpdu-{0}-bc9mlig956-bc9mlig956.gz
 C:\Users\munez\source\repos\MyEccomerce\MyEccomerce\obj\Debug\net10.0\compressed\wrvaji2ahf-{0}-61n19gt1b8-61n19gt1b8.gz
 C:\Users\munez\source\repos\MyEccomerce\MyEccomerce\obj\Debug\net10.0\compressed\809avomtck-{0}-xzxphqo61i-xzxphqo61i.gz
+C:\Users\munez\source\repos\MyEccomerce\MyEccomerce\obj\Debug\net10.0\compressed\zj2yq51zpw-{0}-07zzvfm2wg-07zzvfm2wg.gz
 C:\Users\munez\source\repos\MyEccomerce\MyEccomerce\obj\Debug\net10.0\compressed\fwi17757fk-{0}-elta5pvcgj-elta5pvcgj.gz
 C:\Users\munez\source\repos\MyEccomerce\MyEccomerce\obj\Debug\net10.0\compressed\ybm687oegc-{0}-8e2difhj47-8e2difhj47.gz
 C:\Users\munez\source\repos\MyEccomerce\MyEccomerce\obj\Debug\net10.0\compressed\y4tehktuhq-{0}-3r8b2a0bt1-3r8b2a0bt1.gz
@@ -380,4 +381,3 @@ C:\Users\munez\source\repos\MyEccomerce\MyEccomerce\obj\Debug\net10.0\refint\MyE
 C:\Users\munez\source\repos\MyEccomerce\MyEccomerce\obj\Debug\net10.0\MyEccomerce.pdb
 C:\Users\munez\source\repos\MyEccomerce\MyEccomerce\obj\Debug\net10.0\MyEccomerce.genruntimeconfig.cache
 C:\Users\munez\source\repos\MyEccomerce\MyEccomerce\obj\Debug\net10.0\ref\MyEccomerce.dll
-C:\Users\munez\source\repos\MyEccomerce\MyEccomerce\obj\Debug\net10.0\compressed\zj2yq51zpw-{0}-07zzvfm2wg-07zzvfm2wg.gz

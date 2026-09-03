@@ -29,19 +29,19 @@ namespace MyEccomerce.Controllers
             return View("~/Pages/Admin/Dashboard.cshtml");
         }
 
- // Siguroha nga naa kini sa pinaka-itaas sa file
+        // Siguroha nga naa kini sa pinaka-itaas sa file
 
-public IActionResult ProductList()
-    {
-        // 1. Kuhaa ang tanang produkto ug I-INCLUDE ang iyang mga ProductVariants (Eager Loading)
-        var products = _context.Products
-                               .Include(p => p.ProductVariants)
-                               .ToList();
+        public IActionResult ProductList()
+        {
+            // 1. Kuhaa ang tanang produkto ug I-INCLUDE ang iyang mga ProductVariants (Eager Loading)
+            var products = _context.Products
+                                   .Include(p => p.ProductVariants)
+                                   .ToList();
 
-        // 2. I-return ang saktong path sa imong View ug i-pasa ang listahan sa mga produkto
-        return View("~/Pages/Admin/ProductList.cshtml", products);
-    }
-    [HttpPost]
+            // 2. I-return ang saktong path sa imong View ug i-pasa ang listahan sa mga produkto
+            return View("~/Pages/Admin/ProductList.cshtml", products);
+        }
+        [HttpPost]
         [ValidateAntiForgeryToken]
 
 
@@ -246,134 +246,11 @@ public IActionResult ProductList()
         }
 
         // Function para sa pag-update sa status (Action sa button)
+
+
+
         [HttpPost]
-        
-           public async Task<IActionResult> UpdateStatus(int orderId, string status)
-            {
-                // Mas maayo gamiton ang FindAsync kay async man atong method
-                var order = await _context.Orders.FindAsync(orderId);
-                if (order == null) return Json(new { success = false });
-
-                try
-                {
-                    order.Status = status;
-
-                    // 1. Pag-set sa Note depende sa Status
-                    string statusNote = status switch
-                    {
-                        "Confirmed" => "Gi-check na sa seller ang imong order ug gi-andam na.",
-                        "Out for Delivery" => "Ang imong order gi-turn over na sa courier ug padulong na kanimo.",
-                        "Completed" => "Salamat! Nadawat na ang order. Hinaot nagustohan nimo!",
-                        "Cancelled" => "Ang imong order na-cancel. Kontaka ang admin kung naay pangutana.",
-                        "Pending" => "Nagpaabot pa sa confirmation gikan sa seller.",
-                        _ => $"Ang status sa imong order na-update sa {status}."
-                    };
-
-                    // 2. Create Notification Object
-                    var newNotif = new Models.Notification
-                    {
-                        OrderId = orderId,
-                        UserId = order.UserId.ToString(),
-                        Message = $"Ang imong Order #{orderId} kay {status} na!",
-                        Status = status,
-                        IsRead = false,
-                        CreatedAt = DateTime.Now,
-                        UserProfilePicture = "https://ui-avatars.com/api/?name=Admin&background=0D6EFD&color=fff",
-                        TargetUrl = $"/Orders/OrderDetails/{orderId}"
-                    };
-
-                    // 3. Create Order Log (Timeline)
-                    _context.OrderLogs.Add(new OrderLog
-                    {
-                        OrderId = orderId,
-                        Status = status,
-                        Note = statusNote,
-                        LogDate = DateTime.Now
-                    });
-
-                    _context.Notifications.Add(newNotif);
-
-                    // I-save una sa database sa dili pa i-trigger ang SignalR
-                    await _context.SaveChangesAsync();
-
-                    string orderOwnerId = order.UserId.ToString();
-
-                    // 4. SIGNALR REAL-TIME TRIGGER (Gi-apil na ang statusNote ug uban pang data)
-                    await _hubContext.Clients.Group(orderOwnerId).SendAsync("NewUpdateAlert", new
-                    {
-                        orderId = orderId,
-                        status = status,
-                        note = statusNote, // Kinahanglan ni sa frontend para sa timeline
-                        message = newNotif.Message, // Kinahanglan para sa notification popup
-                        targetUrl = newNotif.TargetUrl
-                    });
-
-
-
-
-                    // 1. Siguroha nga makuha nimo ang UserId gikan sa order object
-
-
-                    // 2. Ipadala ang alert ngadto sa iyang personal nga group (orderOwnerId) imbes nga "Updates"
-
-                    return Json(new { success = true });
-                }
-                catch (Exception ex)
-                {
-                    return Json(new { success = false, message = ex.Message });
-                }
-            }
-            public IActionResult Inventory()
-            {
-                // 1. Kuhaa ang tanang products gikan sa database
-                var products = _context.Products.ToList();
-
-                // 2. I-pasa ang 'products' list isip Model sa View
-                return View("~/Pages/Admin/Inventory.cshtml", products);
-            }
-
-
-
-            [HttpPost]
-            public async Task<IActionResult> Restock(int productId, int addQty)
-            {
-                var product = await _context.Products.FindAsync(productId);
-                if (product != null)
-                {
-                    // 1. Update the Main Stock
-                    product.Stock += addQty;
-
-                    // 2. Add to Inventory Log
-                    var log = new InventoryLog
-                    {
-                        ProductId = productId,
-                        Quantity = addQty,
-                        Type = "Restock",
-                        Remarks = "Manual restock from admin"
-                    };
-
-                    _context.InventoryLogs.Add(log);
-                    await _context.SaveChangesAsync();
-                }
-                return RedirectToAction("Index");
-            }
-
-
-            public async Task<IActionResult> MyClient()
-            {
-                var myclient = _context.Users.FirstOrDefault();
-
-                return View("~/Pages/Admin/MyClient.cshtml", myclient);
-            }
-
-
-
-        }
-    }
-   
-        // Siguroha nga naa kini sa ibabaw
-
-       /* public async Task<IActionResult> UpdateStatus(int orderId, string status)
+        public async Task<IActionResult> UpdateStatus(int orderId, string status)
         {
             var order = await _context.Orders.FindAsync(orderId);
             if (order == null) return Json(new { success = false });
@@ -385,6 +262,7 @@ public IActionResult ProductList()
                 string statusNote = status switch
                 {
                     "Confirmed" => "Gi-check na sa seller ang imong order ug gi-andam na.",
+                    "Assigned" => "Deliver Rider Assigned",
                     "Out for Delivery" => "Ang imong order gi-turn over na sa courier ug padulong na kanimo.",
                     "Completed" => "Salamat! Nadawat na ang order. Hinaot nagustohan nimo!",
                     "Cancelled" => "Ang imong order na-cancel. Kontaka ang admin kung naay pangutana.",
@@ -415,57 +293,28 @@ public IActionResult ProductList()
                 _context.Notifications.Add(newNotif);
                 await _context.SaveChangesAsync();
 
-                string orderOwnerId = order.UserId.ToString();
-
-                // -------------------------------------------------------------------------
-                // A. SIGNALR (Para sa mga user nga KAKURANTING NAGA-AWAS / ABLI ANG BROWSER)
-                // -------------------------------------------------------------------------
-                await _hubContext.Clients.Group(orderOwnerId).SendAsync("NewUpdateAlert", new
+                var alertPayload = new
                 {
                     orderId = orderId,
                     status = status,
                     note = statusNote,
                     message = newNotif.Message,
                     targetUrl = newNotif.TargetUrl
-                });
+                };
 
-                // -------------------------------------------------------------------------
-                // B. FIREBASE PUSH NOTIFICATION (Para sa mga user nga SIRADO ANG BROWSER)
-                // -------------------------------------------------------------------------
-                // 1. Kuhaa ang Device Token sa user gikan sa database (I-adjust kini depende sa imong Table name)
-                var userTokenObj = await _context.UserTokens
-                    .FirstOrDefaultAsync(t => t.UserId == order.UserId.ToString()); // Pananglitan og naay UserTokens table
+                // 1. Ipadala sa Customer (Order Owner)
+                string orderOwnerId = order.UserId.ToString();
+                await _hubContext.Clients.Group(orderOwnerId).SendAsync("NewUpdateAlert", alertPayload);
 
-                if (userTokenObj != null && !string.IsNullOrEmpty(userTokenObj.Token))
+                // 2. Ipadala sa Rider (kon naay gi-assign nga rider)
+                if (order.RiderId.HasValue)
                 {
-                    // 2. Paghimo sa Firebase Message payload
-                    var fcmMessage = new Message()
-                    {
-                        Token = userTokenObj.Token, // Ang bulawanong Device Token
-                        Notification = new FirebaseAdmin.Messaging.Notification()
-                        {
-                            Title = "B-HUB Order Update",
-                            Body = newNotif.Message // E.g., "Ang imong Order #123 kay Confirmed na!"
-                        },
-                        Data = new Dictionary<string, string>()
-                {
-                    { "orderId", orderId.ToString() },
-                    { "targetUrl", newNotif.TargetUrl }
+                    string riderId = order.RiderId.Value.ToString();
+                    await _hubContext.Clients.Group(riderId).SendAsync("NewUpdateAlert", alertPayload);
                 }
-                    };
 
-                    // 3. I-send ang message sa Firebase Cloud Messaging server sa luyo
-                    try
-                    {
-                        string response = await FirebaseMessaging.DefaultInstance.SendAsync(fcmMessage);
-                        // Pwede nimo i-log ang response para sa debugging: Console.WriteLine("FCM Success: " + response);
-                    }
-                    catch (Exception fcmEx)
-                    {
-                        // Kung na-expire na ang token o napapas sa user, i-catch lang para dili ma-crash ang tibuok update transaction
-                        Console.WriteLine("FCM Error: " + fcmEx.Message);
-                    }
-                }
+                // 3. (Optional) Broadcast sa tanang Admin o Gamita ang Clients.All para sa testing
+                await _hubContext.Clients.All.SendAsync("NewUpdateAlert", alertPayload);
 
                 return Json(new { success = true });
             }
@@ -476,13 +325,238 @@ public IActionResult ProductList()
         }
 
 
-    }
+
+
+
+        [HttpPost]
+        [Route("Admin/AssignRider")]
+        public async Task<IActionResult> AssignRider(int orderId, int riderId)
+        {
+
+            var order = await _context.Orders.FindAsync(orderId);
+            if (order == null) return Json(new { success = false, message = "Order not found" });
+
+            order.RiderId = riderId;
+            order.Status = "Assigned";
+
+            _context.Orders.Update(order);
+            await _context.SaveChangesAsync();
+
+            // 🚀 KINI ANG PAG-TRIGGER SA SIGNALR:
+            // Mo-send kini sa "NewUpdateAlert" event ngadto sa tanang nakakonekta nga clients
+            await _hubContext.Clients.All.SendAsync("NewUpdateAlert", new
+            {
+                orderId = order.OrderId,
+                status = order.Status
+            });
+
+            if (order.Status == "Assigned")
+            {
+                _context.OrderLogs.Add(new OrderLog
+                {
+                    OrderId = orderId,
+                    Status = order.Status,
+                    Note = "Deliver Rider Assigned",
+                    LogDate = DateTime.Now
+                });
+            }
+            await _context.SaveChangesAsync();
+
+            return Json(new { success = true });
+        }
+
+
+
+
+
+
+
+
+
+        public IActionResult Inventory()
+        {
+            // 1. Kuhaa ang tanang products gikan sa database
+            var products = _context.Products.ToList();
+
+            // 2. I-pasa ang 'products' list isip Model sa View
+            return View("~/Pages/Admin/Inventory.cshtml", products);
+        }
+
+
+
+        [HttpPost]
+        public async Task<IActionResult> Restock(int productId, int addQty)
+        {
+            var product = await _context.Products.FindAsync(productId);
+            if (product != null)
+            {
+                // 1. Update the Main Stock
+                product.Stock += addQty;
+
+                // 2. Add to Inventory Log
+                var log = new InventoryLog
+                {
+                    ProductId = productId,
+                    Quantity = addQty,
+                    Type = "Restock",
+                    Remarks = "Manual restock from admin"
+                };
+
+                _context.InventoryLogs.Add(log);
+                await _context.SaveChangesAsync();
+            }
+            return RedirectToAction("Index");
+        }
+
+
+        public async Task<IActionResult> MyClient()
+        {
+            var myclient = _context.Users.FirstOrDefault();
+
+            return View("~/Pages/Admin/MyClient.cshtml", myclient);
+        }
+
+
+
+        
+
+
+        [HttpGet]
+        [Route("Admin/GetRiders")]
+        public async Task<IActionResult> GetRiders()
+        {
+            var riders = await _context.Users
+                .Where(u => u.UserType == "Rider")
+                .Select(u => new
+                {
+                    userId = u.UserId,
+                    fullName = u.FirstName + " " + u.LastName
+                })
+                .ToListAsync();
+
+            return Json(riders);
+
+
+        }
+
+       
+    
+}
+}
+
+
+
+// Siguroha nga naa kini sa ibabaw
+
+/* public async Task<IActionResult> UpdateStatus(int orderId, string status)
+ {
+     var order = await _context.Orders.FindAsync(orderId);
+     if (order == null) return Json(new { success = false });
+
+     try
+     {
+         order.Status = status;
+
+         string statusNote = status switch
+         {
+             "Confirmed" => "Gi-check na sa seller ang imong order ug gi-andam na.",
+             "Out for Delivery" => "Ang imong order gi-turn over na sa courier ug padulong na kanimo.",
+             "Completed" => "Salamat! Nadawat na ang order. Hinaot nagustohan nimo!",
+             "Cancelled" => "Ang imong order na-cancel. Kontaka ang admin kung naay pangutana.",
+             "Pending" => "Nagpaabot pa sa confirmation gikan sa seller.",
+             _ => $"Ang status sa imong order na-update sa {status}."
+         };
+
+         var newNotif = new Models.Notification
+         {
+             OrderId = orderId,
+             UserId = order.UserId.ToString(),
+             Message = $"Ang imong Order #{orderId} kay {status} na!",
+             Status = status,
+             IsRead = false,
+             CreatedAt = DateTime.Now,
+             UserProfilePicture = "https://ui-avatars.com/api/?name=Admin&background=0D6EFD&color=fff",
+             TargetUrl = $"/Orders/OrderDetails/{orderId}"
+         };
+
+         _context.OrderLogs.Add(new OrderLog
+         {
+             OrderId = orderId,
+             Status = status,
+             Note = statusNote,
+             LogDate = DateTime.Now
+         });
+
+         _context.Notifications.Add(newNotif);
+         await _context.SaveChangesAsync();
+
+         string orderOwnerId = order.UserId.ToString();
+
+         // -------------------------------------------------------------------------
+         // A. SIGNALR (Para sa mga user nga KAKURANTING NAGA-AWAS / ABLI ANG BROWSER)
+         // -------------------------------------------------------------------------
+         await _hubContext.Clients.Group(orderOwnerId).SendAsync("NewUpdateAlert", new
+         {
+             orderId = orderId,
+             status = status,
+             note = statusNote,
+             message = newNotif.Message,
+             targetUrl = newNotif.TargetUrl
+         });
+
+         // -------------------------------------------------------------------------
+         // B. FIREBASE PUSH NOTIFICATION (Para sa mga user nga SIRADO ANG BROWSER)
+         // -------------------------------------------------------------------------
+         // 1. Kuhaa ang Device Token sa user gikan sa database (I-adjust kini depende sa imong Table name)
+         var userTokenObj = await _context.UserTokens
+             .FirstOrDefaultAsync(t => t.UserId == order.UserId.ToString()); // Pananglitan og naay UserTokens table
+
+         if (userTokenObj != null && !string.IsNullOrEmpty(userTokenObj.Token))
+         {
+             // 2. Paghimo sa Firebase Message payload
+             var fcmMessage = new Message()
+             {
+                 Token = userTokenObj.Token, // Ang bulawanong Device Token
+                 Notification = new FirebaseAdmin.Messaging.Notification()
+                 {
+                     Title = "B-HUB Order Update",
+                     Body = newNotif.Message // E.g., "Ang imong Order #123 kay Confirmed na!"
+                 },
+                 Data = new Dictionary<string, string>()
+         {
+             { "orderId", orderId.ToString() },
+             { "targetUrl", newNotif.TargetUrl }
+         }
+             };
+
+             // 3. I-send ang message sa Firebase Cloud Messaging server sa luyo
+             try
+             {
+                 string response = await FirebaseMessaging.DefaultInstance.SendAsync(fcmMessage);
+                 // Pwede nimo i-log ang response para sa debugging: Console.WriteLine("FCM Success: " + response);
+             }
+             catch (Exception fcmEx)
+             {
+                 // Kung na-expire na ang token o napapas sa user, i-catch lang para dili ma-crash ang tibuok update transaction
+                 Console.WriteLine("FCM Error: " + fcmEx.Message);
+             }
+         }
+
+         return Json(new { success = true });
+     }
+     catch (Exception ex)
+     {
+         return Json(new { success = false, message = ex.Message });
+     }
+ }
+
 
 }
 
-        }*/
-        
+}
 
-        
+ }*/
 
-        
+
+
+

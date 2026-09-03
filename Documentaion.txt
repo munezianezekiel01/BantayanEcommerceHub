@@ -1,0 +1,12 @@
+1 Product IsActive = false
+
+kung ang Product ang Column Value Kay IsActive = 0; 
+before i set sa 1 ang CategoryTable Dapat ang Column nga IsActive pud Dapat = 1;
+
+
+2 Kung Ang Category Table ang Iyang Column naka IsActive = 0
+Dapat ang Product sab nga Naka Foreign Key Nga Id sa Product 
+Dapat ang Colum IsActive = 1 Both CategoryTable Ug ProductTable 
+
+
+//"@User.FindFirstValue(System.Security.Claims.ClaimTypes.NameIdentifier)";

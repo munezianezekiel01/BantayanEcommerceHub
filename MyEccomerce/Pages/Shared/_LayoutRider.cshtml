@@ -1,4 +1,5 @@
-﻿@model MyEccomerce.Models.Order
+﻿@using System.Security.Claims
+
 
 <!DOCTYPE html>
 <html lang="en">
@@ -136,54 +137,74 @@
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
     <script src="~/js/signalr.min.js"></script>
 
-    <script>
-       const trackingConnection = new signalR.HubConnectionBuilder()
-    .withUrl("/trackingHub", {
-        skipNegotiation: true,
-        transport: signalR.HttpTransportType.WebSockets
-    })
-    .withAutomaticReconnect()
-    .build();
 
-        let watchId = null;
-        // Check if Model is null before accessing OrderIdGenerated
-        const currentOrderId = "@(Model != null ? Model.OrderIdGenerated : "")";
+   
 
-        if (currentOrderId !== "") {
-            trackingConnection.start().then(() => {
-                console.log("Rider Connected to TrackingHub");
-                startLocationTracking();
-            }).catch(err => console.error("SignalR Connection Error: ", err));
-        } else {
-            console.warn("No Active Order ID found. Location tracking paused.");
-        }
+   
 
-        function startLocationTracking() {
-            if ("geolocation" in navigator) {
-                watchId = navigator.geolocation.watchPosition( 
-                    (position) => {
-                        const lat = position.coords.latitude;
-                        const lng = position.coords.longitude;
+<!-- Libraries -->
+<script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/microsoft-signalr/7.0.5/signalr.min.js"></script>
 
-                        console.log(`Sending GPS: Lat ${lat}, Lng ${lng}`);
+<script>
+            (function() {
+                const connection = new signalR.HubConnectionBuilder()
+                    .withUrl("/updateHub")
+                    .withAutomaticReconnect()
+                    .build();
 
-                        trackingConnection.invoke("UpdateRiderLocation", currentOrderId, lat, lng)
-                            .catch(err => console.error("Hub Invoke Error: ", err));
-                    },
-                    (error) => {
-                        console.error("GPS Error: ", error.message);
-                    },
-                    {
-                        enableHighAccuracy: true,
-                        maximumAge: 0,
-                        timeout: 5000
+                connection.on("NewUpdateAlert", (data) => {
+                    console.log("Rider received SignalR payload:", data);
+
+                    // Patugtugon ang sound
+                    new Audio('https://actions.google.com/sounds/v1/alarms/beep_short.ogg').play().catch(e => console.log(e));
+
+                    // Alert Popup
+                    if (typeof Swal !== 'undefined') {
+                        Swal.fire({
+                            toast: true,
+                            position: 'top-end',
+                            icon: 'info',
+                            title: `Order #${data.orderId}`,
+                            text: `Status: ${data.status}`,
+                            showConfirmButton: false,
+                            timer: 3500
+                        });
                     }
-                );
-            } else {
-                alert("Geolocation is not supported by your browser.");
-            }
-        }
+
+                    // Auto reload ang page para ma-update ang data sa UI
+                    setTimeout(() => {
+                        location.reload();
+                    }, 1500);
+                });
+
+                connection.start().then(function() {
+                    console.log("SignalR Connected sa LayoutRider!");
+
+                    // I-join ang Rider sa iyang personal group gamit ang iyang User ID
+                    const currentRiderId = "@User.FindFirstValue(ClaimTypes.NameIdentifier)";
+                    if (currentRiderId) {
+                        connection.invoke("JoinUserGroup", currentRiderId)
+                            .then(() => console.log(`Joined SignalR group for Rider: ${currentRiderId}`))
+                            .catch(err => console.error("JoinUserGroup Error:", err.toString()));
+                    } else {
+                        // Fallback testing para sa hardcoded rider id 14
+                        connection.invoke("JoinUserGroup", "14")
+                            .catch(err => console.error("Fallback JoinUserGroup Error:", err.toString()));
+                    }
+                }).catch(function(err) {
+                    console.error("SignalR Layout Connection Error:", err.toString());
+                });
+            })();
     </script>
+
+    <script>
+            
+    </script>
+
+            
+
+           
 
     @await RenderSectionAsync("Scripts", required: false)
 </body>

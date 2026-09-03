@@ -5,6 +5,15 @@
     ViewData["Title"] = ViewBag.CategoryName;
 }
 
+@inject MyEccomerce.Data.ApplicationDbContext _context 
+@{
+    
+
+    
+    
+
+}
+
 <div class="container mt-4 animate__animated animate__fadeIn">
     <nav aria-label="breadcrumb" class="mb-4">
         <ol class="breadcrumb bg-transparent p-0">
@@ -19,7 +28,9 @@
         </div>
         <div>
             <h2 class="fw-bold mb-0">@ViewBag.CategoryName</h2>
-            <p class="text-muted mb-0">Nakit-an namo ang @Model.Count() ka products para nimo, boss.</p>
+           @*  <p class="text-muted mb-0">Nakit-an namo ang @Model.Count() ka products para nimo, boss.</p> *@
+         
+                            
         </div>
     </div>
 
@@ -39,21 +50,25 @@
         {
             @foreach (var p in Model)
             {
-                <div class="col-6 col-md-4 col-lg-3">
-                    <div class="card-clean h-100 shadow-sm border-0 rounded-4 overflow-hidden" style="transition: transform 0.3s ease;">
-                        <a href="/Product/Details/@p.ProductId" class="img-container d-block overflow-hidden" style="height: 200px; background: #f8f9fa;">
-                            <img src="@p.ImageUrl" class="w-100 h-100" style="object-fit: contain;">
-                        </a>
-                        <div class="card-body-clean p-3">
-                            <span class="text-primary fw-bold extra-small text-uppercase" style="font-size: 0.65rem;">@ViewBag.CategoryName</span>
-                            <div class="p-name fw-bold text-dark text-truncate mb-1" style="font-size: 0.95rem;">@p.Name</div>
-                            <div class="p-price text-primary fw-bold mb-3" style="font-size: 1.1rem;">₱@p.Price.ToString("N2")</div>
-                            @* <button onclick="addToCart(@p.ProductId)" class="btn btn-outline-primary w-100 rounded-3 py-2 btn-sm fw-bold">
+                if(p.IsActive == true)
+                {
+                    <div class="col-6 col-md-4 col-lg-3">
+                        <div class="card-clean h-100 shadow-sm border-0 rounded-4 overflow-hidden" style="transition: transform 0.3s ease;">
+                            <a href="/Product/Details/@p.ProductId" class="img-container d-block overflow-hidden" style="height: 200px; background: #f8f9fa;">
+                                <img src="@p.ImageUrl" class="w-100 h-100" style="object-fit: contain;">
+                            </a>
+                            <div class="card-body-clean p-3">
+                                <span class="text-primary fw-bold extra-small text-uppercase" style="font-size: 0.65rem;">@ViewBag.CategoryName</span>
+                                <div class="p-name fw-bold text-dark text-truncate mb-1" style="font-size: 0.95rem;">@p.Name</div>
+                                <div class="p-price text-primary fw-bold mb-3" style="font-size: 1.1rem;">₱@p.Price.ToString("N2")</div>
+                                @* <button onclick="addToCart(@p.ProductId)" class="btn btn-outline-primary w-100 rounded-3 py-2 btn-sm fw-bold">
                                 <i class="bi bi-cart-plus me-1"></i> Add to Cart
                             </button> *@
+                            </div>
                         </div>
                     </div>
-                </div>
+                }
+
             }
         }
     </div>

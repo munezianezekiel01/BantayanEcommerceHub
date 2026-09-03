@@ -19,6 +19,7 @@ namespace MyEccomerce.Models
         // Kinahanglan naay 'int?' (nullable) para mosugot ang C# nga naay NULL sa SQL
         public int? ParentId { get; set; }
 
+        public bool? IsActive {  get; set; }
         [ForeignKey("ParentId")]
         public virtual Category Parent { get; set; }
 

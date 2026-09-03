@@ -329,6 +329,9 @@ public class OrdersController : Controller
     // GET: Orders/AssignRider/5
     // GET: Orders/AssignRider/14
 
+
+
+
     [HttpGet]
     [Route("Orders/AssignRider/{id}")]
     public async Task<IActionResult> AssignRider(int id)
@@ -336,8 +339,6 @@ public class OrdersController : Controller
         var order = await _context.Orders.FindAsync(id);
         if (order == null) return NotFound();
 
-        // Kuhaon nato ang tanang users nga ang UserType kay "Rider"
-        // Gidugangan nako og 'AsEnumerable' para sa SelectList compatibility
         var riders = await _context.Users
             .Where(u => u.UserType == "Rider")
             .Select(u => new {
@@ -347,8 +348,8 @@ public class OrdersController : Controller
 
         ViewBag.RiderList = new SelectList(riders, "UserId", "FullName");
 
-        // Siguroha nga husto ang path sa imong CSHTML file
-        return View("~/Pages/Admin/AssignedRider.cshtml", order);
+        // Kinahanglan 'PartialView' para ang HTML body ra sa modal ang ibalik
+        return PartialView("~/Pages/Admin/AssignedRider.cshtml", order);
     }
 
     // POST: Orders/AssignRider

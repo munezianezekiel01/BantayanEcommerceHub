@@ -15,124 +15,124 @@
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.1/font/bootstrap-icons.css">
 
     <style>
-        :root {
-            --sidebar-bg: #1e293b;
-            --sidebar-hover: #334155;
-            --primary-blue: #0d6efd;
-            --bg-light: #f1f5f9;
-            --text-muted: #94a3b8;
-        }
-
-        body {
-            font-family: 'Inter', sans-serif;
-            background-color: var(--bg-light);
-            overflow-x: hidden;
-        }
-
-        /* SIDEBAR STYLES */
-        .sidebar {
-            width: 260px;
-            height: 100vh;
-            position: fixed;
-            background: var(--sidebar-bg);
-            color: white;
-            transition: all 0.3s;
-            z-index: 1000;
-        }
-
-        .sidebar-header {
-            padding: 20px;
-            font-weight: 700;
-            font-size: 1.25rem;
-            border-bottom: 1px solid rgba(255,255,255,0.1);
-            display: flex;
-            align-items: center;
-            gap: 10px;
-        }
-
-        .nav-label {
-            padding: 20px 25px 10px;
-            font-size: 0.7rem;
-            text-transform: uppercase;
-            letter-spacing: 1px;
-            color: var(--text-muted);
-            font-weight: 700;
-        }
-
-        .sidebar .nav-link {
-            color: var(--text-muted);
-            padding: 12px 25px;
-            display: flex;
-            align-items: center;
-            gap: 12px;
-            transition: 0.3s;
-            border-left: 4px solid transparent;
-        }
-
-            .sidebar .nav-link:hover, .sidebar .nav-link.active {
-                color: white;
-                background: var(--sidebar-hover);
-                border-left-color: var(--primary-blue);
+            :root {
+                --sidebar-bg: #1e293b;
+                --sidebar-hover: #334155;
+                --primary-blue: #0d6efd;
+                --bg-light: #f1f5f9;
+                --text-muted: #94a3b8;
             }
 
-            .sidebar .nav-link i {
-                font-size: 1.1rem;
+            body {
+                font-family: 'Inter', sans-serif;
+                background-color: var(--bg-light);
+                overflow-x: hidden;
             }
 
-        /* MAIN CONTENT AREA */
-        .main-wrapper {
-            margin-left: 260px;
-            width: calc(100% - 260px);
-            transition: all 0.3s;
-        }
-
-        .top-navbar {
-            background: white;
-            height: 70px;
-            display: flex;
-            align-items: center;
-            justify-content: space-between;
-            padding: 0 30px;
-            box-shadow: 0 1px 3px rgba(0,0,0,0.05);
-        }
-
-        .content-body {
-            padding: 30px;
-        }
-
-        /* DROPDOWN NOTIFICATION STYLES */
-        .notif-dropdown {
-            width: 320px;
-            border: none;
-            box-shadow: 0 10px 30px rgba(0,0,0,0.1);
-            border-radius: 12px;
-        }
-
-        .notif-item {
-            padding: 15px;
-            border-bottom: 1px solid #f1f5f9;
-            transition: 0.2s;
-        }
-
-            .notif-item:hover {
-                background: #f8fafc;
-            }
-
-        /* RESPONSIVE */
-        @@media (max-width: 768px) {
+            /* SIDEBAR STYLES */
             .sidebar {
-                margin-left: -260px;
+                width: 260px;
+                height: 100vh;
+                position: fixed;
+                background: var(--sidebar-bg);
+                color: white;
+                transition: all 0.3s;
+                z-index: 1000;
             }
 
+            .sidebar-header {
+                padding: 20px;
+                font-weight: 700;
+                font-size: 1.25rem;
+                border-bottom: 1px solid rgba(255,255,255,0.1);
+                display: flex;
+                align-items: center;
+                gap: 10px;
+            }
+
+            .nav-label {
+                padding: 20px 25px 10px;
+                font-size: 0.7rem;
+                text-transform: uppercase;
+                letter-spacing: 1px;
+                color: var(--text-muted);
+                font-weight: 700;
+            }
+
+            .sidebar .nav-link {
+                color: var(--text-muted);
+                padding: 12px 25px;
+                display: flex;
+                align-items: center;
+                gap: 12px;
+                transition: 0.3s;
+                border-left: 4px solid transparent;
+            }
+
+                .sidebar .nav-link:hover, .sidebar .nav-link.active {
+                    color: white;
+                    background: var(--sidebar-hover);
+                    border-left-color: var(--primary-blue);
+                }
+
+                .sidebar .nav-link i {
+                    font-size: 1.1rem;
+                }
+
+            /* MAIN CONTENT AREA */
             .main-wrapper {
-                margin-left: 0;
-                width: 100%;
+                margin-left: 260px;
+                width: calc(100% - 260px);
+                transition: all 0.3s;
             }
 
-            .sidebar.active {
-                margin-left: 0;
+            .top-navbar {
+                background: white;
+                height: 70px;
+                display: flex;
+                align-items: center;
+                justify-content: space-between;
+                padding: 0 30px;
+                box-shadow: 0 1px 3px rgba(0,0,0,0.05);
             }
-        }
+
+            .content-body {
+                padding: 30px;
+            }
+
+            /* DROPDOWN NOTIFICATION STYLES */
+            .notif-dropdown {
+                width: 320px;
+                border: none;
+                box-shadow: 0 10px 30px rgba(0,0,0,0.1);
+                border-radius: 12px;
+            }
+
+            .notif-item {
+                padding: 15px;
+                border-bottom: 1px solid #f1f5f9;
+                transition: 0.2s;
+            }
+
+                .notif-item:hover {
+                    background: #f8fafc;
+                }
+
+            /* RESPONSIVE */
+            @@media (max-width: 768px) {
+                .sidebar {
+                    margin-left: -260px;
+                }
+
+                .main-wrapper {
+                    margin-left: 0;
+                    width: 100%;
+                }
+
+                .sidebar.active {
+                    margin-left: 0;
+                }
+            }
     </style>
 </head>
 <body>
@@ -258,55 +258,171 @@
 
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/microsoft-signalr/6.0.1/signal.min.js"></script>
+
     <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
     <script src="~/js/signalr.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/microsoft-signalr/7.0.5/signalr.min.js"></script>
+   <script>
+    // ==========================================
+    // 1. SINGLE SIGNALR REAL-TIME LISTENER SETUP
+    // ==========================================
+    // Siguroha nga husto ang Hub URL (e.g., /updateHub o /orderHub)
+    const hubConnection = new signalR.HubConnectionBuilder()
+        .withUrl("/orderHub")
+        .withAutomaticReconnect()
+        .build();
 
-    <script>
-        // 1. Usa ra ka Hub Connection Setup
-        const connection = new signalR.HubConnectionBuilder()
-            .withUrl("/orderHub")
-            .withAutomaticReconnect()
-            .build();
+    // Event 1: Bag-ong Order gikan sa Customer
+    hubConnection.on("NewOrderAlert", (data) => {
+        console.log("NewOrderAlert received:", data);
+        new Audio('https://actions.google.com/sounds/v1/alarms/beep_short.ogg').play().catch(e => console.log(e));
 
-        // 2. SIGNALR EVENT: Bag-ong Order gikan sa Customer
-        connection.on("NewOrderAlert", (data) => {
-            new Audio('https://actions.google.com/sounds/v1/alarms/beep_short.ogg').play();
-            Swal.fire({
-                toast: true,
-                position: 'top-end',
-                icon: 'success',
-                title: `Bag-ong Order gikan ni ${data.customerName}!`,
-                showConfirmButton: false,
-                timer: 3000
-            });
-            // I-refresh ang page human sa 3.2 segundos aron mogawas ang bag-ong order sa grid
-            setTimeout(() => { location.reload(); }, 3200);
+        Swal.fire({
+            toast: true,
+            position: 'top-end',
+            icon: 'success',
+            title: `Bag-ong Order!`,
+            text: `Order #${data.orderId || ''} gikan ni ${data.customerName || 'Customer'}`,
+            showConfirmButton: false,
+            timer: 3000
         });
 
-        // 3. SIGNALR EVENT: Gi-fix nga Cancelled Order Alert
-        connection.on("OrderCancelledAlert", (data) => {
-            // Pwede ra gihapon ni nga sound, o laing tingog kung gusto nimo
-            new Audio('https://actions.google.com/sounds/v1/alarms/beep_short.ogg').play();
-            Swal.fire({
-                toast: true,
-                position: 'top-end',
-                icon: 'warning', // Gi-change ngadto sa warning icon para makabantay si admin
-                title: `Gi-cancel ni ${data.customerName} ang Order #${data.orderId}!`,
-                showConfirmButton: false,
-                timer: 3000
-            });
-            // I-refresh ang page aron mawala o mausab ang status sa order sa admin dashboard
-            setTimeout(() => { location.reload(); }, 3200);
+        // Forced reload human sa 1.5 seconds
+        setTimeout(() => { location.reload(); }, 1500);
+    });
+
+    // Event 2: Order Status Update / Alert
+    hubConnection.on("NewUpdateAlert", (data) => {
+        console.log("NewUpdateAlert received:", data);
+        new Audio('https://actions.google.com/sounds/v1/alarms/beep_short.ogg').play().catch(e => console.log(e));
+
+        Swal.fire({
+            toast: true,
+            position: 'top-end',
+            icon: 'info',
+            title: `Order Update #${data.orderId}`,
+            text: `Status: ${data.status}`,
+            showConfirmButton: false,
+            timer: 3000
         });
 
-        // 4. KAUSA RA I-START ANG CONNECTION UG MO-JOIN SA GROUP
-        connection.start().then(() => {
-            console.log("SignalR Connected successfully, Brod!");
-            connection.invoke("JoinAdminGroup");
-        }).catch(err => console.error("SignalR Connection Error: ", err));
+        setTimeout(() => { location.reload(); }, 1500);
+    });
 
-        // 5. SIMPLE DROPDOWN TOGGLE (Kausa ra gi-declare para walay conflict)
+    // Event 3: Cancelled Order Alert
+    hubConnection.on("OrderCancelledAlert", (data) => {
+        console.log("OrderCancelledAlert received:", data);
+        new Audio('https://actions.google.com/sounds/v1/alarms/beep_short.ogg').play().catch(e => console.log(e));
+
+        Swal.fire({
+            toast: true,
+            position: 'top-end',
+            icon: 'warning',
+            title: `Gi-cancel ang Order #${data.orderId}!`,
+            text: `Customer: ${data.customerName || ''}`,
+            showConfirmButton: false,
+            timer: 3000
+        });
+
+        setTimeout(() => { location.reload(); }, 1500);
+    });
+
+    // Start Connection and Join Admin Group
+    hubConnection.start().then(function() {
+        console.log("SignalR Connected Successfully!");
+        var userId = "@User.FindFirstValue(System.Security.Claims.ClaimTypes.NameIdentifier)";
+        if (userId) {
+            // Pinalitan ng hubConnection ang connection.invoke
+            hubConnection.invoke("JoinAdminGroup", userId)
+                .then(() => console.log("Joined Admin Group successfully"))
+                .catch(err => console.error("Error joining admin group:", err.toString()));
+        }
+    }).catch(function(err) {
+        return console.error("SignalR Connection Error:", err.toString());
+    });
+
+    // ==========================================
+    // 2. DASHBOARD ACTIONS & UI EVENTS
+    // ==========================================
+
+    // Filter Orders by Status
+    function filterOrders(status) {
+        const filterBtns = document.querySelectorAll('.filter-btn');
+        filterBtns.forEach(btn => btn.classList.remove('active'));
+
+        if (window.event && window.event.currentTarget) {
+            window.event.currentTarget.classList.add('active');
+        }
+
+        const cards = document.querySelectorAll('.order-card');
+        cards.forEach(card => {
+            const cardStatus = card.getAttribute('data-status');
+            if (status === 'All' || cardStatus === status) {
+                card.style.display = '';
+            } else {
+                card.style.display = 'none';
+            }
+        });
+    }
+
+    // Update Order Status (Native fetch API)
+    function updateStatus(id, newStatus) {
+        Swal.fire({
+            title: 'Sigurado ka, boss?',
+            text: "I-update nato ang order mahimong: " + newStatus,
+            icon: 'question',
+            showCancelButton: true,
+            confirmButtonColor: '#0d6efd',
+            cancelButtonColor: '#6c757d',
+            confirmButtonText: 'Oo, Dayon!'
+        }).then((result) => {
+            if (result.isConfirmed) {
+                fetch('/Admin/UpdateStatus', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/x-www-form-urlencoded',
+                    },
+                    body: `orderId=${id}&status=${encodeURIComponent(newStatus)}`
+                })
+                    .then(response => response.json())
+                    .then(res => {
+                        if (res.success) {
+                            location.reload();
+                        } else {
+                            Swal.fire('Error', 'Naay sayop sa pag-save, boss.', 'error');
+                        }
+                    })
+                    .catch(error => {
+                        console.error('Error:', error);
+                        Swal.fire('Error', 'Naay network o server error.', 'error');
+                    });
+            }
+        });
+    }
+
+    // Event Listeners human ma-load ang DOM
+    document.addEventListener('DOMContentLoaded', function() {
+        // Real-time Search Logic
+        const searchInput = document.getElementById('orderSearch');
+        if (searchInput) {
+            searchInput.addEventListener('keyup', function() {
+                const value = this.value.toLowerCase();
+                const cards = document.querySelectorAll('.order-card');
+
+                cards.forEach(card => {
+                    const name = (card.getAttribute('data-customer') || '').toLowerCase();
+                    const id = (card.getAttribute('data-id') || '').toLowerCase();
+
+                    if (name.includes(value) || id.includes(value)) {
+                        card.style.display = '';
+                    } else {
+                        card.style.display = 'none';
+                    }
+                });
+            });
+        }
+
+        // Notification Dropdown Toggle
         const notifBtn = document.getElementById('notifBtn');
         const notifMenu = document.getElementById('notifMenu');
 
@@ -317,14 +433,21 @@
             });
         }
 
-        // Isira ang dropdown kung mo-click ang user sa gawas nga bahin
-        window.onclick = function(event) {
+        // Isira ang dropdown kung mo-click sa gawas
+        window.addEventListener('click', function(event) {
             if (!event.target.closest('.dropdown')) {
                 if (notifMenu && notifMenu.classList.contains('show')) {
                     notifMenu.classList.remove('show');
                 }
             }
-        }
-    </script>
+        });
+    });
+</script>
+    @await RenderSectionAsync("Scripts", required: false)
+
+
+
+
+   
 </body>
 </html>

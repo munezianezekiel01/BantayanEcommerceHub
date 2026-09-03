@@ -144,10 +144,10 @@ namespace MyEccomerce.Controllers
             return View("~/Pages/Public/Signin.cshtml");
         }
         [HttpGet]
-        public IActionResult Signin() => View("~/Pages/Public/Signin.cshtml");
+        public  async Task<IActionResult> Signin() => View("~/Pages/Public/Signin.cshtml");
 
         // 1. KINI NGA ACTION ANG MO-TRIGGER SA GOOGLE LOGIN SCREEN
-        public IActionResult GoogleLogin()
+        public async Task<IActionResult> GoogleLogin()
         {
             var properties = new AuthenticationProperties
             {
@@ -416,13 +416,12 @@ namespace MyEccomerce.Controllers
             return View("~/Pages/Public/UserProfile.cshtml", user);
 
             // 3. Kuhaa ang logged-in status ug Current User ID para sa in-view checks
-            bool isAuthenticated = User.Identity?.IsAuthenticated ?? false;
-            string currentUserId = User.FindFirstValue(ClaimTypes.NameIdentifier);
+           
 
             // Pass additional info sa View gamit ang ViewData/ViewBag kung kinahanglan nimo i-check kung iya ba kaugalingon profile
            // ViewData["IsOwner"] = isAuthenticated && currentUserId == user.UserId;
 
-            return View("~/Pages/Public/UserProfile.cshtml", user);
+           
         }
 
 

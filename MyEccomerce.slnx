@@ -1,5 +1,3 @@
 <Solution>
-  <Project Path="MyEccomerce/MyEccomerce.csproj">
-    <Build Solution="Debug|*" Project="false" />
-  </Project>
+  <Project Path="MyEccomerce/MyEccomerce.csproj" />
 </Solution>

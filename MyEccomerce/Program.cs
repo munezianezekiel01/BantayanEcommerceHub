@@ -150,6 +150,7 @@ app.UseAuthorization();
 app.MapHub<OrderHub>("/orderHub");
 app.MapHub<TrackingHub>("/trackingHub");
 app.MapHub<StatusHub>("/updateHub");
+app.MapHub<DeliveryHub>("/deliveryHub");
 app.MapHub<PushNotificationHub>("/notificationHub");
 app.MapControllerRoute(
     name: "default",

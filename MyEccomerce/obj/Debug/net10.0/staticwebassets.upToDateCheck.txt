@@ -22,6 +22,7 @@ wwwroot\images\profiles\profile_18_52b2ff1e.png
 wwwroot\images\profiles\profile_19_e8a79720.jpg
 wwwroot\images\UserProfile\67348301_460960921153180_5400011747891347456_n.jpg
 wwwroot\images\UserProfile\default-avatar.png
+wwwroot\images\UserProfile\IMG20260830090632.jpg
 wwwroot\js\CartSidebar.js
 wwwroot\js\NotificationLogic.js
 wwwroot\js\PagesScript\OrdersStatusNotification.js

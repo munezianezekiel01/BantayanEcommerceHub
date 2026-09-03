@@ -6,6 +6,7 @@
 
     var pendingCount = Model?.Count(o => o.Status == "Pending") ?? 0;
     var confirmedCount = Model?.Count(o => o.Status == "Confirmed") ?? 0;
+    var assignedCount = Model?.Count(o => o.Status == "Assigned") ?? 0;
     var deliveringCount = Model?.Count(o => o.Status == "Out for Delivery") ?? 0;
     var completedCount = Model?.Count(o => o.Status == "Completed") ?? 0;
     var cancelledCount = Model?.Count(o => o.Status == "Cancelled") ?? 0;
@@ -69,6 +70,22 @@
                             <span class="tab-label">Confirmed</span>
                         </a>
                     </li>
+
+
+                    <li class="nav-item">
+                        <a class="nav-link text-secondary d-flex flex-column align-items-center" data-filter="Assigned" href="javascript:void(0)">
+                            <div class="icon-wrapper">
+                                <i class="bi bi-box-seam"></i>
+                                @if (assignedCount > 0)
+                                {
+                                    <span id="badge-Confirmed" class="status-badge badge rounded-pill bg-danger">@assignedCount</span>
+                                }
+                            </div>
+                            <span class="tab-label">Assigned</span>
+                        </a>
+                    </li>
+
+
                     <li class="nav-item">
                         <a class="nav-link text-secondary d-flex flex-column align-items-center" data-filter="Out for Delivery" href="javascript:void(0)">
                             <div class="icon-wrapper">
@@ -146,6 +163,7 @@
                 {
                     "Pending" => ("bg-secondary-subtle text-secondary border-secondary", "bi-clock-history"),
                     "Confirmed" => ("bg-primary-subtle text-primary border-primary", "bi-check2-circle"),
+                    "Assigned" => ("bg-primary-subtle text-primary border-primary", " bi-truck"),
                     "Out for Delivery" => ("bg-warning-subtle text-dark border-warning", "bi-truck"),
                     "Completed" => ("bg-success-subtle text-success border-success", "bi-patch-check-fill"),
                     "Cancelled" => ("bg-danger-subtle text-danger border-danger", "bi-x-circle"),
@@ -211,6 +229,7 @@
                                             "Order Placed" => ("bi-cart-plus", "text-secondary"),
                                             "Pending" => ("bi-clock-history", "text-secondary"),
                                             "Confirmed" => ("bi-check2-circle", "text-primary"),
+                                            "Assigned" => ("bi-truck", "text-info"),
                                             "Processing" => ("bi-gear-wide-connected", "text-info"),
                                             "Out for Delivery" => ("bi-truck", "text-warning"),
                                             "Completed" => ("bi-patch-check-fill", "text-success"),
@@ -251,6 +270,8 @@
                                 <div class="d-flex flex-wrap gap-2 mt-2">
                                     @if (order.Status == "Pending")
                                     {
+                                        @Html.AntiForgeryToken()
+
                                         @* GI-REPLACE ANG FORM NGADTO SA SMART BUTTON PARA SA AJAX *@
                                         <button type="button" class="btn btn-outline-danger btn-sm rounded-pill px-3 py-1"
                                                 onclick="executeCancelOrder(@order.OrderId)"
@@ -343,48 +364,60 @@
 @section Scripts {
     <script>
         // 1. KINI ANG LABING CHUY NGA AJAX CANCEL LOGIC
-        function executeCancelOrder(id) {
-            Swal.fire({
-                title: 'Sigurado ka, Boss?',
-                text: "Gusto ba nimo i-cancel kini nga order?",
-                icon: 'warning',
-                showCancelButton: true,
-                confirmButtonColor: '#d33',
-                cancelButtonColor: '#3085d6',
-                confirmButtonText: 'Oo, I-cancel!',
-                cancelButtonText: 'Ayaw lang'
-            }).then((result) => {
-                if (result.isConfirmed) {
+       function executeCancelOrder(id) {
+    // Pangitaon ang token sa panid
+    const tokenInput = document.querySelector('input[name="__RequestVerificationToken"]');
+    const token = tokenInput ? tokenInput.value : '';
 
-                    // URL endpoint sa imong controller action
-                    fetch('/Orders/CancelOrder?orderId=' + id, {
-                        method: 'POST',
-                        headers: {
-                            'RequestVerificationToken': document.querySelector('input[name="__RequestVerificationToken"]')?.value
-                        }
-                    })
-                    .then(response => response.json())
-                    .then(data => {
-                                if (data.success) {
-            Swal.fire({
-                icon: 'success',
-                title: 'Selyado, Boss!',
-                text: data.message,
-                confirmButtonColor: '#3085d6'
-            }).then(() => {
-                // AUTOMATIC NING MO-REDIRECT BALIK SA KUNG UNSAY SAKTONG URL ROTHA SA IMONG PAGE KARON
-                // Ug dugangan lang niya og '?status=Cancelled' aron mo-click diritso ang Cancelled tab!
-                window.location.href = window.location.pathname + '?status=Cancelled';
-            });
-        }
-                    })
-                    .catch(err => {
-                        console.error("Error:", err);
-                        Swal.fire('Error', 'Dili makakonektar sa server, Boss.', 'error');
-                    });
+    if (!token) {
+        console.error("Missing Anti-Forgery Token!");
+    }
+
+    Swal.fire({
+        title: 'Sigurado ka, Boss?',
+        text: "Gusto ba nimo i-cancel kini nga order?",
+        icon: 'warning',
+        showCancelButton: true,
+        confirmButtonColor: '#d33',
+        cancelButtonColor: '#3085d6',
+        confirmButtonText: 'Oo, I-cancel!',
+        cancelButtonText: 'Ayaw lang'
+    }).then((result) => {
+        if (result.isConfirmed) {
+            fetch('/Orders/CancelOrder?orderId=' + id, {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/x-www-form-urlencoded',
+                    'RequestVerificationToken': token
                 }
+            })
+            .then(response => {
+                if (!response.ok) {
+                    throw new Error('Server returned HTTP ' + response.status);
+                }
+                return response.json();
+            })
+            .then(data => {
+                if (data.success) {
+                    Swal.fire({
+                        icon: 'success',
+                        title: 'Selyado, Boss!',
+                        text: data.message,
+                        confirmButtonColor: '#3085d6'
+                    }).then(() => {
+                        window.location.href = window.location.pathname + '?status=Cancelled';
+                    });
+                } else {
+                    Swal.fire('Error', data.message || 'Dili ma-cancel ang order.', 'error');
+                }
+            })
+            .catch(err => {
+                console.error("Error:", err);
+                Swal.fire('Error', 'Dili makakonektar sa server o naay error sa Controller.', 'error');
             });
         }
+    });
+}
 
         // 2. KANHI IMONG EXISTING FILTER LOGIC (Gi-wasto para sa URL strings)
         function filterOrders(status) {
