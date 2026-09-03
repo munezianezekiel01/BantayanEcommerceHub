@@ -45,5 +45,15 @@
       }
     ],
     "ReturnTypes": []
+  },
+  {
+    "ContainingType": "MyEccomerce.Controllers.Api.RiderApiController",
+    "Method": "GetRiderDashboard",
+    "RelativePath": "api/RiderApi/Dashboard",
+    "HttpMethod": "GET",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [],
+    "ReturnTypes": []
   }
 ]

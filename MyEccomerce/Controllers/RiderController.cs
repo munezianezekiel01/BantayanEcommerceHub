@@ -24,10 +24,10 @@ namespace MyEccomerce.Controllers
 
         public async Task<IActionResult> Rider()
         {
-            var riderIdClaim = 14; // User.FindFirstValue(ClaimTypes.NameIdentifier);
-            //if (string.IsNullOrEmpty(riderIdClaim)) return RedirectToAction("Login", "Account");
+            var riderIdClaim =  User.FindFirstValue(ClaimTypes.NameIdentifier);
+            if (string.IsNullOrEmpty(riderIdClaim)) return RedirectToAction("Login", "Account");
 
-            int currentRiderId = 14;//int.Parse(riderIdClaim);
+            int currentRiderId = int.Parse(riderIdClaim); //14
 
 
             

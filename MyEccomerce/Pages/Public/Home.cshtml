@@ -39,13 +39,12 @@
             @foreach (var category in categories)
             {
                 
-                if(category.IsActive == false)
-                {
+               
                     <div class="category-item">
                         <i class="bi @category.IconClass fs-5 text-secondary"></i>
                         <a href="/Home/Category/@category.CategoryId" class="small text-dark text-decoration-none fw-medium text-nowrap">@category.Name</a>
                     </div>
-                }
+                
             }
         </div>
     </div>
@@ -97,13 +96,12 @@
     </div>
 
     <div class="row g-2 g-lg-4 px-2">
-        @if (Model != null && Model.Any() && Model.Any(p => p.IsActive == true ))
+        @if (Model != null && Model.Any())
         {
             @foreach (var p in Model)
             {
                 //TANGTANGA RANI KUNG KINAHANGLANON 
-                if (p.IsActive == false)
-                {
+               
                     // Safety check para sa price (Gi-ayo na!)
                     var firstVariant = p.ProductVariants?.OrderBy(v => v.Price).FirstOrDefault();
                     var finalPrice = firstVariant != null ? firstVariant.Price : p.Price;
